@@ -1,7 +1,7 @@
 enum ProjectPrivacy {
-  private(str: "private"),      
-  public(str: "public"),        
-  edit(str: "edit"); 
+  private(str: "private"),
+  publicRead(str: "public_read"),
+  publicEdit(str: "public_edit");
   
   final String str;
   

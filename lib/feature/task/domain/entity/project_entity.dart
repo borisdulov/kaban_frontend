@@ -13,6 +13,5 @@ abstract interface class Project {
   List<User> get members;
   List<String> get columnIds;
   List<Column> get columns;
-  String get teamId;
-  ProjectPrivacy get visibility;
+  ProjectPrivacy get privacy;
 }

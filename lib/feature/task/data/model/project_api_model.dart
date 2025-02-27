@@ -1,44 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:kaban_frontend/feature/task/domain/entity/project_entity.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/project_privacy_enum.dart';
 
-class ProjectApiModel implements Project {
+class ProjectAPIModel implements Project {
   @override
   final String id;
-  
   @override
   final String name;
-  
   @override
   final String description;
-  
   @override
   final DateTime createdAt;
-  
   @override
   final DateTime updatedAt;
-  
   @override
   final String ownerId;
-  
   @override
   final User? owner;
-  
   @override
   final List<String> memberIds;
-  
   @override
   final List<User> members;
-  
   @override
   final List<String> columnIds;
-  
   @override
   final List<Column> columns;
-  
   @override
   final ProjectPrivacy privacy;
   
-  ProjectApiModel({
+  ProjectAPIModel({
     required this.id,
     required this.name,
     required this.description,
@@ -53,11 +43,11 @@ class ProjectApiModel implements Project {
     this.columns = const [],
   });
   
-  factory ProjectApiModel.fromJSON(Map<String, dynamic> json) {
-    return ProjectApiModel(
+  factory ProjectAPIModel.fromJSON(Map<String, dynamic> json) {
+    return ProjectAPIModel(
       id: json['_id'],
       name: json['name'],
-      description: json['description'] ?? '',
+      description: json['description'],
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
       ownerId: json['ownerId'],
