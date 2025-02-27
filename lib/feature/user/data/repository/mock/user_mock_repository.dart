@@ -5,12 +5,13 @@ import 'package:kaban_frontend/feature/user/domain/repository/user_repository.da
 class UserMockRepository implements UserRepository {
   @override
   Future<User> getUser() async {
-    final User user = UserModel(
+    final User user = UserAPIModel(
       id: '1',
       email: 'test@mail.ru',
+      login: 'test_login',
       username: 'test_user',
+      bio: '@test',
       avatar: '',
-      teamsIds: ['1'],
       projectsIds: ['1'],
     );
     return user;
