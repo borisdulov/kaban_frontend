@@ -10,9 +10,9 @@ class UserAPIModel implements User {
   @override
   final String? bio;
   @override
-  final String username;
+  final String? username;
   @override
-  final String avatar;
+  final String? avatar;
   @override
   final List<String>? projectsIds;
 
@@ -20,9 +20,9 @@ class UserAPIModel implements User {
     required this.id,
     this.email,
     required this.login,
-    required this.username,
+    this.username,
     this.bio,
-    required this.avatar,
+    this.avatar,
     this.projectsIds,
   });
 
@@ -31,9 +31,9 @@ class UserAPIModel implements User {
       id: map['id'] as String,
       email: map['email'] as String?,
       login: map['login'] as String,
-      username: map['username'] as String,
+      username: map['username'] as String?,
       bio: map['bio'] as String?,
-      avatar: map['avatar'] as String,
+      avatar: map['avatar'] as String?,
       projectsIds: List<String>.from(map['projectsIds']), //добавить нулабл
     );
   }
