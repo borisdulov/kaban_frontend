@@ -1,4 +1,4 @@
-import 'package:kaban_frontend/feature/task/domain/entity/project_entity.dart';
+import 'package:kaban_frontend/feature/project/domain/entity/project_entity.dart';
 
 abstract interface class ProjectRepository {
   Future<List<Project>> getAllProjects();
