@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kaban_frontend/feature/task/domain/entity/project_privacy_enum.dart';
+import 'package:kaban_frontend/feature/project/domain/entity/project_privacy_enum.dart';
+import 'package:kaban_frontend/feature/user/domain/entity/user_entity.dart';
 
 abstract interface class Project {
   String get id;
