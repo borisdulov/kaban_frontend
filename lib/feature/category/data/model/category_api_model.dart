@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:kaban_frontend/feature/column/domain/entity/column_entity.dart';
+import 'package:kaban_frontend/feature/category/domain/entity/category_entity.dart';
+import 'package:kaban_frontend/feature/project/data/model/project_api_model.dart';
+import 'package:kaban_frontend/feature/project/domain/entity/project_entity.dart';
+import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
+import 'package:kaban_frontend/feature/task/data/model/task_api_model.dart';
 
-class ColumnAPIModel implements KanbanColumn {
+class TaskCategoryAPIModel implements TaskCategory {
   @override
   final String id;
   @override
@@ -10,6 +14,8 @@ class ColumnAPIModel implements KanbanColumn {
   final Color color;
   @override
   final String projectId;
+  @override
+  final Project? project;
   @override
   final DateTime createdAt;
   @override
@@ -21,11 +27,12 @@ class ColumnAPIModel implements KanbanColumn {
   @override
   final List<Task>? tasks;
 
-  ColumnAPIModel({
+  TaskCategoryAPIModel({
     required this.id,
     required this.name,
     required this.color,
     required this.projectId,
+    this.project,
     required this.createdAt,
     required this.updatedAt,
     required this.position,
@@ -33,11 +40,11 @@ class ColumnAPIModel implements KanbanColumn {
     this.tasks,
   });
 
-  factory ColumnAPIModel.fromJSON(Map<String, dynamic> json) {
+  factory TaskCategoryAPIModel.fromJSON(Map<String, dynamic> json) {
     Color parseColor(String hexColor) {
       hexColor = hexColor.replaceFirst('#', '');
       if (hexColor.length == 6) {
-        hexColor = 'FF' + hexColor;
+        hexColor = 'FF$hexColor';
       }
       return Color(int.parse(hexColor, radix: 16));
     }
@@ -49,11 +56,14 @@ class ColumnAPIModel implements KanbanColumn {
           .toList();
     }
 
-    return ColumnAPIModel(
+    return TaskCategoryAPIModel(
       id: json['_id'],
       name: json['name'],
       color: parseColor(json['color']),
       projectId: json['projectId'],
+      project: json['project'] != null
+          ? ProjectAPIModel.fromJSON(json['project'])
+          : null,
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
       position: json['position'],
@@ -76,22 +86,24 @@ class ColumnAPIModel implements KanbanColumn {
     };
   }
 
-  ColumnAPIModel copyWith({
+  TaskCategoryAPIModel copyWith({
     String? id,
     String? name,
     Color? color,
     String? projectId,
+    Project? project,
     DateTime? createdAt,
     DateTime? updatedAt,
     int? position,
     List<String>? taskIds,
     List<Task>? tasks,
   }) {
-    return ColumnAPIModel(
+    return TaskCategoryAPIModel(
       id: id ?? this.id,
       name: name ?? this.name,
       color: color ?? this.color,
       projectId: projectId ?? this.projectId,
+      project: project ?? this.project,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       position: position ?? this.position,

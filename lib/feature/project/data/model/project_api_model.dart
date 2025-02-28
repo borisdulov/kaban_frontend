@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:kaban_frontend/feature/project/domain/entity/project_entity.dart';
 import 'package:kaban_frontend/feature/project/domain/entity/project_privacy_enum.dart';
 import 'package:kaban_frontend/feature/user/domain/entity/user_entity.dart';
-import 'package:kaban_frontend/feature/column/domain/entity/column_entity.dart';
+import 'package:kaban_frontend/feature/category/domain/entity/category_entity.dart';
 
 class ProjectAPIModel implements Project {
   @override
@@ -26,7 +25,7 @@ class ProjectAPIModel implements Project {
   @override
   final List<String> columnIds;
   @override
-  final List<KanbanColumn> columns;
+  final List<TaskCategory> columns;
   @override
   final ProjectPrivacy privacy;
 
