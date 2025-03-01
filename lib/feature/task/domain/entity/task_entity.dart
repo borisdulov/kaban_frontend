@@ -4,13 +4,13 @@ abstract interface class Task {
   String get taskId;
   String get title;
   String? get description;
-  List<String>? get subtasks;
-  List<String>? get tags;
-  String get projectId;
-  String get columnId;
-  List<String>? get subtaskIds;
+  String? get tagId;
+  String get categoryId;
+  List<String>? get categoryList;
   List<String>? get userIds;
+  List<String>? get userList;
   bool get isCompleted;
   TaskPriority get priority;
   DateTime? get dueDate;
+  DateTime get createdAt;
 }

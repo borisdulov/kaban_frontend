@@ -10,37 +10,37 @@ class TaskAPIModel implements Task {
   @override
   final String? description;
   @override
-  final List<String>? subtasks;
+  final String? tagId;
   @override
-  final List<String>? tags;
+  final String categoryId;
   @override
-  final String projectId;
-  @override
-  final String columnId;
-  @override
-  final List<String>? subtaskIds;
+  final List<String>? categoryList;
   @override
   final List<String>? userIds;
+  @override
+  final List<String>? userList;
   @override
   final bool isCompleted;
   @override
   final TaskPriority priority;
   @override
   final DateTime? dueDate;
+  @override
+  final DateTime createdAt;
 
   TaskAPIModel({
     required this.taskId,
     required this.title,
     this.description,
-    this.subtasks,
-    this.tags,
-    required this.projectId,
-    required this.columnId,
-    this.subtaskIds,
+    this.tagId,
+    required this.categoryId,
+    this.categoryList,
     this.userIds,
+    this.userList,
     required this.isCompleted,
     required this.priority,
     this.dueDate,
+    required this.createdAt,
   });
 
   factory TaskAPIModel.fromJSON(Map<String, dynamic> json) {
@@ -48,17 +48,17 @@ class TaskAPIModel implements Task {
       taskId: json['_taskId'] as String,
       title: json['title'] as String,
       description: json['description'] as String?,
-      subtasks: List<String>.from(json['subtasks'] ?? []),
-      tags: List<String>.from(json['tags'] ?? []),
-      projectId: json['projectId'] as String,
-      columnId: json['columnId'] as String,
-      subtaskIds: List<String>.from(json['subtaskIds'] ?? []),
-      userIds: List<String>.from(json['assigneeIds'] ?? []),
+      tagId: json['tagId'] as String?,
+      categoryId: json['categoryId'] as String,
+      categoryList: List<String>.from(json['categoryList'] ?? []),
+      userIds: List<String>.from(json['userIds'] ?? []),
+      userList: List<String>.from(json['userList'] ?? []),
       isCompleted: json['isCompleted'] as bool,
       priority: TaskPriority.fromString(json['priority'] as String),
       dueDate: json['dueDate'] != null
           ? DateTime.parse(json['dueDate'] as String)
           : null,
+      createdAt: DateTime.parse(json['createdAt'] as String),
     );
   }
 
@@ -66,15 +66,15 @@ class TaskAPIModel implements Task {
     return {
       'title': title,
       'description': description,
-      'subtasks': subtasks,
-      'tags': tags,
-      'projectId': projectId,
-      'columnId': columnId,
-      'subtaskIds': subtaskIds,
+      'tagId': tagId,
+      'categoryId': categoryId,
+      'categoryList': categoryList,
       'userIds': userIds,
+      'userList': userList,
       'isCompleted': isCompleted,
       'priority': priority.str,
       'dueDate': dueDate?.toIso8601String(),
+      'createdAt': createdAt.toIso8601String(),
     };
   }
 }
