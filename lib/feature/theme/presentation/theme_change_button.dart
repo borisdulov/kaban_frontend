@@ -1,44 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kaban_frontend/feature/theme/data/theme_provider.dart';
-import '../domain/theme_cubit.dart';
-//.
-class ThemeChangeButton extends StatelessWidget {
+import 'package:kaban_frontend/feature/theme/domain/cubit/theme_cubit.dart';
+import 'package:kaban_frontend/feature/theme/domain/entity/theme_color.dart';
+import 'package:kaban_frontend/feature/theme/domain/state/theme_state.dart';
+
+class ThemeSettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: Icon(Icons.color_lens),
-      onPressed: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text("Выберите цвет темы"),
-              content: SingleChildScrollView(
-                child: Column(
-                  children: ThemeDataProvider.primaryColors.map((color) {
-                    return GestureDetector(
-                      onTap: () {
-                        BlocProvider.of<ThemeCubit>(context).changeTheme(color);
-                        Navigator.of(context).pop();
-                        context.read<ThemeCubit>().changeTheme(color);
-                      },
-                      child: Container(
-                        height: 50,
-                        width: 50,
-                        child: Padding(
-                          padding: EdgeInsets.all(10)),
-                        decoration: BoxDecoration(
-                          color: color,
-                          shape: BoxShape.circle
-                        )
-                      ),
-                    );
-                  }).toList(),
-                ),
+    return BlocBuilder<ThemeCubit, ThemeState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Theme Settings'),
+          ),
+          body: Column(
+            children: [
+              // Переключатель темной/светлой темы
+              SwitchListTile(
+                title: Text('Dark Mode'),
+                value: state.brightness == Brightness.dark,
+                onChanged: (bool value) {
+                  context.read<ThemeCubit>().toggleBrightness();
+                },
               ),
-            );
-          },
+              // Выбор цвета темы
+              Wrap(
+                spacing: 8.0,
+                children: ThemeColor.values.map((color) {
+                  return InkWell(
+                    onTap: () {
+                      context.read<ThemeCubit>().changeThemeColor(color);
+                    },
+                    child: Container(
+                      width: 48,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        color: color.color,
+                        shape: BoxShape.circle,
+                        border: state.selectedColor == color
+                          ? Border.all(width: 2, color: Colors.white)
+                          : null,
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
         );
       },
     );
