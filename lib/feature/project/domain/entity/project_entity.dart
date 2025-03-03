@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kaban_frontend/feature/category/domain/entity/category_entity.dart';
 import 'package:kaban_frontend/feature/project/domain/entity/project_privacy_enum.dart';
 import 'package:kaban_frontend/feature/user/domain/entity/user_entity.dart';
 
@@ -15,4 +16,5 @@ abstract interface class Project {
   List<String> get columnIds;
   List<Column> get columns;
   ProjectPrivacy get privacy;
+  List<Category>? get categories;
 }

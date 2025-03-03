@@ -1,28 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kaban_frontend/feature/theme/domain/cubit/theme_cubit.dart';
-import 'package:kaban_frontend/feature/theme/domain/state/theme_state.dart';
-import 'package:kaban_frontend/feature/theme/presentation/theme_change_button.dart';
+
+import 'package:kaban_frontend/core/domain/env_type.dart';
+import 'package:kaban_frontend/core/router/app_router.dart';
+import 'package:kaban_frontend/core/config/config_provider.dart';
 
 void main() {
-  runApp(
-    BlocProvider(
-      create: (context) => ThemeCubit(),
-      child: MyApp(),
-    ),
-  );
+  runApp(AppWidget());
 }
 
-class MyApp extends StatelessWidget {
+class AppWidget extends StatelessWidget {
+  AppWidget({super.key});
+
+  final envType = EnvType.fromEnv;
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeCubit, ThemeState>(
-      builder: (context, state) {
-        return MaterialApp(
-          theme: state.themeData,
-          home: ThemeSettingsPage(),
-        );
-      },
+    return ConfigProvider(
+      envType: envType,
+      child: MaterialApp.router(
+        routerConfig: AppRouter.config,
+      ),
+
     );
   }
 }
