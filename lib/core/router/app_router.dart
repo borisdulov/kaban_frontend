@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kaban_frontend/core/router/navigation_key.dart';
 import 'package:kaban_frontend/feature/navigation/presentation/page/navigation_page.dart';
-import 'package:kaban_frontend/feature/project/presentation/page/project_page.dart';
+import 'package:kaban_frontend/feature/project/ui/page/project_page.dart';
 
 abstract final class AppRouter {
   static final config = GoRouter(
