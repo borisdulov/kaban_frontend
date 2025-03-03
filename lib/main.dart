@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:kaban_frontend/core/domain/env_type.dart';
 import 'package:kaban_frontend/core/router/app_router.dart';
 import 'package:kaban_frontend/core/config/config_provider.dart';
@@ -19,6 +20,7 @@ class AppWidget extends StatelessWidget {
       child: MaterialApp.router(
         routerConfig: AppRouter.config,
       ),
+
     );
   }
 }
