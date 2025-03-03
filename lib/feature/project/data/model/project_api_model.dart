@@ -1,7 +1,9 @@
+
 import 'package:flutter/material.dart';
 import 'package:kaban_frontend/feature/project/domain/entity/project_entity.dart';
 import 'package:kaban_frontend/feature/project/domain/entity/project_privacy_enum.dart';
 import 'package:kaban_frontend/feature/user/domain/entity/user_entity.dart';
+
 
 class ProjectAPIModel implements Project {
   @override
@@ -25,10 +27,19 @@ class ProjectAPIModel implements Project {
   @override
   final List<String> columnIds;
   @override
+
   final List<Column> columns;
   @override
   final ProjectPrivacy privacy;
   
+
+
+  final List<TaskCategory> columns;
+
+  @override
+  final ProjectPrivacy privacy;
+
+
   ProjectAPIModel({
     required this.id,
     required this.name,
@@ -43,7 +54,7 @@ class ProjectAPIModel implements Project {
     this.members = const [],
     this.columns = const [],
   });
-  
+
   factory ProjectAPIModel.fromJSON(Map<String, dynamic> json) {
     return ProjectAPIModel(
       id: json['_id'],
@@ -60,7 +71,7 @@ class ProjectAPIModel implements Project {
       privacy: ProjectPrivacy.fromString(json['privacy']),
     );
   }
-  
+
   Map<String, dynamic> toJSON() {
     return {
       'name': name,
@@ -71,4 +82,6 @@ class ProjectAPIModel implements Project {
       'privacy': privacy.str,
     };
   }
+
 }
+

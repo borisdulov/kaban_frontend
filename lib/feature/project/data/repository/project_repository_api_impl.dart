@@ -1,8 +1,6 @@
-
 // import 'package:kaban_frontend/feature/project/domain/entity/project_entity.dart';
 // import 'package:kaban_frontend/feature/project/domain/repository/project_repository.dart';
 // import 'package:kaban_frontend/feature/project/data/model/project_api_model.dart';
-
 
 // final class ProjectRepositoryImpl implements ProjectRepository {
 //   final ApiClient _apiClient;
@@ -20,6 +18,7 @@
 //   @override
 //   Future<Project> getProjectById(String id) async {
 //     final response = await _apiClient.get('/projects/$id');
+
 //     return ProjectAPIModel.fromJSON(response.data);
 //   }
 
@@ -54,4 +53,3 @@
 //     return ProjectAPIModel.fromJSON(response.data);
 //   }
 // }
-
