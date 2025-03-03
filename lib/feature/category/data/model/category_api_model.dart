@@ -5,7 +5,7 @@ import 'package:kaban_frontend/feature/project/domain/entity/project_entity.dart
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
 import 'package:kaban_frontend/feature/task/data/model/task_api_model.dart';
 
-class TaskCategoryAPIModel implements TaskCategory {
+class CategoryAPIModel implements Category {
   @override
   final String id;
   @override
@@ -27,7 +27,7 @@ class TaskCategoryAPIModel implements TaskCategory {
   @override
   final List<Task>? tasks;
 
-  TaskCategoryAPIModel({
+  CategoryAPIModel({
     required this.id,
     required this.name,
     required this.color,
@@ -40,7 +40,7 @@ class TaskCategoryAPIModel implements TaskCategory {
     this.tasks,
   });
 
-  factory TaskCategoryAPIModel.fromJSON(Map<String, dynamic> json) {
+  factory CategoryAPIModel.fromJSON(Map<String, dynamic> json) {
     Color parseColor(String hexColor) {
       hexColor = hexColor.replaceFirst('#', '');
       if (hexColor.length == 6) {
@@ -56,7 +56,7 @@ class TaskCategoryAPIModel implements TaskCategory {
           .toList();
     }
 
-    return TaskCategoryAPIModel(
+    return CategoryAPIModel(
       id: json['_id'],
       name: json['name'],
       color: parseColor(json['color']),
@@ -86,7 +86,7 @@ class TaskCategoryAPIModel implements TaskCategory {
     };
   }
 
-  TaskCategoryAPIModel copyWith({
+  CategoryAPIModel copyWith({
     String? id,
     String? name,
     Color? color,
@@ -98,7 +98,7 @@ class TaskCategoryAPIModel implements TaskCategory {
     List<String>? taskIds,
     List<Task>? tasks,
   }) {
-    return TaskCategoryAPIModel(
+    return CategoryAPIModel(
       id: id ?? this.id,
       name: name ?? this.name,
       color: color ?? this.color,

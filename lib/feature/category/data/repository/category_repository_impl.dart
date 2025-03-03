@@ -5,7 +5,7 @@ import 'package:kaban_frontend/feature/category/data/model/category_api_model.da
 // final class TaskCategoryRepositoryImpl implements TaskCategoryRepository {
 //   final ApiClient _apiClient;
 
-//   TaskCategoryRepositoryImpl({required ApiClient apiClient}) : _apiClient = apiClient;
+//   CategoryRepositoryImpl({required ApiClient apiClient}) : _apiClient = apiClient;
 
 //   @override
 //   Future<List<TaskCategory>> getCategoriesByProjectId(String projectId) async {

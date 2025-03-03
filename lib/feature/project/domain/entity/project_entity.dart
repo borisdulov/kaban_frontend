@@ -16,5 +16,5 @@ abstract interface class Project {
   List<String> get columnIds;
   List<Column> get columns;
   ProjectPrivacy get privacy;
-  List<TaskCategory>? get categories;
+  List<Category>? get categories;
 }

@@ -30,7 +30,7 @@ class ProjectAPIModel implements Project {
   @override
   final ProjectPrivacy privacy;
 
-  List<TaskCategory>? categories;
+  List<Category>? categories;
 
   ProjectAPIModel({
     required this.id,
