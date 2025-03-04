@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../entity/theme_color.dart';
-import '../state/theme_state.dart';
+import 'theme_state.dart';
 
 class ThemeCubit extends Cubit<ThemeState> {
-  ThemeCubit() : super(
-    ThemeState(
-      themeData: _createThemeData(ThemeColor.blue, Brightness.light),
-      selectedColor: ThemeColor.blue,
-      brightness: Brightness.light,
-    )
-  );
+  ThemeCubit()
+      : super(ThemeState(
+          themeData: _createThemeData(ThemeColor.blue, Brightness.light),
+          selectedColor: ThemeColor.blue,
+          brightness: Brightness.light,
+        ));
 
   void changeThemeColor(ThemeColor color) {
     final newThemeData = _createThemeData(color, state.brightness);
@@ -21,10 +20,10 @@ class ThemeCubit extends Cubit<ThemeState> {
   }
 
   void toggleBrightness() {
-    final newBrightness = state.brightness == Brightness.light 
-      ? Brightness.dark 
-      : Brightness.light;
-    
+    final newBrightness = state.brightness == Brightness.light
+        ? Brightness.dark
+        : Brightness.light;
+
     final newThemeData = _createThemeData(state.selectedColor, newBrightness);
     emit(state.copyWith(
       themeData: newThemeData,
@@ -32,26 +31,23 @@ class ThemeCubit extends Cubit<ThemeState> {
     ));
   }
 
-  static ThemeData _createThemeData(ThemeColor themeColor, Brightness brightness) {
+  static ThemeData _createThemeData(
+      ThemeColor themeColor, Brightness brightness) {
     final bool isDark = brightness == Brightness.dark;
-    
+
     // Настраиваем оттенки цвета в зависимости от яркости
     final ColorScheme colorScheme = ColorScheme.fromSeed(
       seedColor: themeColor.color,
       brightness: brightness,
       primary: themeColor.color,
       // Настраиваем вторичные цвета
-      secondary: isDark 
-        ? themeColor.color.withOpacity(0.7) 
-        : themeColor.color.withOpacity(0.8),
+      secondary: isDark
+          ? themeColor.color.withOpacity(0.7)
+          : themeColor.color.withOpacity(0.8),
       // Настраиваем фон
-      background: isDark 
-        ? Colors.grey[900]! 
-        : Colors.grey[50]!,
+      background: isDark ? Colors.grey[900]! : Colors.grey[50]!,
       // Настраиваем поверхности
-      surface: isDark 
-        ? Colors.grey[800]! 
-        : Colors.white,
+      surface: isDark ? Colors.grey[800]! : Colors.white,
     );
 
     return ThemeData(
@@ -60,12 +56,8 @@ class ThemeCubit extends Cubit<ThemeState> {
       useMaterial3: true,
       // Настраиваем цвета AppBar
       appBarTheme: AppBarTheme(
-        backgroundColor: isDark 
-          ? colorScheme.surface 
-          : colorScheme.primary,
-        foregroundColor: isDark 
-          ? colorScheme.onSurface 
-          : colorScheme.onPrimary,
+        backgroundColor: isDark ? colorScheme.surface : colorScheme.primary,
+        foregroundColor: isDark ? colorScheme.onSurface : colorScheme.onPrimary,
       ),
       // Настраиваем цвета кнопок
       elevatedButtonTheme: ElevatedButtonThemeData(

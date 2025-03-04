@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kaban_frontend/feature/theme/domain/cubit/theme_cubit.dart';
-import 'package:kaban_frontend/feature/theme/domain/entity/theme_color.dart';
-import 'package:kaban_frontend/feature/theme/domain/state/theme_state.dart';
+import 'package:kaban_frontend/core/theme/domain/cubit/theme_cubit.dart';
+import 'package:kaban_frontend/core/theme/domain/entity/theme_color.dart';
+import 'package:kaban_frontend/core/theme/domain/cubit/theme_state.dart';
 
-class ThemeSettingsPage extends StatelessWidget {
+class ThemeChangeButton extends StatelessWidget {
+  const ThemeChangeButton({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeCubit, ThemeState>(
@@ -38,8 +40,8 @@ class ThemeSettingsPage extends StatelessWidget {
                         color: color.color,
                         shape: BoxShape.circle,
                         border: state.selectedColor == color
-                          ? Border.all(width: 2, color: Colors.white)
-                          : null,
+                            ? Border.all(width: 2, color: Colors.white)
+                            : null,
                       ),
                     ),
                   );

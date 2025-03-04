@@ -11,9 +11,8 @@ class NavigationPage extends StatelessWidget {
     return Scaffold(
       body: Row(
         children: [
-          Container(
+          SizedBox(
             width: 64,
-            color: Colors.amber,
             child: Column(
               children: [
                 IconButton(
