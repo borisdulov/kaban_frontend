@@ -76,10 +76,11 @@ class TaskMockModel implements Task {
   factory TaskMockModel.mock() {
     return TaskMockModel(
       taskId: '1',
-      title: 'test_title',
+      title: 'Я устал сидеть в флютере',
       categoryId: 'test_category',
       isCompleted: true,
-      priority: TaskPriority.normal,
+      priority: TaskPriority.medium,
+      dueDate: DateTime(2025, 3, 2),
       createdAt: DateTime(2025, 3, 2),
     );
   }
