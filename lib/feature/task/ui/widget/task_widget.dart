@@ -63,7 +63,7 @@ class TaskWidget extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Image.asset(
-                          'assets/svg/clock.png',
+                          'assets/png/clock.png',
                           width: 16,
                           height: 16,
                         ),
@@ -93,7 +93,7 @@ class TaskWidget extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Image.asset(
-                          'assets/svg/bar_chart.png',
+                          'assets/png/bar_chart.png',
                           width: 16,
                           height: 16,
                         ),
@@ -116,7 +116,7 @@ class TaskWidget extends StatelessWidget {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Image.asset('assets/svg/avatar_group.png'),
+                Image.asset('assets/png/avatar_group.png'),
                 SizedBox(width: AppThemeSize.p8),
                 Text(
                   '+1',
