@@ -20,7 +20,6 @@ class AppWidget extends StatelessWidget {
       child: MaterialApp.router(
         routerConfig: AppRouter.config,
       ),
-
     );
   }
 }
