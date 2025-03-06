@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kaban_frontend/core/theme/entity/app_theme_radius.dart';
-import 'package:kaban_frontend/core/theme/entity/app_theme_size.dart';
+import 'package:kaban_frontend/core/theme/domain/entity/app_theme_radius.dart';
+import 'package:kaban_frontend/core/theme/domain/entity/app_theme_size.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
 
 class TaskWidget extends StatelessWidget {

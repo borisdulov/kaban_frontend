@@ -1,4 +1,4 @@
-import 'package:kaban_frontend/core/di/di_container.dart';
+import 'package:kaban_frontend/core/config/model/di_container.dart';
 import 'package:kaban_frontend/core/domain/env_type.dart';
 
 enum ConfigStatus {
