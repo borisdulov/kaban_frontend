@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kaban_frontend/core/theme/entity/app_theme_radius.dart';
-import 'package:kaban_frontend/core/theme/entity/app_theme_size.dart';
+import 'package:kaban_frontend/core/theme/domain/entity/app_theme_radius.dart';
+import 'package:kaban_frontend/core/theme/domain/entity/app_theme_size.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
 
 class TaskWidget extends StatelessWidget {
@@ -58,9 +58,7 @@ class TaskWidget extends StatelessWidget {
                   SizedBox(width: 10),
                   Card(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        AppThemeRadius.r8,
-                      ),
+                      borderRadius: BorderRadius.circular(AppThemeRadius.r8),
                     ),
                     color: Color.fromRGBO(0, 255, 178, 0.2),
                     child: Padding(

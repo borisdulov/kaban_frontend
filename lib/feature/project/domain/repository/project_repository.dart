@@ -1,6 +1,7 @@
+import 'package:kaban_frontend/core/domain/dependency.dart';
 import 'package:kaban_frontend/feature/project/domain/entity/project_entity.dart';
 
-abstract interface class ProjectRepository {
+abstract interface class ProjectRepository implements Dependency {
   Future<List<Project>> getAllProjects();
   Future<Project> getProjectById(String id);
   Future<Project> createProject(Project project);
