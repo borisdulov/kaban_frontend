@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kaban_frontend/feature/user/domain/entity/user_entity.dart';
+import 'package:kaban_frontend/core/domain/entity/status.dart';
 import 'package:kaban_frontend/feature/user/domain/repository/user_repository.dart';
 import 'package:kaban_frontend/feature/user/model/user_state.dart';
 
@@ -15,37 +15,36 @@ class UserCubit extends Cubit<UserState> {
 
   UserCubit({required UserRepository userRepository})
     : _userRepository = userRepository,
-      super(UserStateLoading()) {
+      super(const UserState(status: Status.loading)) {
     fetchCurrentUser();
   }
 
   Future<void> fetchCurrentUser() async {
-    emit(UserStateLoading());
+    emit(state.copyWith(status: Status.loading));
     try {
       final currentUser = await _userRepository.getMe();
-      emit(UserStateLoaded(users: [currentUser], currentUser: currentUser));
+      emit(UserState(status: Status.success, users: [currentUser]));
     } catch (e) {
-      emit(UserStateFailed(error: e.toString()));
+      emit(UserState(status: Status.failure, error: e.toString()));
     }
   }
 
   Future<void> fetchUser(String id) async {
     if (!state.isLoaded) return;
-    final currentState = state as UserStateLoaded;
 
     try {
-      emit(UserStateLoading());
+      emit(state.copyWith(status: Status.loading));
       final user = await _userRepository.getUser(id);
 
-      final userExists = currentState.users.any((u) => u.id == id);
+      final userExists = state.users.any((u) => u.id == id);
       final updatedUsers =
           userExists
-              ? currentState.users.map((u) => u.id == id ? user : u).toList()
-              : [...currentState.users, user];
+              ? state.users.map((u) => u.id == id ? user : u).toList()
+              : [...state.users, user];
 
-      emit(currentState.copyWith(users: updatedUsers, selectedUser: user));
+      emit(state.copyWith(status: Status.success, users: updatedUsers));
     } catch (e) {
-      emit(UserStateFailed(error: e.toString()));
+      emit(state.copyWith(status: Status.failure, error: e.toString()));
     }
   }
 
@@ -56,10 +55,9 @@ class UserCubit extends Cubit<UserState> {
     String? avatar,
   }) async {
     if (!state.isLoaded) return;
-    final currentState = state as UserStateLoaded;
 
     try {
-      emit(UserStateLoading());
+      emit(state.copyWith(status: Status.loading));
       final updatedUser = await _userRepository.updateUser(
         email,
         username,
@@ -68,53 +66,26 @@ class UserCubit extends Cubit<UserState> {
       );
 
       final updatedUsers =
-          currentState.users.map((u) {
+          state.users.map((u) {
             return u.id == updatedUser.id ? updatedUser : u;
           }).toList();
 
-      emit(
-        currentState.copyWith(
-          users: updatedUsers,
-          currentUser:
-              currentState.currentUser?.id == updatedUser.id
-                  ? updatedUser
-                  : currentState.currentUser,
-          selectedUser:
-              currentState.selectedUser?.id == updatedUser.id
-                  ? updatedUser
-                  : currentState.selectedUser,
-        ),
-      );
+      emit(state.copyWith(status: Status.success, users: updatedUsers));
     } catch (e) {
-      emit(UserStateFailed(error: e.toString()));
+      emit(state.copyWith(status: Status.failure, error: e.toString()));
     }
   }
 
   Future<void> searchUsersByUsername() async {
     if (!state.isLoaded) return;
-    final currentState = state as UserStateLoaded;
 
     try {
-      emit(UserStateLoading());
+      emit(state.copyWith(status: Status.loading));
       final users = await _userRepository.getUsersByUsername();
-      emit(currentState.copyWith(users: users));
+      emit(state.copyWith(status: Status.success, users: users));
     } catch (e) {
-      emit(UserStateFailed(error: e.toString()));
+      emit(state.copyWith(status: Status.failure, error: e.toString()));
     }
-  }
-
-  void selectUser(User user) {
-    if (!state.isLoaded) return;
-    final currentState = state as UserStateLoaded;
-
-    emit(currentState.copyWith(selectedUser: user));
-  }
-
-  void clearSelectedUser() {
-    if (!state.isLoaded) return;
-    final currentState = state as UserStateLoaded;
-
-    emit(currentState.copyWith(clearSelectedUser: true));
   }
 }
 

@@ -1,37 +1,26 @@
 import 'package:kaban_frontend/feature/user/domain/entity/user_entity.dart';
+import 'package:kaban_frontend/core/domain/entity/status.dart';
 
-abstract interface class UserState {
-  bool get isLoading => this is UserStateLoading;
-  bool get isLoaded => this is UserStateLoaded;
-  bool get isFailed => this is UserStateFailed;
-}
-
-class UserStateLoading extends UserState {}
-
-class UserStateFailed extends UserState {
-  final String error;
-
-  UserStateFailed({required this.error});
-}
-
-class UserStateLoaded extends UserState {
+class UserState {
+  final Status? status;
   final List<User> users;
-  final User? currentUser;
-  final User? selectedUser;
+  final String? error;
 
-  UserStateLoaded({required this.users, this.currentUser, this.selectedUser});
+  const UserState({
+    this.status = Status.initial,
+    this.users = const [],
+    this.error,
+  });
 
-  UserStateLoaded copyWith({
-    List<User>? users,
-    User? currentUser,
-    User? selectedUser,
-    bool clearSelectedUser = false,
-  }) {
-    return UserStateLoaded(
+  UserState copyWith({Status? status, List<User>? users, String? error}) {
+    return UserState(
+      status: status ?? this.status,
       users: users ?? this.users,
-      currentUser: currentUser ?? this.currentUser,
-      selectedUser:
-          clearSelectedUser ? null : selectedUser ?? this.selectedUser,
+      error: error ?? this.error,
     );
   }
+
+  bool get isLoading => status == Status.loading;
+  bool get isLoaded => status == Status.success;
+  bool get isFailed => status == Status.failure;
 }
