@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kaban_frontend/core/domain/entity/status.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_priority_enum.dart';
 import 'package:kaban_frontend/feature/task/domain/repository/task_repository.dart';
@@ -16,135 +17,103 @@ class TaskCubit extends Cubit<TaskState> {
 
   TaskCubit({required TaskRepository taskRepository})
     : _taskRepository = taskRepository,
-      super(TaskStateLoading()) {
+      super(const TaskState(status: Status.loading)) {
     fetchTasks();
   }
 
   Future<void> fetchTasks() async {
-    emit(TaskStateLoading());
+    emit(state.copyWith(status: Status.loading));
     try {
       final tasks = await _taskRepository.getAllTasks();
-      emit(TaskStateLoaded(tasks: tasks));
+      emit(TaskState(status: Status.success, tasks: tasks));
     } catch (e) {
-      emit(TaskStateFailed(error: e.toString()));
+      emit(TaskState(status: Status.failure, error: e.toString()));
     }
   }
 
   Future<void> getTaskByCategoryId(String categoryId) async {
-    emit(TaskStateLoading());
+    emit(state.copyWith(status: Status.loading));
     try {
       final task = await _taskRepository.getTaskByCategoryId(categoryId);
-      emit(TaskStateLoaded(tasks: [task], selectedTask: task));
+      emit(TaskState(status: Status.success, tasks: [task]));
     } catch (e) {
-      emit(TaskStateFailed(error: e.toString()));
+      emit(TaskState(status: Status.failure, error: e.toString()));
     }
   }
 
   Future<void> createTask(Task task) async {
     if (!state.isLoaded) return;
-    final currentState = state as TaskStateLoaded;
 
     try {
-      emit(TaskStateLoading());
+      emit(state.copyWith(status: Status.loading));
       final createdTask = await _taskRepository.createTask(task);
       emit(
-        currentState.copyWith(
-          tasks: [...currentState.tasks, createdTask],
-          selectedTask: createdTask,
+        state.copyWith(
+          status: Status.success,
+          tasks: [...state.tasks, createdTask],
         ),
       );
     } catch (e) {
-      emit(TaskStateFailed(error: e.toString()));
+      emit(state.copyWith(status: Status.failure, error: e.toString()));
     }
   }
 
   Future<void> updateTask(Task task) async {
     if (!state.isLoaded) return;
-    final currentState = state as TaskStateLoaded;
 
     try {
-      emit(TaskStateLoading());
+      emit(state.copyWith(status: Status.loading));
       final updatedTask = await _taskRepository.updateTask(task);
 
       final updatedTasks =
-          currentState.tasks.map((t) {
+          state.tasks.map((t) {
             return t.taskId == task.taskId ? updatedTask : t;
           }).toList();
 
-      emit(
-        currentState.copyWith(
-          tasks: updatedTasks,
-          selectedTask:
-              currentState.selectedTask?.taskId == task.taskId
-                  ? updatedTask
-                  : currentState.selectedTask,
-        ),
-      );
+      emit(state.copyWith(status: Status.success, tasks: updatedTasks));
     } catch (e) {
-      emit(TaskStateFailed(error: e.toString()));
+      emit(state.copyWith(status: Status.failure, error: e.toString()));
     }
   }
 
   Future<void> deleteTask(String taskId) async {
     if (!state.isLoaded) return;
-    final currentState = state as TaskStateLoaded;
 
     try {
-      emit(TaskStateLoading());
+      emit(state.copyWith(status: Status.loading));
       await _taskRepository.deleteTask(taskId);
 
       final updatedTasks =
-          currentState.tasks.where((t) => t.taskId != taskId).toList();
+          state.tasks.where((t) => t.taskId != taskId).toList();
 
-      emit(
-        currentState.copyWith(
-          tasks: updatedTasks,
-          selectedTask:
-              currentState.selectedTask?.taskId == taskId
-                  ? null
-                  : currentState.selectedTask,
-        ),
-      );
+      emit(state.copyWith(status: Status.success, tasks: updatedTasks));
     } catch (e) {
-      emit(TaskStateFailed(error: e.toString()));
+      emit(state.copyWith(status: Status.failure, error: e.toString()));
     }
   }
 
   Future<void> moveTaskToCategory(String taskId, String categoryId) async {
     if (!state.isLoaded) return;
-    final currentState = state as TaskStateLoaded;
 
     try {
-      emit(TaskStateLoading());
+      emit(state.copyWith(status: Status.loading));
       await _taskRepository.moveTaskToCategory(taskId, categoryId);
       final tasks = await _taskRepository.getAllTasks();
-      final selectedTask = tasks.firstWhere(
-        (t) => t.taskId == taskId,
-        orElse: () => currentState.selectedTask!,
-      );
 
-      emit(
-        TaskStateLoaded(
-          tasks: tasks,
-          selectedTask:
-              currentState.selectedTask?.taskId == taskId
-                  ? selectedTask
-                  : currentState.selectedTask,
-        ),
-      );
+      emit(state.copyWith(status: Status.success, tasks: tasks));
     } catch (e) {
-      emit(TaskStateFailed(error: e.toString()));
+      emit(state.copyWith(status: Status.failure, error: e.toString()));
     }
   }
 
   Future<void> searchTasks() async {
     if (!state.isLoaded) return;
     try {
-      emit(TaskStateLoading());
+      emit(state.copyWith(status: Status.loading));
       final tasks = await _taskRepository.searchTasks();
-      emit(TaskStateLoaded(tasks: tasks));
+      emit(state.copyWith(status: Status.success, tasks: tasks));
     } catch (e) {
-      emit(TaskStateFailed(error: e.toString()));
+      emit(state.copyWith(status: Status.failure, error: e.toString()));
     }
   }
 
@@ -157,7 +126,7 @@ class TaskCubit extends Cubit<TaskState> {
   }) async {
     if (!state.isLoaded) return;
     try {
-      emit(TaskStateLoading());
+      emit(state.copyWith(status: Status.loading));
       final tasks = await _taskRepository.filterTasks(
         userIds: userIds,
         priority: priority,
@@ -165,24 +134,10 @@ class TaskCubit extends Cubit<TaskState> {
         dueDate: dueDate,
         projectId: projectId,
       );
-      emit(TaskStateLoaded(tasks: tasks));
+      emit(state.copyWith(status: Status.success, tasks: tasks));
     } catch (e) {
-      emit(TaskStateFailed(error: e.toString()));
+      emit(state.copyWith(status: Status.failure, error: e.toString()));
     }
-  }
-
-  void selectTask(Task task) {
-    if (!state.isLoaded) return;
-    final currentState = state as TaskStateLoaded;
-
-    emit(currentState.copyWith(selectedTask: task));
-  }
-
-  void clearSelectedTask() {
-    if (!state.isLoaded) return;
-    final currentState = state as TaskStateLoaded;
-
-    emit(currentState.copyWith(clearSelectedTask: true));
   }
 }
 

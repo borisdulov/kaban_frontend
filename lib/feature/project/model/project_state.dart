@@ -1,36 +1,30 @@
 import 'package:kaban_frontend/feature/project/domain/entity/project_entity.dart';
+import 'package:kaban_frontend/core/domain/entity/status.dart';
 
-abstract interface class ProjectState {
-  bool get isLoading => this is ProjectStateLoading;
-  bool get isLoaded => this is ProjectStateLoaded;
-  bool get isFailed => this is ProjectStateFailed;
-}
-
-class ProjectStateLoading extends ProjectState {}
-
-class ProjectStateFailed extends ProjectState {
-  final String error;
-
-  ProjectStateFailed({required this.error});
-}
-
-class ProjectStateLoaded extends ProjectState {
+class ProjectState {
+  final Status? status;
   final List<Project> projects;
-  final Project? selectedProject;
+  final String? error;
 
-  ProjectStateLoaded({
-    required this.projects,
-    this.selectedProject,
+  const ProjectState({
+    this.status = Status.initial,
+    this.projects = const [],
+    this.error,
   });
 
-  ProjectStateLoaded copyWith({
+  ProjectState copyWith({
+    Status? status,
     List<Project>? projects,
-    Project? selectedProject,
-    bool clearSelectedProject = false,
+    String? error,
   }) {
-    return ProjectStateLoaded(
+    return ProjectState(
+      status: status ?? this.status,
       projects: projects ?? this.projects,
-      selectedProject: clearSelectedProject ? null : selectedProject ?? this.selectedProject,
+      error: error ?? this.error,
     );
   }
-} 
+
+  bool get isLoading => status == Status.loading;
+  bool get isLoaded => status == Status.success;
+  bool get isFailed => status == Status.failure;
+}

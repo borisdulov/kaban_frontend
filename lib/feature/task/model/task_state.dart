@@ -1,34 +1,26 @@
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
+import 'package:kaban_frontend/core/domain/entity/status.dart';
 
-abstract interface class TaskState {
-  bool get isLoading => this is TaskStateLoading;
-  bool get isLoaded => this is TaskStateLoaded;
-  bool get isFailed => this is TaskStateFailed;
-}
-
-class TaskStateLoading extends TaskState {}
-
-class TaskStateFailed extends TaskState {
-  final String error;
-
-  TaskStateFailed({required this.error});
-}
-
-class TaskStateLoaded extends TaskState {
+class TaskState {
+  final Status? status;
   final List<Task> tasks;
-  final Task? selectedTask;
+  final String? error;
 
-  TaskStateLoaded({required this.tasks, this.selectedTask});
+  const TaskState({
+    this.status = Status.initial,
+    this.tasks = const [],
+    this.error,
+  });
 
-  TaskStateLoaded copyWith({
-    List<Task>? tasks,
-    Task? selectedTask,
-    bool clearSelectedTask = false,
-  }) {
-    return TaskStateLoaded(
+  TaskState copyWith({Status? status, List<Task>? tasks, String? error}) {
+    return TaskState(
+      status: status ?? this.status,
       tasks: tasks ?? this.tasks,
-      selectedTask:
-          clearSelectedTask ? null : selectedTask ?? this.selectedTask,
+      error: error ?? this.error,
     );
   }
+
+  bool get isLoading => status == Status.loading;
+  bool get isLoaded => status == Status.success;
+  bool get isFailed => status == Status.failure;
 }
