@@ -19,8 +19,6 @@ class ProjectCubit extends Cubit<ProjectState> {
     fetchProjects();
   }
 
-  static ProjectCubit i(BuildContext context) => context.read<ProjectCubit>();
-
   Future<void> fetchProjects() async {
     emit(ProjectStateLoading());
     try {
@@ -38,12 +36,7 @@ class ProjectCubit extends Cubit<ProjectState> {
     try {
       emit(ProjectStateLoading());
       final project = await _projectRepository.getProjectById(id);
-      emit(
-        ProjectStateLoaded(
-          projects: currentState.projects,
-          selectedProject: project,
-        ),
-      );
+      emit(currentState.copyWith(selectedProject: project));
     } catch (e) {
       emit(ProjectStateFailed(error: e.toString()));
     }
@@ -57,9 +50,9 @@ class ProjectCubit extends Cubit<ProjectState> {
       emit(ProjectStateLoading());
       final createdProject = await _projectRepository.createProject(project);
       emit(
-        ProjectStateLoaded(
+        currentState.copyWith(
           projects: [...currentState.projects, createdProject],
-          selectedProject: currentState.selectedProject,
+          selectedProject: createdProject,
         ),
       );
     } catch (e) {
@@ -67,27 +60,27 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
   }
 
-  Future<void> updateProject(String id, Project project) async {
+  Future<void> updateProject(Project project) async {
     if (!state.isLoaded) return;
     final currentState = state as ProjectStateLoaded;
 
     try {
       emit(ProjectStateLoading());
       final updatedProject = await _projectRepository.updateProject(
-        id,
+        project.id,
         project,
       );
 
       final updatedProjects =
           currentState.projects.map((p) {
-            return p.id == id ? updatedProject : p;
+            return p.id == project.id ? updatedProject : p;
           }).toList();
 
       emit(
-        ProjectStateLoaded(
+        currentState.copyWith(
           projects: updatedProjects,
           selectedProject:
-              currentState.selectedProject?.id == id
+              currentState.selectedProject?.id == project.id
                   ? updatedProject
                   : currentState.selectedProject,
         ),
@@ -109,7 +102,7 @@ class ProjectCubit extends Cubit<ProjectState> {
           currentState.projects.where((p) => p.id != id).toList();
 
       emit(
-        ProjectStateLoaded(
+        currentState.copyWith(
           projects: updatedProjects,
           selectedProject:
               currentState.selectedProject?.id == id
@@ -139,7 +132,7 @@ class ProjectCubit extends Cubit<ProjectState> {
           }).toList();
 
       emit(
-        ProjectStateLoaded(
+        currentState.copyWith(
           projects: updatedProjects,
           selectedProject:
               currentState.selectedProject?.id == projectId
@@ -169,7 +162,7 @@ class ProjectCubit extends Cubit<ProjectState> {
           }).toList();
 
       emit(
-        ProjectStateLoaded(
+        currentState.copyWith(
           projects: updatedProjects,
           selectedProject:
               currentState.selectedProject?.id == projectId
@@ -186,24 +179,14 @@ class ProjectCubit extends Cubit<ProjectState> {
     if (!state.isLoaded) return;
     final currentState = state as ProjectStateLoaded;
 
-    emit(
-      ProjectStateLoaded(
-        projects: currentState.projects,
-        selectedProject: project,
-      ),
-    );
+    emit(currentState.copyWith(selectedProject: project));
   }
 
   void clearSelectedProject() {
     if (!state.isLoaded) return;
     final currentState = state as ProjectStateLoaded;
 
-    emit(
-      ProjectStateLoaded(
-        projects: currentState.projects,
-        selectedProject: null,
-      ),
-    );
+    emit(currentState.copyWith(clearSelectedProject: true));
   }
 }
 
