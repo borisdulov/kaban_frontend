@@ -1,9 +1,8 @@
+import 'package:kaban_frontend/core/domain/dependency.dart';
 import 'package:kaban_frontend/feature/user/domain/entity/user_entity.dart';
 
-abstract interface class UserRepository {
-  Future<User> getUser(
-    String id,
-  ); //id
+abstract interface class UserRepository implements Dependency {
+  Future<User> getUser(String id); //id
 
   Future<User> updateUser(
     String? email,
