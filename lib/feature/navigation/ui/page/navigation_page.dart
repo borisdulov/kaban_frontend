@@ -15,13 +15,11 @@ class NavigationPage extends StatelessWidget {
       body: Row(
         children: [
           Padding(
-            padding: const EdgeInsets.all(AppThemeSize.p16),
+            padding: const EdgeInsets.all(AppThemeSize.p22),
             child: Column(
               children: [
                 Column(
                   children: [
-                    SizedBox(height: AppThemeSize.p8),
-
                     IconButtonWidget(
                       assetPath: 'assets/png/sidebar.png',
                       onPressed: () => navigationShell.goBranch(0),
@@ -89,10 +87,14 @@ class NavigationPage extends StatelessWidget {
           ),
 
           Container(
-            margin: EdgeInsets.all(1),
-            width: 1,
-            height: double.infinity,
-            color: Color.fromRGBO(0, 0, 0, 0.2),
+            decoration: BoxDecoration(
+              border: Border(
+                right: BorderSide(
+                  color: Color.fromRGBO(0, 0, 0, 0.2),
+                  width: 1,
+                ),
+              ),
+            ),
           ),
 
           Expanded(child: navigationShell),
