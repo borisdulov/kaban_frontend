@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kaban_frontend/core/theme/entity/app_theme_radius.dart';
 import 'package:kaban_frontend/core/theme/entity/app_theme_size.dart';
-import 'package:kaban_frontend/multi_board_list_example.dart';
+import 'package:kaban_frontend/mock_board_list.dart';
 import 'package:smooth_corner/smooth_corner.dart';
 
 class ProjectPage extends StatelessWidget {
@@ -112,7 +112,7 @@ class ProjectPage extends StatelessWidget {
           ),
         ),
       ),
-      body: MultiBoardListExample(),
+      body: MockBoardList(),
     );
   }
 }
