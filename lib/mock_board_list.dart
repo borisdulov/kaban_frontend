@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:appflowy_board/appflowy_board.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:kaban_frontend/core/theme/domain/entity/app_theme_size.dart';
+import 'package:kaban_frontend/core/theme/entity/app_theme_radius.dart';
 import 'package:kaban_frontend/feature/task/data/model/task_api_model.dart';
 import 'package:kaban_frontend/feature/task/data/model/task_mock_model.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
@@ -32,7 +35,7 @@ class _MockBoardListState extends State<MockBoardList> {
       _buildColumn('Backlog', [
         TaskMockModel(
           taskId: '1',
-          title: 'Разработать дизайн',
+          title: 'Я устал сидеть в фигме',
           priority: TaskPriority.high,
           categoryId: '',
           isCompleted: false,
@@ -40,26 +43,42 @@ class _MockBoardListState extends State<MockBoardList> {
         ),
         TaskMockModel(
           taskId: '2',
-          title: 'Написать ТЗ',
+          title: 'Название задачи.',
           priority: TaskPriority.medium,
           categoryId: '',
           isCompleted: false,
           createdAt: DateTime.now(),
         ),
+        TaskMockModel(
+          taskId: '3',
+          title: 'Название задачи',
+          categoryId: '',
+          isCompleted: false,
+          priority: TaskPriority.high,
+          createdAt: DateTime.now(),
+        ),
       ]),
       _buildColumn('In Progress', [
         TaskMockModel(
-          taskId: '3',
-          title: 'Реализация API',
+          taskId: '4',
+          title: 'Устал уставать',
           priority: TaskPriority.high,
           categoryId: '',
           isCompleted: false,
           createdAt: DateTime.now(),
         ),
+        TaskMockModel(
+          taskId: '5',
+          title: 'Название задачи',
+          categoryId: '',
+          isCompleted: false,
+          priority: TaskPriority.low,
+          createdAt: DateTime.now(),
+        ),
       ]),
       _buildColumn('Done', [
         TaskMockModel(
-          taskId: '4',
+          taskId: '6',
           title: 'Тестирование',
           priority: TaskPriority.low,
           categoryId: '',
@@ -84,50 +103,91 @@ class _MockBoardListState extends State<MockBoardList> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: AppFlowyBoard(
-            background: Container(color: Colors.white),
-            controller: controller,
-            cardBuilder: (context, group, groupItem) {
-              return AppFlowyGroupCard(
-                key: ValueKey(groupItem.id),
-                decoration: BoxDecoration(color: Colors.grey.shade100),
-                child: _buildTaskCard(groupItem),
-              );
-            },
-            headerBuilder: (context, columnData) {
-              return SizedBox(
-                width: 300,
-                child: AppFlowyGroupHeader(
-                  icon: const Icon(Icons.circle, color: Colors.green),
-                  title: Text(columnData.headerData.groupName),
-                  addIcon: Row(
-                    children: [
-                      SizedBox(width: 0 ),
-                      const Icon(Icons.more_vert),
-                    ],
-                  ),
-                  moreIcon: Row(
-                    children: [SizedBox(width: 70), const Icon(Icons.add)],
-                  ),
-                  margin: const EdgeInsets.all(12),
+    return Container(
+      color: Colors.white,
+      child: Row(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(AppThemeSize.p40),
+              child: AppFlowyBoard(
+                controller: controller,
+                background: Container(color: Colors.white),
+                cardBuilder: (context, group, groupItem) {
+                  return AppFlowyGroupCard(
+                    key: ValueKey(groupItem.id),
+
+                    margin: EdgeInsets.symmetric(vertical: AppThemeSize.p8),
+
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(AppThemeRadius.r16),
+                      border: Border.all(color: Color.fromRGBO(0, 0, 0, 0.2)),
+                    ),
+
+                    child: _buildTaskCard(groupItem),
+                  );
+                },
+
+                headerBuilder: (context, columnData) {
+                  return AppFlowyGroupHeader(
+                    icon: const Icon(
+                      Icons.circle,
+                      color: Colors.green,
+                      size: 16,
+                    ),
+
+                    title: SizedBox(
+                      width: 120,
+                      child: Text(columnData.headerData.groupName),
+                    ),
+
+                    addIcon: IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.add,
+                        size: 20,
+                        color: Color.fromRGBO(68, 68, 68, 1),
+                      ),
+                    ),
+
+                    moreIcon: IconButton(
+                      onPressed:
+                          () => _addNewTask(columnData.headerData.groupId),
+                      icon: Icon(
+                        Icons.more_vert,
+                        size: 20,
+                        color: Color.fromRGBO(68, 68, 68, 1),
+                      ),
+                    ),
+
+                    margin: const EdgeInsets.only(
+                      left: AppThemeSize.p16,
+                      right: AppThemeSize.p16,
+                    ),
+                  );
+                },
+
+                config: AppFlowyBoardConfig(
+                  stretchGroupHeight: false,
+                  groupBackgroundColor: Color.fromRGBO(248, 246, 245, 1),
+                  groupMargin: EdgeInsets.all(AppThemeSize.p12),
+                  groupCornerRadius: AppThemeRadius.r16,
                 ),
-              );
-            },
-            footerBuilder: (context, columnData) {
-              return _buildAddTaskButton(columnData);
-            },
-            config: AppFlowyBoardConfig(
-              groupBackgroundColor: Colors.grey.shade100,
-              groupBodyPadding: const EdgeInsets.all(8),
+                groupConstraints: BoxConstraints.tightFor(width: 300),
+                trailing: Container(
+                  padding: EdgeInsets.symmetric(
+                    vertical: AppThemeSize.p8,
+                    horizontal: AppThemeSize.p16,
+                  ),
+                  decoration: BoxDecoration(),
+                  child: _buildAddColumnButton(),
+                ),
+              ),
             ),
-            groupConstraints: BoxConstraints.tightFor(width: 300),
           ),
-        ),
-        _buildAddColumnButton(),
-      ],
+        ],
+      ),
     );
   }
 
@@ -138,31 +198,27 @@ class _MockBoardListState extends State<MockBoardList> {
     return const SizedBox.shrink();
   }
 
-  Widget _buildAddTaskButton(AppFlowyGroupData columnData) {
-    return InkWell(
-      onTap: () => _addNewTask(columnData.headerData.groupId),
-      child: SmoothCard(
-        margin: const EdgeInsets.all(8),
-        borderRadius: BorderRadius.circular(8),
-        color: Colors.white,
-        child: const Padding(
-          padding: EdgeInsets.all(16),
-          child: Icon(Icons.add, color: Colors.grey),
-        ),
-      ),
-    );
-  }
-
   Widget _buildAddColumnButton() {
     return SmoothCard(
-      margin: const EdgeInsets.all(16),
-      borderRadius: BorderRadius.circular(8),
-      color: Colors.white,
-      child: InkWell(
-        onTap: _addNewColumn,
-        child: const Padding(
-          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
-          child: Text('Добавить колонку', style: TextStyle(color: Colors.grey)),
+      borderRadius: BorderRadius.circular(AppThemeRadius.r16),
+      color: const Color.fromRGBO(248, 246, 245, 1),
+      child: SizedBox(
+        height: AppThemeSize.p40,
+        child: IconButton(
+          onPressed: _addNewColumn,
+          icon: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppThemeSize.p8),
+            child: Row(
+              children: [
+                Icon(Icons.add, size: 20),
+                SizedBox(width: AppThemeSize.p4),
+                Text(
+                  'Add Column',
+                  style: GoogleFonts.inter(color: Colors.black, fontSize: 16),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
