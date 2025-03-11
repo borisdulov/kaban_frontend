@@ -28,13 +28,17 @@ class _MultiBoardListExampleState extends State<MultiBoardListExample> {
   void initState() {
     super.initState();
     boardController = AppFlowyBoardScrollController();
-    final group1 = AppFlowyGroupData(id: "To Do", name: "To Do", items: [
-      TextItem("Card 1"),
-      TextItem("Card 2"),
-      RichTextItem(title: "Card 3", subtitle: 'Aug 1, 2020 4:05 PM'),
-      TextItem("Card 4"),
-      TextItem("Card 5"),
-    ]);
+    final group1 = AppFlowyGroupData(
+      id: "To Do",
+      name: "To Do",
+      items: [
+        TextItem("Card 1"),
+        TextItem("Card 2"),
+        RichTextItem(title: "Card 3", subtitle: 'Aug 1, 2020 4:05 PM'),
+        TextItem("Card 4"),
+        TextItem("Card 5"),
+      ],
+    );
 
     final group2 = AppFlowyGroupData(
       id: "In Progress",
@@ -47,29 +51,29 @@ class _MultiBoardListExampleState extends State<MultiBoardListExample> {
     );
 
     final group3 = AppFlowyGroupData(
-        id: "Pending",
-        name: "Pending",
-        items: <AppFlowyGroupItem>[
-          TextItem("Card 9"),
-          RichTextItem(title: "Card 10", subtitle: 'Aug 1, 2020 4:05 PM'),
-          TextItem("Card 11"),
-          TextItem("Card 12"),
-        ]);
+      id: "Pending",
+      name: "Pending",
+      items: <AppFlowyGroupItem>[
+        TextItem("Card 9"),
+        RichTextItem(title: "Card 10", subtitle: 'Aug 1, 2020 4:05 PM'),
+        TextItem("Card 11"),
+        TextItem("Card 12"),
+      ],
+    );
     final group4 = AppFlowyGroupData(
-        id: "Canceled",
-        name: "Canceled",
-        items: <AppFlowyGroupItem>[
-          TextItem("Card 13"),
-          TextItem("Card 14"),
-          TextItem("Card 15"),
-        ]);
+      id: "Canceled",
+      name: "Canceled",
+      items: <AppFlowyGroupItem>[
+        TextItem("Card 13"),
+        TextItem("Card 14"),
+        TextItem("Card 15"),
+      ],
+    );
     final group5 = AppFlowyGroupData(
-        id: "Urgent",
-        name: "Urgent",
-        items: <AppFlowyGroupItem>[
-          TextItem("Card 14"),
-          TextItem("Card 15"),
-        ]);
+      id: "Urgent",
+      name: "Urgent",
+      items: <AppFlowyGroupItem>[TextItem("Card 14"), TextItem("Card 15")],
+    );
 
     controller.addGroup(group1);
     controller.addGroup(group2);
@@ -85,48 +89,50 @@ class _MultiBoardListExampleState extends State<MultiBoardListExample> {
       stretchGroupHeight: false,
     );
     return AppFlowyBoard(
-        controller: controller,
-        cardBuilder: (context, group, groupItem) {
-          return AppFlowyGroupCard(
-            key: ValueKey(groupItem.id),
-            child: _buildCard(groupItem),
-          );
-        },
-        boardScrollController: boardController,
-        footerBuilder: (context, columnData) {
-          return AppFlowyGroupFooter(
-            icon: const Icon(Icons.add, size: 20),
-            title: const Text('New'),
-            height: 50,
-            margin: config.groupBodyPadding,
-            onAddButtonClick: () {
-              boardController.scrollToBottom(columnData.id);
-            },
-          );
-        },
-        headerBuilder: (context, columnData) {
-          return AppFlowyGroupHeader(
-            icon: const Icon(Icons.lightbulb_circle),
-            title: SizedBox(
-              width: 60,
-              child: TextField(
-                controller: TextEditingController()
-                  ..text = columnData.headerData.groupName,
-                onSubmitted: (val) {
-                  controller
-                      .getGroupController(columnData.headerData.groupId)!
-                      .updateGroupName(val);
-                },
-              ),
+      controller: controller,
+      cardBuilder: (context, group, groupItem) {
+        return AppFlowyGroupCard(
+          key: ValueKey(groupItem.id),
+          child: _buildCard(groupItem),
+        );
+      },
+      boardScrollController: boardController,
+      footerBuilder: (context, columnData) {
+        return AppFlowyGroupFooter(
+          icon: const Icon(Icons.add, size: 20),
+          title: const Text('New'),
+          height: 50,
+          margin: config.groupBodyPadding,
+          onAddButtonClick: () {
+            boardController.scrollToBottom(columnData.id);
+          },
+        );
+      },
+      headerBuilder: (context, columnData) {
+        return AppFlowyGroupHeader(
+          icon: const Icon(Icons.lightbulb_circle),
+          title: SizedBox(
+            width: 60,
+            child: TextField(
+              controller:
+                  TextEditingController()
+                    ..text = columnData.headerData.groupName,
+              onSubmitted: (val) {
+                controller
+                    .getGroupController(columnData.headerData.groupId)!
+                    .updateGroupName(val);
+              },
             ),
-            addIcon: const Icon(Icons.add, size: 20),
-            moreIcon: const Icon(Icons.more_horiz, size: 20),
-            height: 50,
-            margin: config.groupBodyPadding,
-          );
-        },
-        groupConstraints: const BoxConstraints.tightFor(width: 240),
-        config: config);
+          ),
+          addIcon: const Icon(Icons.add, size: 20),
+          moreIcon: const Icon(Icons.more_horiz, size: 20),
+          height: 50,
+          margin: config.groupBodyPadding,
+        );
+      },
+      groupConstraints: const BoxConstraints.tightFor(width: 240),
+      config: config,
+    );
   }
 
   Widget _buildCard(AppFlowyGroupItem item) {
@@ -148,18 +154,10 @@ class _MultiBoardListExampleState extends State<MultiBoardListExample> {
   }
 }
 
-class RichTextCard extends StatefulWidget {
+class RichTextCard extends StatelessWidget {
   final RichTextItem item;
-  const RichTextCard({
-    required this.item,
-    super.key,
-  });
+  const RichTextCard({required this.item, super.key});
 
-  @override
-  State<RichTextCard> createState() => _RichTextCardState();
-}
-
-class _RichTextCardState extends State<RichTextCard> {
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -170,15 +168,15 @@ class _RichTextCardState extends State<RichTextCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              widget.item.title,
+              item.title,
               style: const TextStyle(fontSize: 14),
               textAlign: TextAlign.left,
             ),
             const SizedBox(height: 10),
             Text(
-              widget.item.subtitle,
+              item.subtitle,
               style: const TextStyle(fontSize: 12, color: Colors.grey),
-            )
+            ),
           ],
         ),
       ),

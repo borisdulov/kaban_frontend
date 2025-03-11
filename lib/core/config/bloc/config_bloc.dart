@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kaban_frontend/core/config/config_state.dart';
+import 'package:kaban_frontend/core/config/bloc/config_state.dart';
 import 'package:kaban_frontend/core/config/model/di_container.dart';
 import 'package:kaban_frontend/core/domain/dependency.dart';
 import 'package:kaban_frontend/core/domain/env_type.dart';
@@ -13,10 +13,13 @@ typedef ConfigBuilder = BlocBuilder<ConfigBloc, ConfigState>;
 
 class ConfigBloc extends Cubit<ConfigState> {
   ConfigBloc(EnvType envType)
-      : super(ConfigState(
-            container: DIContainer(),
-            status: ConfigStatus.loading,
-            envType: envType)) {
+    : super(
+        ConfigState(
+          container: DIContainer(),
+          status: ConfigStatus.loading,
+          envType: envType,
+        ),
+      ) {
     init();
   }
 
@@ -24,5 +27,5 @@ class ConfigBloc extends Cubit<ConfigState> {
     emit(state.copyWith(status: ConfigStatus.success));
   }
 
-  T resolve<T extends Dependency>() => state.container.resolve<T>();
+  T resolve<T extends Dependency>() => state.container.get<T>();
 }

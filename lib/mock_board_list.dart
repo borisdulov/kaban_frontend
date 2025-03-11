@@ -103,132 +103,115 @@ class _MockBoardListState extends State<MockBoardList> {
     return AppFlowyGroupData(
       id: name,
       name: name,
-      items: tasks.map((task) => TaskItem(task)).toList(),
+      items: List<AppFlowyGroupItem>.from(
+        tasks.map((task) => TaskItem(task)).toList(),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Row(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(AppThemeSize.p40),
-              child: AppFlowyBoard(
-                controller: controller,
-                background: Container(color: Colors.white),
-                cardBuilder: (context, group, groupItem) {
-                  return AppFlowyGroupCard(
-                    key: ValueKey(groupItem.id),
+    return Padding(
+      padding: const EdgeInsets.all(AppThemeSize.p32),
+      child: AppFlowyBoard(
+        controller: controller,
 
-                    margin: EdgeInsets.symmetric(vertical: AppThemeSize.p8),
+        cardBuilder: (context, group, groupItem) {
+          return AppFlowyGroupCard(
+            key: ValueKey(groupItem.id),
 
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(AppThemeRadius.r16),
-                      border: Border.all(color: Color.fromRGBO(0, 0, 0, 0.2)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color.fromRGBO(0, 0, 0, 0.12),
-                          offset: Offset(0, 2),
-                          blurRadius: 6,
-                        ),
-                      ],
-                    ),
+            margin: EdgeInsets.symmetric(vertical: AppThemeSize.p8),
 
-                    child: _buildTaskCard(groupItem),
-                  );
-                },
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(AppThemeRadius.r16),
+              border: Border.all(color: Color.fromRGBO(0, 0, 0, 0.2)),
+            ),
 
-                headerBuilder: (context, columnData) {
-                  return AppFlowyGroupHeader(
-                    icon: const Icon(
-                      Icons.circle,
-                      color: Colors.green,
-                      size: 16,
-                    ),
+            child: _buildCard(groupItem),
+          );
+        },
 
-                    title: SizedBox(
-                      width: 140,
-                      child: Expanded(
-                        child: Text(
-                          columnData.headerData.groupName,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ),
+        headerBuilder: (context, columnData) {
+          return AppFlowyGroupHeader(
+            icon: const Icon(Icons.circle, color: Colors.green, size: 16),
 
-                    moreIcon: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            IconButton(
-                              onPressed:
-                                  () => _addNewTask(
-                                    columnData.headerData.groupId,
-                                  ),
-                              icon: Icon(
-                                Icons.add,
-                                size: 20,
-                                color: Color.fromRGBO(68, 68, 68, 1),
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.more_vert,
-                                size: 20,
-                                color: Color.fromRGBO(68, 68, 68, 1),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-
-                    margin: const EdgeInsets.only(left: AppThemeSize.p16),
-                  );
-                },
-
-                config: AppFlowyBoardConfig(
-                  stretchGroupHeight: false,
-                  groupBackgroundColor: Color.fromRGBO(248, 246, 245, 1),
-                  groupMargin: EdgeInsets.all(AppThemeSize.p12),
-                  groupCornerRadius: AppThemeRadius.r16,
-                ),
-
-                groupConstraints: BoxConstraints.tightFor(width: 300),
-
-                trailing: Container(
-                  padding: EdgeInsets.symmetric(
-                    vertical: AppThemeSize.p8,
-                    horizontal: AppThemeSize.p16,
-                  ),
-                  decoration: BoxDecoration(),
-                  child: _buildAddColumnButton(),
+            title: SizedBox(
+              width: 140,
+              child: Expanded(
+                child: Text(
+                  columnData.headerData.groupName,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ),
+
+            moreIcon: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      onPressed:
+                          () => _addNewTask(columnData.headerData.groupId),
+                      icon: Icon(
+                        Icons.add,
+                        size: 20,
+                        color: Color.fromRGBO(68, 68, 68, 1),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.more_vert,
+                        size: 20,
+                        color: Color.fromRGBO(68, 68, 68, 1),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+
+            margin: const EdgeInsets.only(left: AppThemeSize.p16),
+          );
+        },
+
+        config: AppFlowyBoardConfig(
+          stretchGroupHeight: false,
+          groupBackgroundColor: Color.fromRGBO(248, 246, 245, 1),
+          groupMargin: EdgeInsets.all(AppThemeSize.p12),
+          groupCornerRadius: AppThemeRadius.r16,
+          cardMargin: EdgeInsets.all(0),
+        ),
+
+        groupConstraints: BoxConstraints.tightFor(width: 300),
+
+        trailing: Container(
+          padding: EdgeInsets.symmetric(
+            vertical: AppThemeSize.p8,
+            horizontal: AppThemeSize.p16,
           ),
-        ],
+          decoration: BoxDecoration(),
+          child: _buildAddColumnButton(),
+        ),
       ),
     );
   }
 
-  Widget _buildTaskCard(AppFlowyGroupItem item) {
+  Widget _buildCard(AppFlowyGroupItem item) {
     if (item is TaskItem) {
       return TaskWidget(task: item.task);
     }
-    return const SizedBox.shrink();
+
+    throw UnimplementedError();
   }
 
   Widget _buildAddColumnButton() {
     return SmoothCard(
+      elevation: 0,
       borderRadius: BorderRadius.circular(AppThemeRadius.r16),
       color: const Color.fromRGBO(248, 246, 245, 1),
       child: SizedBox(

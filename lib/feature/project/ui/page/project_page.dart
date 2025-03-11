@@ -50,6 +50,7 @@ class ProjectPage extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: AppThemeSize.p8),
                     child: SmoothCard(
+                      elevation: 0,
                       borderRadius: BorderRadius.circular(AppThemeRadius.r8),
                       side: BorderSide(color: Color.fromRGBO(0, 0, 0, 0.2)),
                       color: Colors.white,
@@ -96,7 +97,7 @@ class ProjectPage extends StatelessWidget {
                         Image.asset('assets/png/avatar_group.png'),
 
                         SizedBox(width: AppThemeSize.p8),
-                        
+
                         Text(
                           '+1',
                           style: GoogleFonts.roboto(
@@ -113,6 +114,7 @@ class ProjectPage extends StatelessWidget {
         ),
       ),
       body: MockBoardList(),
+      backgroundColor: Colors.white, //TODO убрать
     );
   }
 }

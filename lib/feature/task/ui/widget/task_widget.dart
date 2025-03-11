@@ -55,6 +55,7 @@ class TaskWidget extends StatelessWidget {
                   side: BorderSide(color: Color.fromRGBO(0, 0, 0, 0.2)),
                   borderRadius: BorderRadius.circular(AppThemeRadius.r8),
                 ),
+                elevation: 0,
                 color: Colors.white,
                 child: Padding(
                   padding: EdgeInsets.all(AppThemeSize.p8),
@@ -85,6 +86,7 @@ class TaskWidget extends StatelessWidget {
                   side: BorderSide(color: Color.fromRGBO(0, 0, 0, 0.2)),
                   borderRadius: BorderRadius.circular(AppThemeRadius.r8),
                 ),
+                elevation: 0,
                 color: Color.fromRGBO(0, 255, 178, 0.2),
                 child: Padding(
                   padding: EdgeInsets.all(AppThemeSize.p8),
