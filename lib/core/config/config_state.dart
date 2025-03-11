@@ -1,14 +1,14 @@
-import 'package:kaban_frontend/core/di/di_container.dart';
+import 'package:kaban_frontend/core/config/model/di_container.dart';
 import 'package:kaban_frontend/core/domain/env_type.dart';
 
-enum ConfigStatus {
-  loading,
-  success;
-}
+enum ConfigStatus { loading, success }
 
 class ConfigState {
-  ConfigState(
-      {required this.container, required this.status, required this.envType});
+  ConfigState({
+    required this.container,
+    required this.status,
+    required this.envType,
+  });
 
   final DIContainer container;
   final ConfigStatus status;
