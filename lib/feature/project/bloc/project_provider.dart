@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kaban_frontend/core/config/config_bloc.dart';
+import 'package:kaban_frontend/core/config/bloc/config_bloc.dart';
 import 'package:kaban_frontend/feature/project/domain/repository/project_repository.dart';
 import 'package:kaban_frontend/feature/project/bloc/project_bloc.dart';
 
