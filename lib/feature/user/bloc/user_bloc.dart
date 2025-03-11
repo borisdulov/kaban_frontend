@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kaban_frontend/core/domain/entity/status.dart';
 import 'package:kaban_frontend/feature/user/domain/repository/user_repository.dart';
-import 'package:kaban_frontend/feature/user/model/user_state.dart';
+import 'package:kaban_frontend/feature/user/bloc/user_state.dart';
 
 extension UserExtension on BuildContext {
   UserCubit get userCubit => read<UserCubit>();

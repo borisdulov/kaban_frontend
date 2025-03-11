@@ -4,7 +4,7 @@ import 'package:kaban_frontend/core/domain/entity/status.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_priority_enum.dart';
 import 'package:kaban_frontend/feature/task/domain/repository/task_repository.dart';
-import 'package:kaban_frontend/feature/task/model/task_state.dart';
+import 'package:kaban_frontend/feature/task/bloc/task_state.dart';
 
 extension TaskExtension on BuildContext {
   TaskCubit get taskCubit => read<TaskCubit>();

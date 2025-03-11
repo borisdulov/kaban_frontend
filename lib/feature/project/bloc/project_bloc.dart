@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kaban_frontend/core/domain/entity/status.dart';
 import 'package:kaban_frontend/feature/project/domain/entity/project_entity.dart';
 import 'package:kaban_frontend/feature/project/domain/repository/project_repository.dart';
-import 'package:kaban_frontend/feature/project/model/project_state.dart';
+import 'package:kaban_frontend/feature/project/bloc/project_state.dart';
 
 extension ProjectExtension on BuildContext {
   ProjectCubit get projectCubit => read<ProjectCubit>();
