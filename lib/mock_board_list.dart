@@ -19,9 +19,15 @@ class MockBoardList extends StatefulWidget {
 
 class _MockBoardListState extends State<MockBoardList> {
   final AppFlowyBoardController controller = AppFlowyBoardController(
-    onMoveGroup: (fromGroupId, fromIndex, toGroupId, toIndex) {},
-    onMoveGroupItem: (groupId, fromIndex, toIndex) {},
-    onMoveGroupItemToGroup: (fromGroupId, fromIndex, toGroupId, toIndex) {},
+    onMoveGroup: (fromGroupId, fromIndex, toGroupId, toIndex) {
+      debugPrint('Move item from $fromIndex to $toIndex');
+    },
+    onMoveGroupItem: (groupId, fromIndex, toIndex) {
+      debugPrint('Move $groupId:$fromIndex to $groupId:$toIndex');
+    },
+    onMoveGroupItemToGroup: (fromGroupId, fromIndex, toGroupId, toIndex) {
+      debugPrint('Move $fromGroupId:$fromIndex to $toGroupId:$toIndex');
+    },
   );
 
   @override
@@ -123,6 +129,13 @@ class _MockBoardListState extends State<MockBoardList> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(AppThemeRadius.r16),
                       border: Border.all(color: Color.fromRGBO(0, 0, 0, 0.2)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color.fromRGBO(0, 0, 0, 0.12),
+                          offset: Offset(0, 2),
+                          blurRadius: 6,
+                        ),
+                      ],
                     ),
 
                     child: _buildTaskCard(groupItem),
@@ -138,33 +151,47 @@ class _MockBoardListState extends State<MockBoardList> {
                     ),
 
                     title: SizedBox(
-                      width: 120,
-                      child: Text(columnData.headerData.groupName),
-                    ),
-
-                    addIcon: IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.add,
-                        size: 20,
-                        color: Color.fromRGBO(68, 68, 68, 1),
+                      width: 140,
+                      child: Expanded(
+                        child: Text(
+                          columnData.headerData.groupName,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ),
 
-                    moreIcon: IconButton(
-                      onPressed:
-                          () => _addNewTask(columnData.headerData.groupId),
-                      icon: Icon(
-                        Icons.more_vert,
-                        size: 20,
-                        color: Color.fromRGBO(68, 68, 68, 1),
-                      ),
+                    moreIcon: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(
+                              onPressed:
+                                  () => _addNewTask(
+                                    columnData.headerData.groupId,
+                                  ),
+                              icon: Icon(
+                                Icons.add,
+                                size: 20,
+                                color: Color.fromRGBO(68, 68, 68, 1),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.more_vert,
+                                size: 20,
+                                color: Color.fromRGBO(68, 68, 68, 1),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
 
-                    margin: const EdgeInsets.only(
-                      left: AppThemeSize.p16,
-                      right: AppThemeSize.p16,
-                    ),
+                    margin: const EdgeInsets.only(left: AppThemeSize.p16),
                   );
                 },
 
@@ -174,7 +201,9 @@ class _MockBoardListState extends State<MockBoardList> {
                   groupMargin: EdgeInsets.all(AppThemeSize.p12),
                   groupCornerRadius: AppThemeRadius.r16,
                 ),
+
                 groupConstraints: BoxConstraints.tightFor(width: 300),
+
                 trailing: Container(
                   padding: EdgeInsets.symmetric(
                     vertical: AppThemeSize.p8,
