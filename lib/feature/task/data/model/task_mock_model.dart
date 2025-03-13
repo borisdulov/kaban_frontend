@@ -30,7 +30,7 @@ class TaskMockModel implements Task {
   @override
   final DateTime createdAt;
 
-  const TaskMockModel({
+  TaskMockModel({
     required this.taskId,
     required this.title,
     this.description,

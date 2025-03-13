@@ -19,7 +19,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border(
-          bottom: BorderSide(color: context.colorScheme.error, width: 1),
+          bottom: BorderSide(color: context.colorScheme.onSurface, width: 1),
         ),
       ),
       child: Padding(
