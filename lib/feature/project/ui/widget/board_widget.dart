@@ -3,7 +3,6 @@ import 'package:appflowy_board/appflowy_board.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kaban_frontend/core/theme/domain/entity/app_theme_size.dart';
 import 'package:kaban_frontend/core/theme/entity/app_theme_radius.dart';
-import 'package:kaban_frontend/feature/task/data/model/task_api_model.dart';
 import 'package:kaban_frontend/feature/task/data/model/task_mock_model.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_priority_enum.dart';
@@ -30,9 +29,12 @@ class _BoardWidgetState extends State<BoardWidget> {
     },
   );
 
+  late AppFlowyBoardScrollController boardController;
+
   @override
   void initState() {
     super.initState();
+    boardController = AppFlowyBoardScrollController();
     _initializeBoard();
   }
 
@@ -47,15 +49,8 @@ class _BoardWidgetState extends State<BoardWidget> {
       _buildColumn('In Progress', [
         TaskMockModel.random(),
         TaskMockModel.random(),
-        TaskMockModel.random(),
-        TaskMockModel.random(),
       ]),
-      _buildColumn('Done', [
-        TaskMockModel.random(),
-        TaskMockModel.random(),
-        TaskMockModel.random(),
-        TaskMockModel.random(),
-      ]),
+      _buildColumn('Done', [TaskMockModel.random()]),
     ];
 
     for (final column in columns) {
@@ -79,27 +74,30 @@ class _BoardWidgetState extends State<BoardWidget> {
       padding: const EdgeInsets.all(AppThemeSize.p32),
       child: AppFlowyBoard(
         controller: controller,
-
+        boardScrollController: boardController,
         cardBuilder: (context, group, groupItem) {
           return AppFlowyGroupCard(
             key: ValueKey(groupItem.id),
-
+    
             margin: EdgeInsets.symmetric(vertical: AppThemeSize.p8),
-
+    
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(AppThemeRadius.r16),
               border: Border.all(color: Color.fromRGBO(0, 0, 0, 0.2)),
             ),
-
+    
             child: _buildCard(groupItem),
           );
         },
-
+    
         headerBuilder: (context, columnData) {
           return AppFlowyGroupHeader(
+            onAddButtonClick: () {
+              boardController.scrollToBottom(columnData.id);
+            },
             icon: const Icon(Icons.circle, color: Colors.green, size: 16),
-
+    
             title: SizedBox(
               width: 140,
               child: Expanded(
@@ -109,7 +107,7 @@ class _BoardWidgetState extends State<BoardWidget> {
                 ),
               ),
             ),
-
+    
             moreIcon: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -138,11 +136,11 @@ class _BoardWidgetState extends State<BoardWidget> {
                 ),
               ],
             ),
-
+    
             margin: const EdgeInsets.only(left: AppThemeSize.p16),
           );
         },
-
+    
         config: AppFlowyBoardConfig(
           stretchGroupHeight: false,
           groupBackgroundColor: Color.fromRGBO(248, 246, 245, 1),
@@ -150,9 +148,9 @@ class _BoardWidgetState extends State<BoardWidget> {
           groupCornerRadius: AppThemeRadius.r16,
           cardMargin: EdgeInsets.all(0),
         ),
-
+    
         groupConstraints: BoxConstraints.tightFor(width: 300),
-
+    
         trailing: Container(
           padding: EdgeInsets.symmetric(
             vertical: AppThemeSize.p8,
@@ -201,9 +199,9 @@ class _BoardWidgetState extends State<BoardWidget> {
   }
 
   void _addNewTask(String columnId) {
-    final newTask = TaskAPIModel(
+    final newTask = TaskMockModel(
       taskId: DateTime.now().toString(),
-      title: 'Новая задача',
+      title: 'New task',
       priority: TaskPriority.medium,
       categoryId: '',
       isCompleted: false,
