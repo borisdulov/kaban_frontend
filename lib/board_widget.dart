@@ -10,14 +10,14 @@ import 'package:kaban_frontend/feature/task/domain/entity/task_priority_enum.dar
 import 'package:kaban_frontend/feature/task/ui/widget/task_widget.dart';
 import 'package:smooth_corner/smooth_corner.dart';
 
-class MockBoardList extends StatefulWidget {
-  const MockBoardList({super.key});
+class BoardWidget extends StatefulWidget {
+  const BoardWidget({super.key});
 
   @override
-  State<MockBoardList> createState() => _MockBoardListState();
+  State<BoardWidget> createState() => _BoardWidgetState();
 }
 
-class _MockBoardListState extends State<MockBoardList> {
+class _BoardWidgetState extends State<BoardWidget> {
   final AppFlowyBoardController controller = AppFlowyBoardController(
     onMoveGroup: (fromGroupId, fromIndex, toGroupId, toIndex) {
       debugPrint('Move item from $fromIndex to $toIndex');
@@ -39,58 +39,22 @@ class _MockBoardListState extends State<MockBoardList> {
   void _initializeBoard() {
     final columns = [
       _buildColumn('Backlog', [
-        TaskMockModel(
-          taskId: '1',
-          title: 'Я устал сидеть в фигме',
-          priority: TaskPriority.high,
-          categoryId: '',
-          isCompleted: false,
-          createdAt: DateTime.now(),
-        ),
-        TaskMockModel(
-          taskId: '2',
-          title: 'Название задачи.',
-          priority: TaskPriority.medium,
-          categoryId: '',
-          isCompleted: false,
-          createdAt: DateTime.now(),
-        ),
-        TaskMockModel(
-          taskId: '3',
-          title: 'Название задачи',
-          categoryId: '',
-          isCompleted: false,
-          priority: TaskPriority.high,
-          createdAt: DateTime.now(),
-        ),
+        TaskMockModel.random(),
+        TaskMockModel.random(),
+        TaskMockModel.random(),
+        TaskMockModel.random(),
       ]),
       _buildColumn('In Progress', [
-        TaskMockModel(
-          taskId: '4',
-          title: 'Устал уставать',
-          priority: TaskPriority.high,
-          categoryId: '',
-          isCompleted: false,
-          createdAt: DateTime.now(),
-        ),
-        TaskMockModel(
-          taskId: '5',
-          title: 'Название задачи',
-          categoryId: '',
-          isCompleted: false,
-          priority: TaskPriority.low,
-          createdAt: DateTime.now(),
-        ),
+        TaskMockModel.random(),
+        TaskMockModel.random(),
+        TaskMockModel.random(),
+        TaskMockModel.random(),
       ]),
       _buildColumn('Done', [
-        TaskMockModel(
-          taskId: '6',
-          title: 'Тестирование',
-          priority: TaskPriority.low,
-          categoryId: '',
-          isCompleted: true,
-          createdAt: DateTime.now(),
-        ),
+        TaskMockModel.random(),
+        TaskMockModel.random(),
+        TaskMockModel.random(),
+        TaskMockModel.random(),
       ]),
     ];
 

@@ -1,4 +1,4 @@
-import 'package:kaban_frontend/core/domain/dependency.dart';
+import 'package:kaban_frontend/core/domain/entity/dependency.dart';
 
 class DIContainer {
   final Map<Type, Dependency> _dependencies = {};
