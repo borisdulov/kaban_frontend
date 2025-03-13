@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:kaban_frontend/core/theme/entity/app_theme_radius.dart';
 import 'package:kaban_frontend/core/theme/entity/app_theme_size.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
@@ -69,7 +70,9 @@ class TaskWidget extends StatelessWidget {
                       ),
                       SizedBox(width: AppThemeSize.p4),
                       Text(
-                        '33 feb',
+                        task.dueDate != null
+                            ? DateFormat('dd.MM').format(task.dueDate!)
+                            : '--.--',
                         style: GoogleFonts.inter(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
