@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class IconButtonWidget extends StatelessWidget {
   final String assetPath;
@@ -19,7 +20,7 @@ class IconButtonWidget extends StatelessWidget {
       height: size,
       child: IconButton(
         onPressed: onPressed,
-        icon: Image.asset(assetPath),
+        icon: SvgPicture.asset(assetPath),
         padding: EdgeInsets.zero,
       ),
     );

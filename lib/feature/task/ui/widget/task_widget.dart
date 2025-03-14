@@ -1,9 +1,11 @@
 import 'package:appflowy_board/appflowy_board.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:kaban_frontend/core/theme/entity/app_theme_radius.dart';
-import 'package:kaban_frontend/core/theme/entity/app_theme_size.dart';
+import 'package:kaban_frontend/core/constants/app_assets.dart';
+import 'package:kaban_frontend/core/constants/app_radius.dart';
+import 'package:kaban_frontend/core/constants/app_size.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
 
 class TaskWidget extends StatelessWidget {
@@ -15,14 +17,14 @@ class TaskWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppFlowyGroupCard(
       key: ValueKey('${task.taskId}52'),
-      margin: EdgeInsets.symmetric(vertical: AppThemeSize.p8),
+      margin: EdgeInsets.symmetric(vertical: AppSize.p8),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(AppThemeRadius.r16),
+        borderRadius: BorderRadius.circular(AppRadius.r16),
         border: Border.all(color: Color.fromRGBO(0, 0, 0, 0.2)),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(AppThemeSize.p8),
+        padding: const EdgeInsets.all(AppSize.p8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -30,7 +32,7 @@ class TaskWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: AppThemeSize.p4),
+                  padding: EdgeInsets.only(left: AppSize.p4),
                   child: Text(
                     task.title,
                     style: GoogleFonts.inter(
@@ -54,27 +56,23 @@ class TaskWidget extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: AppThemeSize.p8),
+            SizedBox(height: AppSize.p8),
             Row(
               children: [
                 Card(
                   shape: RoundedRectangleBorder(
                     side: BorderSide(color: Color.fromRGBO(0, 0, 0, 0.2)),
-                    borderRadius: BorderRadius.circular(AppThemeRadius.r8),
+                    borderRadius: BorderRadius.circular(AppRadius.r8),
                   ),
                   elevation: 0,
                   color: Colors.white,
                   child: Padding(
-                    padding: EdgeInsets.all(AppThemeSize.p8),
+                    padding: EdgeInsets.all(AppSize.p8),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Image.asset(
-                          'assets/png/clock.png',
-                          width: 16,
-                          height: 16,
-                        ),
-                        SizedBox(width: AppThemeSize.p4),
+                        SvgPicture.asset(AppAssets.clock),
+                        SizedBox(width: AppSize.p4),
                         Text(
                           task.dueDate != null
                               ? DateFormat('dd.MM').format(task.dueDate!)
@@ -93,21 +91,17 @@ class TaskWidget extends StatelessWidget {
                 Card(
                   shape: RoundedRectangleBorder(
                     side: BorderSide(color: Color.fromRGBO(0, 0, 0, 0.2)),
-                    borderRadius: BorderRadius.circular(AppThemeRadius.r8),
+                    borderRadius: BorderRadius.circular(AppRadius.r8),
                   ),
                   elevation: 0,
                   color: Color.fromRGBO(0, 255, 178, 0.2),
                   child: Padding(
-                    padding: EdgeInsets.all(AppThemeSize.p8),
+                    padding: EdgeInsets.all(AppSize.p8),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Image.asset(
-                          'assets/png/bar_chart.png',
-                          width: 16,
-                          height: 16,
-                        ),
-                        SizedBox(width: AppThemeSize.p4),
+                        SvgPicture.asset(AppAssets.barChart),
+                        SizedBox(width: AppSize.p4),
                         Text(
                           task.priority.toString().split('.').last,
                           style: GoogleFonts.inter(
@@ -122,12 +116,12 @@ class TaskWidget extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: AppThemeSize.p8),
+            SizedBox(height: AppSize.p8),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Image.asset('assets/png/avatar_group.png'),
-                SizedBox(width: AppThemeSize.p8),
+                Image.asset(AppAssets.avatarGroup),
+                SizedBox(width: AppSize.p8),
                 Text(
                   '+1',
                   style: GoogleFonts.roboto(

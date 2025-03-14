@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:appflowy_board/appflowy_board.dart';
 import 'package:kaban_frontend/core/theme/domain/entity/app_theme_size.dart';
-import 'package:kaban_frontend/core/theme/entity/app_theme_radius.dart';
+import 'package:kaban_frontend/core/constants/app_radius.dart';
 import 'package:kaban_frontend/feature/project/ui/widget/add_column_button.dart';
 import 'package:kaban_frontend/feature/project/ui/widget/column_board_header.dart';
 import 'package:kaban_frontend/feature/task/data/model/task_mock_model.dart';
@@ -103,7 +103,7 @@ class _BoardWidgetState extends State<BoardWidget> {
         stretchGroupHeight: false,
         groupBackgroundColor: Color.fromRGBO(248, 246, 245, 1),
         groupMargin: EdgeInsets.all(AppThemeSize.p12),
-        groupCornerRadius: AppThemeRadius.r16,
+        groupCornerRadius: AppRadius.r16,
         cardMargin: EdgeInsets.all(0),
       ),
 

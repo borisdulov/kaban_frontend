@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kaban_frontend/core/theme/entity/app_theme_size.dart';
+import 'package:kaban_frontend/core/constants/app_assets.dart';
+import 'package:kaban_frontend/core/constants/app_size.dart';
 import 'package:kaban_frontend/feature/dashboard/ui/widget/icon_button_widget.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -15,7 +16,7 @@ class DashboardPage extends StatelessWidget {
       body: Row(
         children: [
           SizedBox(
-            width: AppThemeSize.p64,
+            width: AppSize.p64,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 21),
               child: Column(
@@ -23,11 +24,11 @@ class DashboardPage extends StatelessWidget {
                   Column(
                     children: [
                       IconButtonWidget(
-                        assetPath: 'assets/png/sidebar.png',
+                        assetPath: AppAssets.sideBar,
                         onPressed: () => navigationShell.goBranch(0),
                       ),
 
-                      SizedBox(height: AppThemeSize.p22),
+                      SizedBox(height: AppSize.p22),
 
                       Container(
                         width: 32,
@@ -35,24 +36,24 @@ class DashboardPage extends StatelessWidget {
                         color: Color.fromRGBO(217, 217, 217, 1),
                       ),
 
-                      SizedBox(height: AppThemeSize.p22),
+                      SizedBox(height: AppSize.p22),
 
                       IconButtonWidget(
-                        onPressed: () => navigationShell.goBranch(1),
-                        assetPath: 'assets/png/columns.png',
-                      ),
-
-                      SizedBox(height: AppThemeSize.p44),
-
-                      IconButtonWidget(
-                        assetPath: 'assets/png/check_square.png',
+                        assetPath: AppAssets.columns,
                         onPressed: () => navigationShell.goBranch(1),
                       ),
 
-                      SizedBox(height: AppThemeSize.p44),
+                      SizedBox(height: AppSize.p44),
 
                       IconButtonWidget(
-                        assetPath: 'assets/png/briefcase.png',
+                        assetPath: AppAssets.checkSquare,
+                        onPressed: () => navigationShell.goBranch(1),
+                      ),
+
+                      SizedBox(height: AppSize.p44),
+
+                      IconButtonWidget(
+                        assetPath: AppAssets.briefcase,
                         onPressed: () => navigationShell.goBranch(1),
                       ),
                     ],
@@ -62,13 +63,12 @@ class DashboardPage extends StatelessWidget {
 
                   Column(
                     children: [
-                      IconButtonWidget(
-                        assetPath: 'assets/png/avatar_account.png',
+                      IconButton(
+                        icon: Image.asset(AppAssets.avatarAccount),
                         onPressed: () => navigationShell.goBranch(1),
-                        size: 32,
                       ),
 
-                      SizedBox(height: AppThemeSize.p16),
+                      SizedBox(height: AppSize.p16),
 
                       Container(
                         width: 32,
@@ -76,10 +76,10 @@ class DashboardPage extends StatelessWidget {
                         color: Color.fromRGBO(217, 217, 217, 1),
                       ),
 
-                      SizedBox(height: AppThemeSize.p16),
+                      SizedBox(height: AppSize.p16),
 
                       IconButtonWidget(
-                        assetPath: 'assets/png/settings.png',
+                        assetPath: AppAssets.settings,
                         onPressed: () => navigationShell.goBranch(1),
                       ),
                     ],

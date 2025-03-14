@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kaban_frontend/core/constants/app_assets.dart';
 import 'package:kaban_frontend/core/theme/domain/cubit/theme_bloc.dart';
 import 'package:kaban_frontend/core/theme/domain/entity/app_theme_size.dart';
-import 'package:kaban_frontend/core/theme/entity/app_theme_radius.dart';
+import 'package:kaban_frontend/core/constants/app_radius.dart';
 import 'package:kaban_frontend/feature/project/domain/entity/project_entity.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
-  final Project project;
-
   const AppBarWidget({super.key, required this.project});
+
+  final Project project;
 
   @override
   Size get preferredSize => const Size.fromHeight(64);
@@ -61,27 +62,21 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                             horizontal: 11,
                           ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              AppThemeRadius.r8,
-                            ),
+                            borderRadius: BorderRadius.circular(AppRadius.r8),
                             borderSide: BorderSide(
                               color: Color.fromRGBO(0, 0, 0, 0.2),
                               width: 1.0,
                             ),
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              AppThemeRadius.r8,
-                            ),
+                            borderRadius: BorderRadius.circular(AppRadius.r8),
                             borderSide: BorderSide(
                               color: Color.fromRGBO(0, 0, 0, 0.2),
                               width: 1.0,
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              AppThemeRadius.r8,
-                            ),
+                            borderRadius: BorderRadius.circular(AppRadius.r8),
                             borderSide: BorderSide(
                               color: Color.fromRGBO(0, 0, 0, 0.4),
                               width: 1.5,
@@ -98,11 +93,8 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                //TODO вынести
-                Image.asset('assets/png/avatar_group.png'),
-
+                Image.asset(AppAssets.avatarGroup),
                 SizedBox(width: AppThemeSize.p8),
-
                 Text(
                   '+1',
                   style: GoogleFonts.roboto(
