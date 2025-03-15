@@ -1,12 +1,13 @@
 import 'package:appflowy_board/appflowy_board.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:kaban_frontend/core/constants/app_assets.dart';
 import 'package:kaban_frontend/core/constants/app_radius.dart';
 import 'package:kaban_frontend/core/constants/app_size.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
+import 'package:kaban_frontend/feature/task/ui/widget/date_tag.dart';
+import 'package:kaban_frontend/feature/task/ui/widget/priority_tag.dart';
+import 'package:kaban_frontend/feature/task/ui/widget/subtasks_tag.dart';
 
 class TaskWidget extends StatelessWidget {
   final Task task;
@@ -59,61 +60,11 @@ class TaskWidget extends StatelessWidget {
             SizedBox(height: AppSize.p8),
             Row(
               children: [
-                Card(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Color.fromRGBO(0, 0, 0, 0.2)),
-                    borderRadius: BorderRadius.circular(AppRadius.r8),
-                  ),
-                  elevation: 0,
-                  color: Colors.white,
-                  child: Padding(
-                    padding: EdgeInsets.all(AppSize.p8),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SvgPicture.asset(AppAssets.clock),
-                        SizedBox(width: AppSize.p4),
-                        Text(
-                          task.dueDate != null
-                              ? DateFormat('dd.MM').format(task.dueDate!)
-                              : '--.--',
-                          style: GoogleFonts.inter(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromRGBO(68, 68, 68, 1),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(width: 4),
-                Card(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Color.fromRGBO(0, 0, 0, 0.2)),
-                    borderRadius: BorderRadius.circular(AppRadius.r8),
-                  ),
-                  elevation: 0,
-                  color: Color.fromRGBO(0, 255, 178, 0.2),
-                  child: Padding(
-                    padding: EdgeInsets.all(AppSize.p8),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SvgPicture.asset(AppAssets.barChart),
-                        SizedBox(width: AppSize.p4),
-                        Text(
-                          task.priority.toString().split('.').last,
-                          style: GoogleFonts.inter(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromRGBO(68, 68, 68, 1),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                DateTag(date: task.dueDate),
+                SizedBox(width: AppSize.p4), //возможно вынеси
+                PriorityTag(priority: task.priority),
+                SizedBox(width: AppSize.p4),
+                SubtasksTag(),
               ],
             ),
             SizedBox(height: AppSize.p8),
