@@ -13,7 +13,7 @@ class PriorityTag extends StatelessWidget {
     return TagWidget(
       iconPath: AppAssets.barChart,
       text: priority.str,
-      backgroundColor: Color.fromRGBO(0, 255, 178, 0.2),
+      backgroundColor: priority.backgroundColor,
     );
   }
 }
