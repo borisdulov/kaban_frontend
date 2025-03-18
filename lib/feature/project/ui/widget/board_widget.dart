@@ -39,7 +39,6 @@ class _BoardWidgetState extends State<BoardWidget> {
     _initializeBoard();
   }
 
-  //TODO в блок
   void _initializeBoard() {
     final columns = [
       _createColumnData('Backlog', [
@@ -60,7 +59,6 @@ class _BoardWidgetState extends State<BoardWidget> {
     }
   }
 
-  //TODO вынести в блок(возможно)
   AppFlowyGroupData _createColumnData(String name, List<Task> tasks) {
     return AppFlowyGroupData(
       id: name + Random().nextInt(300).toString(),
@@ -120,7 +118,6 @@ class _BoardWidgetState extends State<BoardWidget> {
     );
   }
 
-  //TODO вынести в блок
   void _addNewTask(String columnId) {
     final newTask = TaskMockModel.random();
 
@@ -129,7 +126,6 @@ class _BoardWidgetState extends State<BoardWidget> {
     });
   }
 
-  //TODO вынести в блок
   void _addNewColumn() {
     final newColumn = _createColumnData('Новая колонка', []);
 

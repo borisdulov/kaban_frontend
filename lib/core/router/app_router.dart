@@ -8,7 +8,7 @@ import 'package:kaban_frontend/feature/project/ui/page/project_page.dart';
 abstract final class AppRouter {
   static final config = GoRouter(
     navigatorKey: NavigationKey.root,
-    initialLocation: ProjectPage.path,
+    initialLocation: "/placeholder",
     routes: [
       StatefulShellRoute.indexedStack(
         builder:
@@ -18,18 +18,18 @@ abstract final class AppRouter {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: ProjectPage.path,
-                name: ProjectPage.name,
-                builder: (context, state) => ProjectPage(),
+                path: '/placeholder',
+                name: 'Placeholder',
+                builder: (context, state) => Placeholder(),
               ),
             ],
           ),
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: '/placeholder',
-                name: 'Placeholder',
-                builder: (context, state) => Placeholder(),
+                path: ProjectPage.path,
+                name: ProjectPage.name,
+                builder: (context, state) => ProjectPage(),
               ),
             ],
           ),

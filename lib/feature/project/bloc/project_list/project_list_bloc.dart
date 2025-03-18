@@ -1,22 +1,22 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kaban_frontend/core/domain/entity/status.dart';
+import 'package:kaban_frontend/feature/project/bloc/project_list/project_list_state.dart';
 import 'package:kaban_frontend/feature/project/domain/entity/project_entity.dart';
 import 'package:kaban_frontend/feature/project/domain/repository/project_repository.dart';
-import 'package:kaban_frontend/feature/project/bloc/project_state.dart';
 
-extension ProjectExtension on BuildContext {
-  ProjectCubit get projectCubit => read<ProjectCubit>();
+extension ProjectListExtension on BuildContext {
+  ProjectListCubit get projectCubit => read<ProjectListCubit>();
 }
 
-typedef ProjectBuilder = BlocBuilder<ProjectCubit, ProjectState>;
+typedef ProjectListBuilder = BlocBuilder<ProjectListCubit, ProjectListState>;
 
-class ProjectCubit extends Cubit<ProjectState> {
+class ProjectListCubit extends Cubit<ProjectListState> {
   final ProjectRepository _projectRepository;
 
-  ProjectCubit({required ProjectRepository projectRepository})
+  ProjectListCubit({required ProjectRepository projectRepository})
     : _projectRepository = projectRepository,
-      super(const ProjectState(status: Status.loading)) {
+      super(const ProjectListState(status: Status.loading)) {
     fetchProjects();
   }
 
@@ -24,9 +24,9 @@ class ProjectCubit extends Cubit<ProjectState> {
     emit(state.copyWith(status: Status.loading));
     try {
       final projects = await _projectRepository.getAllProjects();
-      emit(ProjectState(status: Status.success, projects: projects));
+      emit(ProjectListState(status: Status.success, projects: projects));
     } catch (e) {
-      emit(ProjectState(status: Status.failure, error: e.toString()));
+      emit(ProjectListState(status: Status.failure, error: e.toString()));
     }
   }
 
@@ -143,5 +143,6 @@ class ProjectCubit extends Cubit<ProjectState> {
   }
 }
 
-typedef ProjectSelector<T> = BlocSelector<ProjectCubit, ProjectState, T>;
-typedef ProjectListener = BlocListener<ProjectCubit, ProjectState>;
+typedef ProjectSelector<T> =
+    BlocSelector<ProjectListCubit, ProjectListState, T>;
+typedef ProjectListener = BlocListener<ProjectListCubit, ProjectListState>;
