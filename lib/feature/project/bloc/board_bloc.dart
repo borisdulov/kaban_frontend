@@ -1,10 +1,10 @@
 import 'dart:math';
-
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:appflowy_board/appflowy_board.dart';
 import 'package:kaban_frontend/core/domain/entity/status.dart';
 import 'package:kaban_frontend/feature/project/bloc/board_state.dart';
+import 'package:kaban_frontend/feature/project/domain/repository/project_repository.dart';
 import 'package:kaban_frontend/feature/task/data/model/task_mock_model.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
 
@@ -17,6 +17,7 @@ typedef BoardSelector<T> = BlocSelector<BoardCubit, BoardState, T>;
 typedef BoardListener = BlocListener<BoardCubit, BoardState>;
 
 class BoardCubit extends Cubit<BoardState> {
+  final ProjectRepository _projectRepository;
   final AppFlowyBoardController boardController = AppFlowyBoardController(
     onMoveGroup: (fromGroupId, fromIndex, toGroupId, toIndex) {
       debugPrint('Move item from $fromIndex to $toIndex');
@@ -29,14 +30,21 @@ class BoardCubit extends Cubit<BoardState> {
     },
   );
 
-  BoardCubit() : super(const BoardState(status: Status.loading)) {
-    initializeBoard();
+  final AppFlowyBoardScrollController boardScrollController =
+      AppFlowyBoardScrollController();
+
+  BoardCubit({required ProjectRepository projectRepository})
+    : _projectRepository = projectRepository,
+      super(const BoardState(status: Status.loading)) {
+    loadProjectBoard();
   }
 
-  void initializeBoard() {
+  Future<void> loadProjectBoard() async {
     emit(state.copyWith(status: Status.loading));
 
     try {
+      final project = await _projectRepository.getProjectById('1');
+
       final columns = [
         _createColumnData('Backlog', [
           TaskMockModel.random(),
@@ -51,11 +59,14 @@ class BoardCubit extends Cubit<BoardState> {
         _createColumnData('Done', [TaskMockModel.random()]),
       ];
 
+      boardController.clear();
       for (final column in columns) {
         boardController.addGroup(column);
       }
 
-      emit(BoardState(status: Status.success, columns: columns));
+      emit(
+        BoardState(status: Status.success, columns: columns, project: project),
+      );
     } catch (e) {
       emit(BoardState(status: Status.failure, error: e.toString()));
     }
