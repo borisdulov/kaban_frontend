@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:appflowy_board/appflowy_board.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kaban_frontend/core/theme/domain/entity/app_theme_size.dart';
+import 'package:kaban_frontend/core/theme/data/entity/app_theme_size.dart';
 import 'package:kaban_frontend/core/constants/app_radius.dart';
 import 'package:kaban_frontend/feature/project/bloc/board/board_bloc.dart';
 import 'package:kaban_frontend/feature/project/bloc/board/board_state.dart';

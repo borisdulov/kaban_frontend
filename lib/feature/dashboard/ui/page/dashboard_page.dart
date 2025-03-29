@@ -11,8 +11,9 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: colorScheme.surface,
       body: Row(
         children: [
           SizedBox(
@@ -26,6 +27,7 @@ class DashboardPage extends StatelessWidget {
                       IconButtonWidget(
                         assetPath: AppAssets.sideBar,
                         onPressed: () => navigationShell.goBranch(0),
+                        color: colorScheme.onSurface,
                       ),
 
                       SizedBox(height: AppSize.p22),
@@ -33,7 +35,7 @@ class DashboardPage extends StatelessWidget {
                       Container(
                         width: 32,
                         height: 1,
-                        color: Color.fromRGBO(217, 217, 217, 1),
+                        color: colorScheme.onSurface.withOpacity(0.2),
                       ),
 
                       SizedBox(height: AppSize.p22),
@@ -41,6 +43,7 @@ class DashboardPage extends StatelessWidget {
                       IconButtonWidget(
                         assetPath: AppAssets.columns,
                         onPressed: () => navigationShell.goBranch(1),
+                        color: colorScheme.onSurface,
                       ),
 
                       SizedBox(height: AppSize.p44),
@@ -48,6 +51,7 @@ class DashboardPage extends StatelessWidget {
                       IconButtonWidget(
                         assetPath: AppAssets.checkSquare,
                         onPressed: () => navigationShell.goBranch(1),
+                        color: colorScheme.onSurface,
                       ),
 
                       SizedBox(height: AppSize.p44),
@@ -55,6 +59,7 @@ class DashboardPage extends StatelessWidget {
                       IconButtonWidget(
                         assetPath: AppAssets.briefcase,
                         onPressed: () => navigationShell.goBranch(1),
+                        color: colorScheme.onSurface,
                       ),
                     ],
                   ),
@@ -66,6 +71,7 @@ class DashboardPage extends StatelessWidget {
                       IconButton(
                         icon: Image.asset(AppAssets.avatarAccount),
                         onPressed: () => navigationShell.goBranch(1),
+                        color: colorScheme.onSurface,
                       ),
 
                       SizedBox(height: AppSize.p16),
@@ -73,7 +79,7 @@ class DashboardPage extends StatelessWidget {
                       Container(
                         width: 32,
                         height: 1,
-                        color: Color.fromRGBO(217, 217, 217, 1),
+                        color: colorScheme.onSurface.withOpacity(0.4),
                       ),
 
                       SizedBox(height: AppSize.p16),
@@ -81,6 +87,7 @@ class DashboardPage extends StatelessWidget {
                       IconButtonWidget(
                         assetPath: AppAssets.settings,
                         onPressed: () => navigationShell.goBranch(1),
+                        color: colorScheme.onSurface,
                       ),
                     ],
                   ),
@@ -93,7 +100,7 @@ class DashboardPage extends StatelessWidget {
             decoration: BoxDecoration(
               border: Border(
                 right: BorderSide(
-                  color: Color.fromRGBO(0, 0, 0, 0.2),
+                  color: colorScheme.onSurface.withOpacity(0.2),
                   width: 1,
                 ),
               ),

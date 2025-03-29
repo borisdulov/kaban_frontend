@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kaban_frontend/core/theme/domain/entity/app_theme_size.dart';
+import 'package:kaban_frontend/core/theme/data/entity/app_theme_size.dart';
 
 class CategoryWidget extends StatelessWidget {
   final String title;
@@ -21,7 +21,6 @@ class CategoryWidget extends StatelessWidget {
       width: 280,
       margin: EdgeInsets.symmetric(horizontal: AppThemeSize.p16),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8F6F5),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(

@@ -1,6 +1,6 @@
 import 'package:appflowy_board/appflowy_board.dart';
 import 'package:flutter/material.dart';
-import 'package:kaban_frontend/core/theme/domain/entity/app_theme_size.dart';
+import 'package:kaban_frontend/core/theme/data/entity/app_theme_size.dart';
 
 class ColumnBoardHeader extends StatelessWidget {
   const ColumnBoardHeader({
