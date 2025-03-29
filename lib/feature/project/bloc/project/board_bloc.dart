@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:appflowy_board/appflowy_board.dart';
 import 'package:kaban_frontend/core/domain/entity/status.dart';
-import 'package:kaban_frontend/feature/project/bloc/board_state.dart';
+import 'package:kaban_frontend/feature/project/bloc/project/board_state.dart';
 import 'package:kaban_frontend/feature/project/domain/repository/project_repository.dart';
 import 'package:kaban_frontend/feature/task/data/model/task_mock_model.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
@@ -36,10 +36,10 @@ class BoardCubit extends Cubit<BoardState> {
   BoardCubit({required ProjectRepository projectRepository})
     : _projectRepository = projectRepository,
       super(const BoardState(status: Status.loading)) {
-    loadProjectBoard();
+    load();
   }
 
-  Future<void> loadProjectBoard() async {
+  Future<void> load() async {
     emit(state.copyWith(status: Status.loading));
 
     try {
