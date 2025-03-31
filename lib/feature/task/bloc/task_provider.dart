@@ -6,7 +6,7 @@ import 'package:kaban_frontend/feature/task/bloc/task_bloc.dart';
 abstract final class TaskProvider {
   static BlocProvider<TaskCubit> get instance => BlocProvider(
     create: (context) {
-      var repo = context.configCubit.resolve<TaskRepository>();
+      var repo = context.configCubit.get<TaskRepository>();
       return TaskCubit(taskRepository: repo);
     },
   );
