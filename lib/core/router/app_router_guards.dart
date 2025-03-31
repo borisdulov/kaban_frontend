@@ -9,7 +9,7 @@ abstract final class AppRouterGuards {
     BuildContext context,
     GoRouterState state,
   ) {
-    final authState = AuthCubit.i(context).state;
+    final authState = AuthBloc.i(context).state;
 
     if (authState is AuthCubitAuthorized) {
       return '/dashboard';
@@ -22,7 +22,7 @@ abstract final class AppRouterGuards {
     BuildContext context,
     GoRouterState state,
   ) {
-    final authState = AuthCubit.i(context).state;
+    final authState = AuthBloc.i(context).state;
 
     if (authState is AuthCubitUnauthorized) {
       return '/auth/login';

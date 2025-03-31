@@ -6,7 +6,7 @@ import 'package:kaban_frontend/feature/project/bloc/project_list/project_list_bl
 abstract final class ProjectListProvider {
   static BlocProvider<ProjectListCubit> get instance => BlocProvider(
     create: (context) {
-      var repo = context.configCubit.resolve<ProjectRepository>();
+      var repo = context.configCubit.get<ProjectRepository>();
       return ProjectListCubit(projectRepository: repo);
     },
   );

@@ -1,7 +1,7 @@
-abstract base class AuthCubitState {}
+abstract base class AuthState {}
 
-final class AuthCubitLoading implements AuthCubitState {}
+final class AuthCubitLoading implements AuthState {}
 
-final class AuthCubitAuthorized implements AuthCubitState {}
+final class AuthCubitAuthorized implements AuthState {}
 
-final class AuthCubitUnauthorized implements AuthCubitState {}
+final class AuthCubitUnauthorized implements AuthState {}

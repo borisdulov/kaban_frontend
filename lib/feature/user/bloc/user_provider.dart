@@ -6,7 +6,7 @@ import 'package:kaban_frontend/feature/user/bloc/user_bloc.dart';
 abstract final class UserProvider {
   static BlocProvider<UserCubit> get instance => BlocProvider(
     create: (context) {
-      var repo = context.configCubit.resolve<UserRepository>();
+      var repo = context.configCubit.get<UserRepository>();
       return UserCubit(userRepository: repo);
     },
   );

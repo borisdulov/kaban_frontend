@@ -1,8 +1,10 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kaban_frontend/core/router/app_router_guards.dart';
 import 'package:kaban_frontend/core/router/navigation_key.dart';
 import 'package:kaban_frontend/feature/dashboard/ui/page/dashboard_page.dart';
+import 'package:kaban_frontend/feature/project/bloc/board/board_bloc.dart';
 import 'package:kaban_frontend/feature/project/ui/page/project_page.dart';
 
 abstract final class AppRouter {
@@ -25,7 +27,11 @@ abstract final class AppRouter {
                   GoRoute(
                     path: ProjectPage.path,
                     name: ProjectPage.name,
-                    builder: (context, state) => ProjectPage(),
+                    builder:
+                        (context, state) => MultiBlocProvider(
+                          providers: [BoardCubit.provider(projectId: '1')],
+                          child: ProjectPage(),
+                        ),
                   ),
                 ],
               ),
