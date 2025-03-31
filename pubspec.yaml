@@ -40,6 +40,10 @@ dependencies:
   drag_and_drop_lists: ^0.4.2
   kanban_board: ^0.1.0
   flutter_boardview: ^0.2.1
+  google_fonts: ^6.2.1
+  smooth_corner: ^1.1.1
+  intl: ^0.20.2
+  flutter_svg: ^2.0.17
 
 dev_dependencies:
   flutter_test:
@@ -62,6 +66,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+    - assets/png/
+    - assets/svg/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

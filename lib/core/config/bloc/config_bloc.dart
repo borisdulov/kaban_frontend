@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kaban_frontend/core/config/config_state.dart';
+import 'package:kaban_frontend/core/config/bloc/config_state.dart';
 import 'package:kaban_frontend/core/config/model/di_container.dart';
-import 'package:kaban_frontend/core/domain/dependency.dart';
-import 'package:kaban_frontend/core/domain/env_type.dart';
+import 'package:kaban_frontend/core/domain/entity/dependency.dart';
+import 'package:kaban_frontend/core/domain/entity/env_type.dart';
 
 extension ConfigExtension on BuildContext {
   ConfigBloc get configCubit => read<ConfigBloc>();
@@ -27,5 +27,5 @@ class ConfigBloc extends Cubit<ConfigState> {
     emit(state.copyWith(status: ConfigStatus.success));
   }
 
-  T resolve<T extends Dependency>() => state.container.resolve<T>();
+  T resolve<T extends Dependency>() => state.container.get<T>();
 }

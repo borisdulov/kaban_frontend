@@ -1,7 +1,13 @@
+import 'package:appflowy_board/appflowy_board.dart';
 import 'package:flutter/material.dart';
-import 'package:kaban_frontend/core/theme/domain/entity/app_theme_radius.dart';
-import 'package:kaban_frontend/core/theme/domain/entity/app_theme_size.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:kaban_frontend/core/constants/app_assets.dart';
+import 'package:kaban_frontend/core/constants/app_radius.dart';
+import 'package:kaban_frontend/core/constants/app_size.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
+import 'package:kaban_frontend/feature/task/ui/widget/date_tag.dart';
+import 'package:kaban_frontend/feature/task/ui/widget/priority_tag.dart';
+import 'package:kaban_frontend/feature/task/ui/widget/subtasks_tag.dart';
 
 class TaskWidget extends StatelessWidget {
   final Task task;
@@ -10,87 +16,70 @@ class TaskWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.white,
-      margin: EdgeInsets.symmetric(horizontal: AppThemeSize.p16, vertical: 10),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppThemeRadius.r8),
+    return AppFlowyGroupCard(
+      key: ValueKey('${task.taskId}52'),
+      margin: EdgeInsets.symmetric(vertical: AppSize.p8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(AppRadius.r16),
+        border: Border.all(color: Color.fromRGBO(0, 0, 0, 0.2)),
       ),
       child: Padding(
-        padding: EdgeInsets.all(AppThemeSize.p16),
+        padding: const EdgeInsets.all(AppSize.p8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: EdgeInsets.all(AppThemeSize.p16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: AppSize.p4),
+                  child: Text(
                     task.title,
-                    style: Theme.of(context).textTheme.titleLarge,
+                    style: GoogleFonts.inter(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: Color.fromRGBO(68, 68, 68, 1),
+                    ),
                   ),
-                  Icon(Icons.more_vert),
-                ],
-              ),
+                ),
+                SizedBox(
+                  width: 32,
+                  height: 32,
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.more_vert,
+                      size: 16,
+                      color: Color.fromRGBO(30, 30, 30, 1),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            Padding(
-              padding: EdgeInsets.only(left: AppThemeSize.p16),
-              child: Row(
-                children: [
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(AppThemeRadius.r8),
-                    ),
-                    color: Colors.white,
-                    child: Padding(
-                      padding: EdgeInsets.all(AppThemeSize.p8),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(Icons.access_time),
-                          SizedBox(width: AppThemeSize.p4),
-                          Text('33 feb'),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(AppThemeRadius.r8),
-                    ),
-                    color: Color.fromRGBO(0, 255, 178, 0.2),
-                    child: Padding(
-                      padding: EdgeInsets.all(AppThemeSize.p8),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(Icons.bar_chart),
-                          SizedBox(width: AppThemeSize.p4),
-                          Text(task.priority.toString().split('.').last),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+            SizedBox(height: AppSize.p8),
+            Row(
+              children: [
+                DateTag(date: task.dueDate),
+                SizedBox(width: AppSize.p4), //возможно вынеси
+                PriorityTag(priority: task.priority),
+                SizedBox(width: AppSize.p4),
+                SubtasksTag(),
+              ],
             ),
-            Padding(
-              padding: EdgeInsets.only(
-                left: AppThemeSize.p16,
-                top: AppThemeSize.p8,
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.account_circle),
-                  Icon(Icons.account_circle),
-                  Icon(Icons.account_circle),
-                  SizedBox(width: AppThemeSize.p8),
-                  Text('+1'),
-                ],
-              ),
+            SizedBox(height: AppSize.p8),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(AppAssets.avatarGroup),
+                SizedBox(width: AppSize.p8),
+                Text(
+                  '+1',
+                  style: GoogleFonts.roboto(
+                    color: Color.fromRGBO(117, 117, 117, 1),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

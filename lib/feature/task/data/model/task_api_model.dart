@@ -55,9 +55,10 @@ class TaskAPIModel implements Task {
       userList: List<String>.from(json['userList'] ?? []),
       isCompleted: json['isCompleted'] as bool,
       priority: TaskPriority.fromString(json['priority'] as String),
-      dueDate: json['dueDate'] != null
-          ? DateTime.parse(json['dueDate'] as String)
-          : null,
+      dueDate:
+          json['dueDate'] != null
+              ? DateTime.parse(json['dueDate'] as String)
+              : null,
       createdAt: DateTime.parse(json['createdAt'] as String),
     );
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kaban_frontend/core/config/config_bloc.dart';
-import 'package:kaban_frontend/core/domain/env_type.dart';
+import 'package:kaban_frontend/core/config/bloc/config_bloc.dart';
+import 'package:kaban_frontend/core/domain/entity/env_type.dart';
 
 class ConfigProvider extends StatelessWidget {
   final Widget child;

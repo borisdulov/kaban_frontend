@@ -1,4 +1,4 @@
-import 'package:kaban_frontend/core/domain/dependency.dart';
+import 'package:kaban_frontend/core/domain/entity/dependency.dart';
 import 'package:kaban_frontend/feature/project/domain/entity/project_entity.dart';
 
 abstract interface class ProjectRepository implements Dependency {

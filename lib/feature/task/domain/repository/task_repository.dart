@@ -1,4 +1,4 @@
-import 'package:kaban_frontend/core/domain/dependency.dart';
+import 'package:kaban_frontend/core/domain/entity/dependency.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_priority_enum.dart';
 

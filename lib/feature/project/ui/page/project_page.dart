@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:kaban_frontend/multi_board_list_example.dart';
+import 'package:kaban_frontend/feature/project/ui/widget/board_widget.dart';
+import 'package:kaban_frontend/feature/project/data/model/project_mock_model.dart';
+import 'package:kaban_frontend/feature/project/ui/widget/app_bar_widget.dart';
 
 class ProjectPage extends StatelessWidget {
   const ProjectPage({super.key});
@@ -10,6 +11,9 @@ class ProjectPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBoardListExample();
+    return Scaffold(
+      appBar: AppBarWidget(project: ProjectMockModel.random()),
+      body: BoardWidget(),
+    );
   }
 }
