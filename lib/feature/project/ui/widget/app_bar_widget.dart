@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kaban_frontend/core/constants/app_assets.dart';
-import 'package:kaban_frontend/core/theme/domain/cubit/theme_bloc.dart';
+import 'package:kaban_frontend/core/theme/cubit/theme_bloc.dart';
 import 'package:kaban_frontend/core/theme/data/entity/app_theme_size.dart';
 import 'package:kaban_frontend/core/constants/app_radius.dart';
 import 'package:kaban_frontend/core/theme/ui/widget/theme_change_button.dart';
@@ -22,7 +22,10 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       decoration: BoxDecoration(
         color: colorScheme.surface,
         border: Border(
-          bottom: BorderSide(color: context.colorScheme.onSurface.withOpacity(0.4), width: 1),
+          bottom: BorderSide(
+            color: context.colorScheme.onSurface.withOpacity(0.4),
+            width: 1,
+          ),
         ),
       ),
       child: Padding(

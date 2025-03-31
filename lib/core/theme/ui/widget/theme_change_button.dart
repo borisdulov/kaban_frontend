@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kaban_frontend/core/theme/domain/cubit/theme_bloc.dart';
-import 'package:kaban_frontend/core/theme/domain/cubit/theme_state.dart';
+import 'package:kaban_frontend/core/theme/cubit/theme_bloc.dart';
+import 'package:kaban_frontend/core/theme/cubit/theme_state.dart';
 
 class ThemeChangeButton extends StatelessWidget {
   const ThemeChangeButton({super.key});

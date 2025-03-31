@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../data/entity/theme_color.dart';
+import '../data/entity/theme_color.dart';
 import 'theme_state.dart';
 
 extension ThemeExtension on BuildContext {
