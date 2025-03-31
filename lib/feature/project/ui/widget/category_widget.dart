@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:kaban_frontend/core/theme/domain/entity/app_theme_size.dart';
+import 'package:kaban_frontend/core/theme/data/entity/app_theme_size.dart';
 
-class Category extends StatelessWidget {
+class CategoryWidget extends StatelessWidget {
   final String title;
   final Color color;
   final VoidCallback? onAddTask;
   final VoidCallback? onMoreTap;
 
-  const Category({
+  const CategoryWidget({
     super.key,
     required this.title,
     required this.color,
@@ -21,7 +21,6 @@ class Category extends StatelessWidget {
       width: 280,
       margin: EdgeInsets.symmetric(horizontal: AppThemeSize.p16),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8F6F5),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(

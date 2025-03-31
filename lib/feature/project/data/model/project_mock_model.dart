@@ -1,8 +1,9 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:flutter/material.dart';
-
+import 'dart:math';
+import 'package:kaban_frontend/feature/category/data/model/category_mock_model.dart';
+import 'package:kaban_frontend/feature/category/domain/entity/category_entity.dart';
 import 'package:kaban_frontend/feature/project/domain/entity/project_entity.dart';
 import 'package:kaban_frontend/feature/project/domain/entity/project_privacy_enum.dart';
+import 'package:kaban_frontend/feature/user/data/model/user_mock_model.dart';
 import 'package:kaban_frontend/feature/user/domain/entity/user_entity.dart';
 
 class ProjectMockModel implements Project {
@@ -23,11 +24,11 @@ class ProjectMockModel implements Project {
   @override
   final List<String> memberIds;
   @override
-  final List<User> members;
+  final List<User>? members;
   @override
-  final List<String> columnIds;
+  final List<String> categoryIds;
   @override
-  final List<Column> columns;
+  final List<Category>? categories;
   @override
   final ProjectPrivacy privacy;
 
@@ -38,12 +39,12 @@ class ProjectMockModel implements Project {
     required this.createdAt,
     required this.updatedAt,
     required this.ownerId,
-    required this.memberIds,
-    required this.columnIds,
-    required this.privacy,
     this.owner,
-    this.members = const [],
-    this.columns = const [],
+    required this.memberIds,
+    this.members,
+    required this.categoryIds,
+    this.categories,
+    required this.privacy,
   });
 
   ProjectMockModel copyWith({
@@ -56,8 +57,8 @@ class ProjectMockModel implements Project {
     User? owner,
     List<String>? memberIds,
     List<User>? members,
-    List<String>? columnIds,
-    List<Column>? columns,
+    List<String>? categoryIds,
+    List<Category>? categories,
     ProjectPrivacy? privacy,
   }) {
     return ProjectMockModel(
@@ -70,23 +71,63 @@ class ProjectMockModel implements Project {
       owner: owner ?? this.owner,
       memberIds: memberIds ?? this.memberIds,
       members: members ?? this.members,
-      columnIds: columnIds ?? this.columnIds,
-      columns: columns ?? this.columns,
+      categoryIds: categoryIds ?? this.categoryIds,
+      categories: categories ?? this.categories,
       privacy: privacy ?? this.privacy,
     );
   }
 
-  factory ProjectMockModel.mock() {
+  factory ProjectMockModel.random() {
+    final random = Random();
+
+    final id = random.nextInt(100000).toString();
+
+    final name =
+        [
+          'Project Alpha',
+          'Project Beta',
+          'Project Gamma',
+          'Project Delta',
+        ][random.nextInt(4)];
+
+    final description = 'Description ${random.nextInt(1000)}';
+
+    final createdAt = DateTime.now().subtract(
+      Duration(days: random.nextInt(365)),
+    );
+
+    final updatedAt = createdAt.add(Duration(days: random.nextInt(30)));
+
+    final owner = UserMockModel.random();
+    final ownerId = owner.id;
+
+    final numMembers = random.nextInt(5);
+    final members = List.generate(numMembers, (_) => UserMockModel.random());
+    final memberIds = members.map((user) => user.id).toList();
+
+    final numCategories = random.nextInt(5);
+    final categories = List.generate(
+      numCategories,
+      (_) => CategoryMockModel.random().copyWith(projectId: id),
+    );
+    final categoryIds = categories.map((category) => category.id).toList();
+
+    final privacy =
+        ProjectPrivacy.values[random.nextInt(ProjectPrivacy.values.length)];
+
     return ProjectMockModel(
-      id: '1',
-      name: 'Project Kaban',
-      description: 'this description',
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-      ownerId: '1',
-      memberIds: ['1', '2'],
-      columnIds: ['1', '2'],
-      privacy: ProjectPrivacy.private,
+      id: id,
+      name: name,
+      description: description,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      ownerId: ownerId,
+      owner: owner,
+      memberIds: memberIds,
+      members: members,
+      categoryIds: categoryIds,
+      categories: categories,
+      privacy: privacy,
     );
   }
 }

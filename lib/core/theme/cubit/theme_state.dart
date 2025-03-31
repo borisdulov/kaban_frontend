@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../entity/theme_color.dart';
+import '../data/entity/theme_color.dart';
 
 class ThemeState {
   final ThemeData themeData;

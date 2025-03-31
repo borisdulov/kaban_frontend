@@ -1,7 +1,3 @@
-import 'dart:ui';
-
-import 'package:kaban_frontend/core/theme/domain/cubit/task_priority_theme.dart';
-
 enum TaskPriority {
   high(str: 'High'),
   major(str: 'Major'),
@@ -18,6 +14,4 @@ enum TaskPriority {
       orElse: () => TaskPriority.medium,
     );
   }
-
-  Color get backgroundColor => TaskPriorityTheme.backgroundColor(this);
 }

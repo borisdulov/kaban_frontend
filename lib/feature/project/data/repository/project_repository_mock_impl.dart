@@ -3,7 +3,7 @@ import 'package:kaban_frontend/feature/project/domain/repository/project_reposit
 import 'package:kaban_frontend/feature/project/data/model/project_mock_model.dart';
 
 final class ProjectRepositoryMockImpl implements ProjectRepository {
-  final List<ProjectMockModel> _projects = [ProjectMockModel.mock()];
+  final List<ProjectMockModel> _projects = [ProjectMockModel.random()];
 
   @override
   Future<List<Project>> getAllProjects() async {
@@ -15,7 +15,7 @@ final class ProjectRepositoryMockImpl implements ProjectRepository {
     return Future.value(
       _projects.firstWhere(
         (project) => project.id == id,
-        orElse: () => ProjectMockModel.mock(),
+        orElse: () => ProjectMockModel.random(),
       ),
     );
   }
@@ -30,11 +30,11 @@ final class ProjectRepositoryMockImpl implements ProjectRepository {
       updatedAt: DateTime.now(),
       ownerId: project.ownerId,
       memberIds: project.memberIds,
-      columnIds: project.columnIds,
+      categoryIds: project.categoryIds,
       privacy: project.privacy,
       owner: project.owner,
       members: project.members,
-      columns: project.columns,
+      categories: project.categories,
     );
     _projects.add(newProject);
     return Future.value(newProject);
@@ -52,11 +52,11 @@ final class ProjectRepositoryMockImpl implements ProjectRepository {
         updatedAt: DateTime.now(),
         ownerId: project.ownerId,
         memberIds: project.memberIds,
-        columnIds: project.columnIds,
+        categoryIds: project.categoryIds,
         privacy: project.privacy,
         owner: project.owner,
         members: project.members,
-        columns: project.columns,
+        categories: project.categories,
       );
       return Future.value(_projects[index]);
     }

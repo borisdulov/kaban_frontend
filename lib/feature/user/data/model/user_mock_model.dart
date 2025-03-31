@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:math';
 import 'package:kaban_frontend/feature/user/domain/entity/user_entity.dart';
 
 class UserMockModel implements User {
@@ -56,6 +57,53 @@ class UserMockModel implements User {
       username: 'test_user',
       avatar: '',
       projectsIds: ['1'],
+    );
+  }
+
+  factory UserMockModel.random() {
+    final random = Random();
+
+    final id = random.nextInt(100000).toString();
+
+    final includeEmail = random.nextBool();
+    final email =
+        includeEmail ? 'user${random.nextInt(1000)}@example.com' : null;
+
+    final login = 'user${random.nextInt(1000)}';
+
+    final includeBio = random.nextBool();
+    final bios = [
+      'Hello, I am a test user.',
+      'This is a mock bio.',
+      'Random bio for testing.',
+    ];
+    final bio = includeBio ? bios[random.nextInt(bios.length)] : null;
+
+    final includeUsername = random.nextBool();
+    final usernames = ['testuser', 'mockuser', 'randomuser'];
+    final username =
+        includeUsername ? usernames[random.nextInt(usernames.length)] : null;
+
+    final includeAvatar = random.nextBool();
+    final avatar =
+        includeAvatar
+            ? 'https://via.placeholder.com/150?text=User${random.nextInt(100)}'
+            : null;
+
+    final numProjects = random.nextInt(4);
+    final projectsIds = List.generate(
+      numProjects,
+      (_) => random.nextInt(10000).toString(),
+    );
+
+    return UserMockModel(
+      id: id,
+      email: email,
+      login: login,
+      bio: bio,
+      username: username,
+      avatar: avatar,
+      projectsIds: projectsIds,
     );
   }
 }

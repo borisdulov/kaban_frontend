@@ -8,7 +8,7 @@ import 'package:kaban_frontend/feature/project/ui/page/project_page.dart';
 abstract final class AppRouter {
   static final config = GoRouter(
     navigatorKey: NavigationKey.root,
-    initialLocation: ProjectPage.path,
+    initialLocation: "/placeholder",
     routes: [
       ShellRoute(
         navigatorKey: NavigationKey.dashboardKey,

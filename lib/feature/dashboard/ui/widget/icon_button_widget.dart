@@ -5,12 +5,14 @@ class IconButtonWidget extends StatelessWidget {
   final String assetPath;
   final VoidCallback onPressed;
   final double size;
+  final Color? color;
 
   const IconButtonWidget({
     super.key,
     required this.assetPath,
     required this.onPressed,
     this.size = 20,
+    this.color,
   });
 
   @override
@@ -20,7 +22,11 @@ class IconButtonWidget extends StatelessWidget {
       height: size,
       child: IconButton(
         onPressed: onPressed,
-        icon: SvgPicture.asset(assetPath),
+        icon: SvgPicture.asset(
+          assetPath,
+          colorFilter:
+              color != null ? ColorFilter.mode(color!, BlendMode.srcIn) : null,
+        ),
         padding: EdgeInsets.zero,
       ),
     );

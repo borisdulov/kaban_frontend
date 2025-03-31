@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../entity/theme_color.dart';
+import '../data/entity/theme_color.dart';
 import 'theme_state.dart';
 
 extension ThemeExtension on BuildContext {
@@ -40,29 +40,19 @@ class ThemeBloc extends Cubit<ThemeState> {
     Brightness brightness,
   ) {
     final bool isDark = brightness == Brightness.dark;
-
-    //! Настройка цветов темы
     final ColorScheme colorScheme = ColorScheme.fromSeed(
       seedColor: themeColor.color,
       brightness: brightness,
       primary: themeColor.color,
-
       secondary:
           isDark
               ? themeColor.color.withOpacity(0.7)
               : themeColor.color.withOpacity(0.8),
-
       background: isDark ? Colors.grey[900]! : Colors.grey[50]!,
-
       surface: isDark ? Colors.grey[800]! : Colors.white,
       error: isDark ? Colors.red : Colors.redAccent,
     );
-
-    //TODO короче скачать где то в интернете тему для текста и кароче чтобы тут это ее прокинуть в тему
-    //TODO context.textTheme.titleLarge;
-    //! настройка темы
     return ThemeData(
-      // textTheme: state.themeData.textTheme.apply(),
       colorScheme: colorScheme,
       brightness: brightness,
       useMaterial3: true,

@@ -12,7 +12,7 @@ class ProjectPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(project: ProjectMockModel.mock()),
+      appBar: AppBarWidget(project: ProjectMockModel.random()),
       body: BoardWidget(),
     );
   }
