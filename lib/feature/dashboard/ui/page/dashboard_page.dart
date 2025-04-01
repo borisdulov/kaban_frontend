@@ -7,6 +7,7 @@ import 'package:kaban_frontend/feature/dashboard/ui/widget/icon_button_widget.da
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key, required this.navigationShell});
 
+  static const path = "/dashboard";
   final StatefulNavigationShell navigationShell;
 
   @override
