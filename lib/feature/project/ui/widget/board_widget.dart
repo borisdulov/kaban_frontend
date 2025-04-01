@@ -15,6 +15,7 @@ class BoardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return BlocBuilder<BoardCubit, BoardState>(
       builder: (context, state) {
         if (state.isLoading) {
@@ -56,7 +57,7 @@ class BoardWidget extends StatelessWidget {
                 },
                 config: AppFlowyBoardConfig(
                   stretchGroupHeight: false,
-                  groupBackgroundColor: Color.fromRGBO(248, 246, 245, 1),
+                  groupBackgroundColor: colorScheme.surfaceContainerLow,
                   groupMargin: EdgeInsets.all(AppThemeSize.p12),
                   groupCornerRadius: AppRadius.r16,
                   cardMargin: EdgeInsets.all(0),

@@ -16,6 +16,7 @@ class ColumnBoardHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return AppFlowyGroupHeader(
       title: Expanded(
         child: Row(
@@ -35,7 +36,7 @@ class ColumnBoardHeader extends StatelessWidget {
                   icon: Icon(
                     Icons.add,
                     size: 20,
-                    color: Color.fromRGBO(68, 68, 68, 1),
+                    color: colorScheme.onSurface,
                   ),
                 ),
                 IconButton(
@@ -43,7 +44,7 @@ class ColumnBoardHeader extends StatelessWidget {
                   icon: Icon(
                     Icons.more_vert,
                     size: 20,
-                    color: Color.fromRGBO(68, 68, 68, 1),
+                    color: colorScheme.onSurface,
                   ),
                 ),
               ],

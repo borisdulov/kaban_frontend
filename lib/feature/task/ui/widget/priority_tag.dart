@@ -10,10 +10,12 @@ class PriorityTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return TagWidget(
       iconPath: AppAssets.barChart,
       text: priority.str,
-      backgroundColor: Colors.blue,
+      backgroundColor: colorScheme.error,
+      color: colorScheme.onSurface,
     );
   }
 }
