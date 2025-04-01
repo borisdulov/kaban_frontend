@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:kaban_frontend/core/router/app_router_guards.dart';
 import 'package:kaban_frontend/core/router/navigation_key.dart';
 import 'package:kaban_frontend/feature/dashboard/ui/page/dashboard_page.dart';
-import 'package:kaban_frontend/feature/project/bloc/board/board_bloc.dart';
-import 'package:kaban_frontend/feature/project/ui/page/project_page.dart';
+import 'package:kaban_frontend/feature/board/bloc/board/board_bloc.dart';
+import 'package:kaban_frontend/feature/board/ui/page/project_page.dart';
 
 abstract final class AppRouter {
   static final config = GoRouter(

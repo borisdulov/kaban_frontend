@@ -1,6 +1,6 @@
-import 'package:kaban_frontend/feature/project/domain/entity/project_entity.dart';
-import 'package:kaban_frontend/feature/project/domain/repository/project_repository.dart';
-import 'package:kaban_frontend/feature/project/data/model/project_mock_model.dart';
+import 'package:kaban_frontend/feature/board/domain/entity/project_entity.dart';
+import 'package:kaban_frontend/feature/board/domain/repository/project_repository.dart';
+import 'package:kaban_frontend/feature/board/data/model/project_mock_model.dart';
 
 final class ProjectRepositoryMockImpl implements ProjectRepository {
   final List<ProjectMockModel> _projects = [ProjectMockModel.random()];

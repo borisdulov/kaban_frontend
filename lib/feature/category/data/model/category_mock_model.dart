@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 import 'package:kaban_frontend/feature/category/domain/entity/category_entity.dart';
-import 'package:kaban_frontend/feature/project/domain/entity/project_entity.dart';
+import 'package:kaban_frontend/feature/board/domain/entity/project_entity.dart';
 import 'package:kaban_frontend/feature/task/data/model/task_mock_model.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
 
