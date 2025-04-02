@@ -1,26 +1,16 @@
 import 'package:flutter/material.dart';
-import '../data/entity/theme_color.dart';
 
 class ThemeState {
-  final ThemeData themeData;
-  final ThemeColor selectedColor;
-  final Brightness brightness;
+  final ThemeMode themeMode;
 
-  ThemeState({
-    required this.themeData,
-    required this.selectedColor,
-    required this.brightness,
-  });
+  const ThemeState(this.themeMode);
 
-  ThemeState copyWith({
-    ThemeData? themeData,
-    ThemeColor? selectedColor,
-    Brightness? brightness,
-  }) {
-    return ThemeState(
-      themeData: themeData ?? this.themeData,
-      selectedColor: selectedColor ?? this.selectedColor,
-      brightness: brightness ?? this.brightness,
-    );
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ThemeState && other.themeMode == themeMode);
   }
+
+  @override
+  int get hashCode => themeMode.hashCode;
 }

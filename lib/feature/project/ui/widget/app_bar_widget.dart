@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kaban_frontend/core/constants/app_assets.dart';
-import 'package:kaban_frontend/core/theme/cubit/theme_bloc.dart';
 import 'package:kaban_frontend/core/theme/data/entity/app_theme_size.dart';
 import 'package:kaban_frontend/core/constants/app_radius.dart';
 import 'package:kaban_frontend/core/theme/ui/widget/theme_change_button.dart';
@@ -23,7 +22,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
         color: colorScheme.surface,
         border: Border(
           bottom: BorderSide(
-            color: context.colorScheme.onSurface.withOpacity(0.4),
+            color: colorScheme.onSurface.withOpacity(0.4),
             width: 1,
           ),
         ),
@@ -37,7 +36,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
               padding: EdgeInsets.symmetric(vertical: AppThemeSize.p12),
               child: Text(
                 project.name,
-                style: context.themeData.textTheme.titleLarge,
+                // style: context.themeData.textTheme.titleLarge,
               ),
             ),
 
