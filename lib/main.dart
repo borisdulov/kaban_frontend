@@ -4,7 +4,6 @@ import 'package:kaban_frontend/core/domain/entity/env_type.dart';
 import 'package:kaban_frontend/core/router/app_router.dart';
 import 'package:kaban_frontend/core/config/bloc/config_provider.dart';
 import 'package:kaban_frontend/core/theme/cubit/theme_bloc.dart';
-import 'package:kaban_frontend/core/theme/cubit/theme_provider.dart';
 import 'package:kaban_frontend/core/theme/cubit/theme_state.dart';
 
 void main() {
@@ -18,7 +17,10 @@ class AppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ThemeProvider(
+    return MultiBlocProvider(
+      providers: [
+        ThemeBloc.provider(),
+      ],
       child: ConfigProvider(
         envType: envType,
         child: BlocBuilder<ThemeBloc, ThemeState>(
@@ -28,6 +30,7 @@ class AppWidget extends StatelessWidget {
               theme: ThemeData.light(),
               darkTheme: ThemeData.dark(),
               themeMode: state.themeMode,
+              themeAnimationDuration: Duration.zero,
             );
           },
         ),

@@ -68,3 +68,4 @@ class ProjectListCubit extends Cubit<ProjectListState> {
 typedef ProjectSelector<T> =
     BlocSelector<ProjectListCubit, ProjectListState, T>;
 typedef ProjectListener = BlocListener<ProjectListCubit, ProjectListState>;
+

@@ -17,4 +17,8 @@ class ThemeBloc extends Cubit<ThemeState> {
         state.themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
     emit(ThemeState(newMode));
   }
+
+  static BlocProvider<ThemeBloc> provider() {
+    return BlocProvider(create: (context) => ThemeBloc());
+  }
 }
