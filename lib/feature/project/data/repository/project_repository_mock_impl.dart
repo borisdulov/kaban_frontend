@@ -4,6 +4,9 @@ import 'package:kaban_frontend/feature/project/domain/entity/project_entity.dart
 import 'package:kaban_frontend/feature/project/domain/repository/project_repository.dart';
 
 final class ProjectRepositoryMockImpl implements ProjectRepository {
+
+  final List<Project> _projects = [];
+
   @override
   Future<Project> addMember(String projectId, String userId) {
     // TODO: implement addMember
@@ -11,9 +14,9 @@ final class ProjectRepositoryMockImpl implements ProjectRepository {
   }
 
   @override
-  Future<Project> createProject(Project project) {
-    // TODO: implement createProject
-    throw UnimplementedError();
+  Future<Project> createProject(Project project) async {
+    _projects.add(project);
+    return project;
   }
 
   @override
@@ -23,10 +26,7 @@ final class ProjectRepositoryMockImpl implements ProjectRepository {
   }
 
   @override
-  Future<List<Project>> getAllProjects() {
-    // TODO: implement getAllProjects
-    throw UnimplementedError();
-  }
+  Future<List<Project>> getAllProjects() async => _projects;
 
   @override
   Future<Project> getProjectById(String id) async {

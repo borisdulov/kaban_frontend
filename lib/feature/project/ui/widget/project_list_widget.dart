@@ -4,14 +4,11 @@ import 'package:kaban_frontend/core/constants/app_size.dart';
 import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
 import 'package:kaban_frontend/feature/project/bloc/project_list/project_list_bloc.dart';
 import 'package:kaban_frontend/feature/project/bloc/project_list/project_list_state.dart';
-import 'package:kaban_frontend/feature/project/domain/entity/project_entity.dart';
 import 'package:kaban_frontend/feature/project/ui/widget/add_project_card.dart';
 import 'package:kaban_frontend/feature/project/ui/widget/project_card.dart';
 
 class ProjectListWidget extends StatelessWidget {
-  const ProjectListWidget({super.key, required this.project});
-
-  final Project project;
+  const ProjectListWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +32,11 @@ class ProjectListWidget extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         TextButton.icon(
-                          //TODO сделать кнопку добавления нового проекта
-                          onPressed: () {},
+                          onPressed:
+                              () =>
+                                  context
+                                      .read<ProjectListCubit>()
+                                      .createProject(),
                           style: TextButton.styleFrom(
                             foregroundColor: context.colorScheme.secondary,
                             iconColor: context.colorScheme.secondary,
@@ -54,14 +54,15 @@ class ProjectListWidget extends StatelessWidget {
                       spacing: AppSize.p4,
                       runSpacing: AppSize.p4,
                       children: [
-                        ProjectCard(project: project),
-                        ProjectCard(project: project),
-                        ProjectCard(project: project),
+                        ...state.projects.map(
+                          (project) => ProjectCard(project: project),
+                        ),
                         AddProjectCard(
                           onPressed:
-                              () => context
-                                  .read<ProjectListCubit>()
-                                  .createProject(project),
+                              () =>
+                                  context
+                                      .read<ProjectListCubit>()
+                                      .createProject(),
                         ),
                       ],
                     ),

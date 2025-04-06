@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kaban_frontend/core/domain/entity/status.dart';
 import 'package:kaban_frontend/feature/project/bloc/project_list/project_list_state.dart';
+import 'package:kaban_frontend/feature/project/data/model/project_mock_model.dart';
 import 'package:kaban_frontend/feature/project/data/repository/project_repository_mock_impl.dart';
-import 'package:kaban_frontend/feature/project/domain/entity/project_entity.dart';
 import 'package:kaban_frontend/feature/project/domain/repository/project_repository.dart';
 
 extension ProjectListExtension on BuildContext {
@@ -48,16 +48,19 @@ class ProjectListCubit extends Cubit<ProjectListState> {
     }
   }
 
-  Future<void> createProject(Project project) async {
+  Future<void> createProject() async {
     if (!state.isLoaded) return;
 
     try {
       emit(state.copyWith(status: Status.loading));
-      final createdProject = await _projectRepository.createProject(project);
+      final newProject = ProjectMockModel.random();
+      await _projectRepository.createProject(newProject);
+
+      final updatedProjects = await _projectRepository.getAllProjects();
       emit(
         state.copyWith(
           status: Status.success,
-          projects: [...state.projects, createdProject],
+          projects: updatedProjects,
         ),
       );
     } catch (e) {
@@ -68,7 +71,8 @@ class ProjectListCubit extends Cubit<ProjectListState> {
   static BlocProvider<ProjectListCubit> provider({required String projectId}) {
     return BlocProvider(
       create:
-          (context) => ProjectListCubit(projectRepository: ProjectRepositoryMockImpl()),
+          (context) =>
+              ProjectListCubit(projectRepository: ProjectRepositoryMockImpl()),
     );
   }
 }

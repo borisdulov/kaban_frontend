@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:kaban_frontend/feature/project/data/model/project_mock_model.dart';
 import 'package:kaban_frontend/feature/project/ui/widget/app_bar_widget.dart';
 import 'package:kaban_frontend/feature/project/ui/widget/project_list_widget.dart';
@@ -14,7 +13,7 @@ class ProjectListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWidget(project: ProjectMockModel.random()),
-      body: ProjectListWidget(project: ProjectMockModel.random()),
+      body: ProjectListWidget(),
     );
   }
 }
