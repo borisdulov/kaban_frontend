@@ -5,6 +5,7 @@ import 'package:kaban_frontend/core/router/navigation_key.dart';
 import 'package:kaban_frontend/feature/dashboard/ui/page/dashboard_page.dart';
 import 'package:kaban_frontend/feature/project/bloc/board/board_bloc.dart';
 import 'package:kaban_frontend/feature/project/data/repository/project_repository_mock_impl.dart';
+import 'package:kaban_frontend/feature/project/ui/page/project_list_page.dart';
 
 import 'package:kaban_frontend/feature/project/ui/page/project_page.dart';
 
@@ -41,6 +42,15 @@ abstract final class AppRouter {
                           ),
                       child: ProjectPage(),
                     ),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: ProjectListPage.path,
+                name: ProjectListPage.name,
+                builder: (context, state) => ProjectListPage(),
               ),
             ],
           ),

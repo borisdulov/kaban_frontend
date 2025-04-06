@@ -5,6 +5,7 @@ import 'package:kaban_frontend/core/router/app_router.dart';
 import 'package:kaban_frontend/core/config/bloc/config_provider.dart';
 import 'package:kaban_frontend/core/theme/cubit/theme_bloc.dart';
 import 'package:kaban_frontend/core/theme/cubit/theme_state.dart';
+import 'package:kaban_frontend/feature/project/bloc/project_list/project_list_bloc.dart';
 
 void main() {
   runApp(AppWidget());
@@ -20,6 +21,7 @@ class AppWidget extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         ThemeBloc.provider(),
+        ProjectListCubit.provider(projectId: '1'),
       ],
       child: ConfigProvider(
         envType: envType,

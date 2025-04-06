@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kaban_frontend/core/domain/entity/status.dart';
 import 'package:kaban_frontend/feature/project/bloc/project_list/project_list_state.dart';
+import 'package:kaban_frontend/feature/project/data/repository/project_repository_mock_impl.dart';
 import 'package:kaban_frontend/feature/project/domain/entity/project_entity.dart';
 import 'package:kaban_frontend/feature/project/domain/repository/project_repository.dart';
 
@@ -63,9 +64,15 @@ class ProjectListCubit extends Cubit<ProjectListState> {
       emit(state.copyWith(status: Status.failure, error: e.toString()));
     }
   }
+
+  static BlocProvider<ProjectListCubit> provider({required String projectId}) {
+    return BlocProvider(
+      create:
+          (context) => ProjectListCubit(projectRepository: ProjectRepositoryMockImpl()),
+    );
+  }
 }
 
 typedef ProjectSelector<T> =
     BlocSelector<ProjectListCubit, ProjectListState, T>;
 typedef ProjectListener = BlocListener<ProjectListCubit, ProjectListState>;
-
