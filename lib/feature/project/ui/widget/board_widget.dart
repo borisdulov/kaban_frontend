@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:appflowy_board/appflowy_board.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
 import 'package:kaban_frontend/core/theme/data/entity/app_theme_size.dart';
 import 'package:kaban_frontend/core/constants/app_radius.dart';
 import 'package:kaban_frontend/feature/project/bloc/board/board_bloc.dart';
@@ -15,7 +16,6 @@ class BoardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     return BlocBuilder<BoardCubit, BoardState>(
       builder: (context, state) {
         if (state.isLoading) {
@@ -57,7 +57,7 @@ class BoardWidget extends StatelessWidget {
                 },
                 config: AppFlowyBoardConfig(
                   stretchGroupHeight: false,
-                  groupBackgroundColor: colorScheme.surfaceContainerLow,
+                  groupBackgroundColor: context.colorScheme.surfaceContainerLow,
                   groupMargin: EdgeInsets.all(AppThemeSize.p12),
                   groupCornerRadius: AppRadius.r16,
                   cardMargin: EdgeInsets.all(0),

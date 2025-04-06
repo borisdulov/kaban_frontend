@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kaban_frontend/core/constants/app_radius.dart';
 import 'package:kaban_frontend/core/constants/app_size.dart';
+import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
 
 class TagWidget extends StatelessWidget {
   const TagWidget({
@@ -21,12 +22,11 @@ class TagWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     return Container(
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(AppRadius.r8),
-        border: Border.all(color: colorScheme.onSurface.withOpacity(0.2)),
+        border: Border.all(color: context.colorScheme.onSurface.withOpacity(0.2)),
       ),
       child: Padding(
         padding: const EdgeInsets.all(AppSize.p8),
@@ -46,7 +46,7 @@ class TagWidget extends StatelessWidget {
               style: GoogleFonts.inter(
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
-                color: colorScheme.onSurface,
+                color: context.colorScheme.onSurface,
               ),
             ),
           ],
