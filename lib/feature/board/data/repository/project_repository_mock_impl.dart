@@ -1,6 +1,6 @@
-import 'package:kaban_frontend/feature/board/data/model/project_mock_model.dart';
 import 'package:kaban_frontend/feature/board/domain/entity/project_entity.dart';
 import 'package:kaban_frontend/feature/board/domain/repository/project_repository.dart';
+import 'package:kaban_frontend/feature/board/data/model/project_mock_model.dart';
 
 final class ProjectRepositoryMockImpl implements ProjectRepository {
   final List<ProjectMockModel> _projects = [ProjectMockModel.random()];
@@ -64,20 +64,30 @@ final class ProjectRepositoryMockImpl implements ProjectRepository {
   }
 
   @override
-  Future<Project> removeMember(String projectId, String userId) {
-    // TODO: implement removeMember
-    throw UnimplementedError();
+  Future<void> deleteProject(String id) async {
+    _projects.removeWhere((project) => project.id == id);
+    return Future.value();
   }
 
   @override
-  Future<Project> addMember(String projectId, String userId) {
-    // TODO: implement addMember
-    throw UnimplementedError();
+  Future<Project> addMember(String projectId, String userId) async {
+    final project = _projects.firstWhere((p) => p.id == projectId);
+    final updatedProject = project.copyWith(
+      memberIds: [...project.memberIds, userId],
+    );
+    final index = _projects.indexWhere((p) => p.id == projectId);
+    _projects[index] = updatedProject;
+    return Future.value(updatedProject);
   }
 
   @override
-  Future<void> deleteProject(String id) {
-    // TODO: implement deleteProject
-    throw UnimplementedError();
+  Future<Project> removeMember(String projectId, String userId) async {
+    final project = _projects.firstWhere((p) => p.id == projectId);
+    final updatedProject = project.copyWith(
+      memberIds: project.memberIds.where((id) => id != userId).toList(),
+    );
+    final index = _projects.indexWhere((p) => p.id == projectId);
+    _projects[index] = updatedProject;
+    return Future.value(updatedProject);
   }
 }

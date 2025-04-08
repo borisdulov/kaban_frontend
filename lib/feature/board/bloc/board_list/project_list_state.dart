@@ -1,4 +1,4 @@
-import 'package:kaban_frontend/feature/project/domain/entity/project_entity.dart';
+import 'package:kaban_frontend/feature/board/domain/entity/project_entity.dart';
 import 'package:kaban_frontend/core/domain/entity/status.dart';
 
 class ProjectListState {

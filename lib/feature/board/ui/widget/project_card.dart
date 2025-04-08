@@ -3,7 +3,7 @@ import 'package:kaban_frontend/core/constants/app_assets.dart';
 import 'package:kaban_frontend/core/constants/app_radius.dart';
 import 'package:kaban_frontend/core/constants/app_size.dart';
 import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
-import 'package:kaban_frontend/feature/project/domain/entity/project_entity.dart';
+import 'package:kaban_frontend/feature/board/domain/entity/project_entity.dart';
 
 class BoardCard extends StatelessWidget {
   const BoardCard({super.key, required this.board});

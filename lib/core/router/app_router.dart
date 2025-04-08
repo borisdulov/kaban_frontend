@@ -1,58 +1,86 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kaban_frontend/core/router/app_router_guards.dart';
 import 'package:kaban_frontend/core/router/navigation_key.dart';
+import 'package:kaban_frontend/feature/board/ui/page/project_list_page.dart';
 import 'package:kaban_frontend/feature/dashboard/ui/page/dashboard_page.dart';
-import 'package:kaban_frontend/feature/project/bloc/board/board_bloc.dart';
-import 'package:kaban_frontend/feature/project/data/repository/project_repository_mock_impl.dart';
-import 'package:kaban_frontend/feature/project/ui/page/project_list_page.dart';
-
-import 'package:kaban_frontend/feature/project/ui/page/project_page.dart';
+import 'package:kaban_frontend/feature/board/bloc/board/board_bloc.dart';
+import 'package:kaban_frontend/feature/board/ui/page/project_page.dart';
 
 abstract final class AppRouter {
   static final config = GoRouter(
     navigatorKey: NavigationKey.root,
     initialLocation: "/placeholder",
     routes: [
-      StatefulShellRoute.indexedStack(
-        builder:
-            (context, state, navigationShell) =>
-                DashboardPage(navigationShell: navigationShell),
-        branches: [
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: '/placeholder',
-                name: 'Placeholder',
-                builder: (context, state) => Placeholder(),
+      ShellRoute(
+        navigatorKey: NavigationKey.dashboardKey,
+        redirect: AppRouterGuards.authorized,
+        builder: (context, state, child) => child,
+        routes: [
+          StatefulShellRoute.indexedStack(
+            builder:
+                (context, state, navigationShell) =>
+                    DashboardPage(navigationShell: navigationShell),
+            branches: [
+              StatefulShellBranch(
+                routes: [
+                  GoRoute(
+                    path: ProjectPage.path,
+                    name: ProjectPage.name,
+                    builder:
+                        (context, state) => MultiBlocProvider(
+                          providers: [BoardCubit.provider(projectId: '1')],
+                          child: ProjectPage(),
+                        ),
+                  ),
+                ],
+              ),
+              StatefulShellBranch(
+                routes: [
+                  GoRoute(
+                    path: ProjectListPage.path,
+                    name: ProjectListPage.name,
+                    builder: (context, state) => ProjectListPage(),
+                  ),
+                ],
+              ),
+              StatefulShellBranch(
+                routes: [
+                  GoRoute(
+                    path: '/placeholder',
+                    builder: (context, state) => Placeholder(),
+                  ),
+                ],
               ),
             ],
           ),
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: ProjectPage.path,
-                name: ProjectPage.name,
-                builder:
-                    (context, state) => BlocProvider(
-                      create:
-                          (BuildContext context) => BoardCubit(
-                            projectRepository: ProjectRepositoryMockImpl(),
-                            projectId: '1',
-                          ),
-                      child: ProjectPage(),
-                    ),
-              ),
-            ],
+        ],
+      ),
+      ShellRoute(
+        navigatorKey: NavigationKey.signKey,
+        redirect: AppRouterGuards.unauthorized,
+        builder: (context, state, child) => child,
+        routes: [
+          GoRoute(
+            path: '/auth/login',
+            builder: (context, state) => Placeholder(),
           ),
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: ProjectListPage.path,
-                name: ProjectListPage.name,
-                builder: (context, state) => ProjectListPage(),
-              ),
-            ],
+          GoRoute(
+            path: '/auth/register',
+            builder: (context, state) => Placeholder(),
+          ),
+        ],
+      ),
+
+      ShellRoute(
+        navigatorKey: NavigationKey.publicKey,
+        redirect: AppRouterGuards.public,
+        builder: (context, state, child) => child,
+        routes: [
+          GoRoute(
+            path: '/auth/loading',
+            builder: (context, state) => Placeholder(),
           ),
         ],
       ),

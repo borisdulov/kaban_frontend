@@ -5,7 +5,7 @@ import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
 import 'package:kaban_frontend/core/theme/data/entity/app_theme_size.dart';
 import 'package:kaban_frontend/core/constants/app_radius.dart';
 import 'package:kaban_frontend/core/theme/ui/widget/theme_change_button.dart';
-import 'package:kaban_frontend/feature/project/domain/entity/project_entity.dart';
+import 'package:kaban_frontend/feature/board/domain/entity/project_entity.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const AppBarWidget({super.key, required this.project});
@@ -55,11 +55,15 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                           hintStyle: GoogleFonts.inter(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
-                            color: context.colorScheme.onSurface.withOpacity(0.4),
+                            color: context.colorScheme.onSurface.withOpacity(
+                              0.4,
+                            ),
                           ),
                           prefixIcon: Icon(
                             Icons.search,
-                            color: context.colorScheme.onSurface.withOpacity(0.4),
+                            color: context.colorScheme.onSurface.withOpacity(
+                              0.4,
+                            ),
                           ),
                           contentPadding: EdgeInsets.symmetric(
                             vertical: 10,
@@ -68,21 +72,27 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(AppRadius.r8),
                             borderSide: BorderSide(
-                              color: context.colorScheme.outline.withOpacity(0.4),
+                              color: context.colorScheme.outline.withOpacity(
+                                0.4,
+                              ),
                               width: 1.0,
                             ),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(AppRadius.r8),
                             borderSide: BorderSide(
-                              color: context.colorScheme.outline.withOpacity(0.4),
+                              color: context.colorScheme.outline.withOpacity(
+                                0.4,
+                              ),
                               width: 1.0,
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(AppRadius.r8),
                             borderSide: BorderSide(
-                              color: context.colorScheme.outline.withOpacity(0.4),
+                              color: context.colorScheme.outline.withOpacity(
+                                0.4,
+                              ),
                               width: 1.5,
                             ),
                           ),

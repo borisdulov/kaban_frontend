@@ -42,7 +42,7 @@ class DashboardPage extends StatelessWidget {
 
                       IconButtonWidget(
                         assetPath: AppAssets.columns,
-                        onPressed: () => navigationShell.goBranch(1),
+                        onPressed: () => navigationShell.goBranch(0),
                         color: context.colorScheme.onSurface,
                       ),
 
@@ -50,7 +50,7 @@ class DashboardPage extends StatelessWidget {
 
                       IconButtonWidget(
                         assetPath: AppAssets.checkSquare,
-                        onPressed: () => navigationShell.goBranch(1),
+                        onPressed: () => navigationShell.goBranch(3),
                         color: context.colorScheme.onSurface,
                       ),
 
@@ -58,7 +58,7 @@ class DashboardPage extends StatelessWidget {
 
                       IconButtonWidget(
                         assetPath: AppAssets.briefcase,
-                        onPressed: () => navigationShell.goBranch(2),
+                        onPressed: () => navigationShell.goBranch(1), 
                         color: context.colorScheme.onSurface,
                       ),
                     ],
@@ -70,7 +70,7 @@ class DashboardPage extends StatelessWidget {
                     children: [
                       IconButton(
                         icon: Image.asset(AppAssets.avatarAccount),
-                        onPressed: () => navigationShell.goBranch(1),
+                        onPressed: () => navigationShell.goBranch(0),
                         color: context.colorScheme.onSurface,
                       ),
 
@@ -86,7 +86,7 @@ class DashboardPage extends StatelessWidget {
 
                       IconButtonWidget(
                         assetPath: AppAssets.settings,
-                        onPressed: () => navigationShell.goBranch(1),
+                        onPressed: () => navigationShell.goBranch(0),
                         color: context.colorScheme.onSurface,
                       ),
                     ],

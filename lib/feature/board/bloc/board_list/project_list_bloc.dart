@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kaban_frontend/core/domain/entity/status.dart';
-import 'package:kaban_frontend/feature/project/bloc/project_list/project_list_state.dart';
-import 'package:kaban_frontend/feature/project/data/model/project_mock_model.dart';
+import 'package:kaban_frontend/feature/board/data/model/project_mock_model.dart';
 import 'package:kaban_frontend/feature/project/data/repository/project_repository_mock_impl.dart';
-import 'package:kaban_frontend/feature/project/domain/repository/project_repository.dart';
+import 'package:kaban_frontend/feature/board/bloc/board_list/project_list_state.dart';
+import 'package:kaban_frontend/feature/board/domain/repository/project_repository.dart';
 
 extension ProjectListExtension on BuildContext {
   ProjectListCubit get boardListCubit => read<ProjectListCubit>();
