@@ -7,7 +7,7 @@ import 'package:kaban_frontend/feature/project/data/repository/project_repositor
 import 'package:kaban_frontend/feature/project/domain/repository/project_repository.dart';
 
 extension ProjectListExtension on BuildContext {
-  ProjectListCubit get projectCubit => read<ProjectListCubit>();
+  ProjectListCubit get boardListCubit => read<ProjectListCubit>();
 }
 
 typedef ProjectListBuilder = BlocBuilder<ProjectListCubit, ProjectListState>;
@@ -25,7 +25,7 @@ class ProjectListCubit extends Cubit<ProjectListState> {
     emit(state.copyWith(status: Status.loading));
     try {
       final projects = await _projectRepository.getAllProjects();
-      emit(ProjectListState(status: Status.success, projects: projects));
+      emit(ProjectListState(status: Status.success, boards: projects));
     } catch (e) {
       emit(ProjectListState(status: Status.failure, error: e.toString()));
     }
@@ -40,7 +40,7 @@ class ProjectListCubit extends Cubit<ProjectListState> {
       emit(
         state.copyWith(
           status: Status.success,
-          projects: [...state.projects.where((p) => p.id != id), project],
+          projects: [...state.boards.where((p) => p.id != id), project],
         ),
       );
     } catch (e) {
@@ -57,12 +57,7 @@ class ProjectListCubit extends Cubit<ProjectListState> {
       await _projectRepository.createProject(newProject);
 
       final updatedProjects = await _projectRepository.getAllProjects();
-      emit(
-        state.copyWith(
-          status: Status.success,
-          projects: updatedProjects,
-        ),
-      );
+      emit(state.copyWith(status: Status.success, projects: updatedProjects));
     } catch (e) {
       emit(state.copyWith(status: Status.failure, error: e.toString()));
     }

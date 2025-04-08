@@ -14,7 +14,7 @@ class AddProjectCard extends StatelessWidget {
       height: 96,
       child: Card(
         color: context.colorScheme.surface,
-        elevation: 2,
+        elevation: 0,
         shape: RoundedRectangleBorder(
           side: BorderSide(
             color: context.colorScheme.onSurface.withOpacity(0.2),
@@ -24,12 +24,7 @@ class AddProjectCard extends StatelessWidget {
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-              onPressed: onPressed,
-              icon: Icon(Icons.add_circle_outline),
-            ),
-          ],
+          children: [IconButton(onPressed: onPressed, icon: Icon(Icons.add))],
         ),
       ),
     );

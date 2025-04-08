@@ -17,6 +17,7 @@ class ProjectListWidget extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.all(AppSize.p40),
           child: Card(
+            elevation: 0,
             color: context.colorScheme.surfaceContainerLow,
             child: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: 640),
@@ -26,22 +27,18 @@ class ProjectListWidget extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Projects', style: TextStyle(fontSize: AppSize.p24)),
+                    Text('Boards', style: TextStyle(fontSize: AppSize.p24)),
                     SizedBox(height: AppSize.p32),
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         TextButton.icon(
-                          onPressed:
-                              () =>
-                                  context
-                                      .read<ProjectListCubit>()
-                                      .createProject(),
+                          onPressed: context.boardListCubit.createProject,
                           style: TextButton.styleFrom(
                             foregroundColor: context.colorScheme.secondary,
                             iconColor: context.colorScheme.secondary,
                           ),
-                          icon: Icon(Icons.add_circle_outline),
+                          icon: Icon(Icons.add),
                           label: Text(
                             'Add new project',
                             style: TextStyle(fontSize: AppSize.p16),
@@ -50,21 +47,21 @@ class ProjectListWidget extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: AppSize.p16),
-                    Wrap(
-                      spacing: AppSize.p4,
-                      runSpacing: AppSize.p4,
-                      children: [
-                        ...state.projects.map(
-                          (project) => ProjectCard(project: project),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Wrap(
+                          spacing: AppSize.p4,
+                          runSpacing: AppSize.p4,
+                          children: [
+                            ...state.boards.map(
+                              (board) => BoardCard(board: board),
+                            ),
+                            AddProjectCard(
+                              onPressed: context.boardListCubit.createProject,
+                            ),
+                          ],
                         ),
-                        AddProjectCard(
-                          onPressed:
-                              () =>
-                                  context
-                                      .read<ProjectListCubit>()
-                                      .createProject(),
-                        ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
