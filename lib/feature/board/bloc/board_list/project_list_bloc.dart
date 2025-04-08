@@ -1,12 +1,13 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kaban_frontend/core/domain/entity/status.dart';
+import 'package:kaban_frontend/feature/board/data/model/project_mock_model.dart';
+import 'package:kaban_frontend/feature/project/data/repository/project_repository_mock_impl.dart';
 import 'package:kaban_frontend/feature/board/bloc/board_list/project_list_state.dart';
-import 'package:kaban_frontend/feature/board/domain/entity/project_entity.dart';
 import 'package:kaban_frontend/feature/board/domain/repository/project_repository.dart';
 
 extension ProjectListExtension on BuildContext {
-  ProjectListCubit get projectCubit => read<ProjectListCubit>();
+  ProjectListCubit get boardListCubit => read<ProjectListCubit>();
 }
 
 typedef ProjectListBuilder = BlocBuilder<ProjectListCubit, ProjectListState>;
@@ -24,7 +25,7 @@ class ProjectListCubit extends Cubit<ProjectListState> {
     emit(state.copyWith(status: Status.loading));
     try {
       final projects = await _projectRepository.getAllProjects();
-      emit(ProjectListState(status: Status.success, projects: projects));
+      emit(ProjectListState(status: Status.success, boards: projects));
     } catch (e) {
       emit(ProjectListState(status: Status.failure, error: e.toString()));
     }
@@ -39,7 +40,7 @@ class ProjectListCubit extends Cubit<ProjectListState> {
       emit(
         state.copyWith(
           status: Status.success,
-          projects: [...state.projects.where((p) => p.id != id), project],
+          projects: [...state.boards.where((p) => p.id != id), project],
         ),
       );
     } catch (e) {
@@ -47,21 +48,27 @@ class ProjectListCubit extends Cubit<ProjectListState> {
     }
   }
 
-  Future<void> createProject(Project project) async {
+  Future<void> createProject() async {
     if (!state.isLoaded) return;
 
     try {
       emit(state.copyWith(status: Status.loading));
-      final createdProject = await _projectRepository.createProject(project);
-      emit(
-        state.copyWith(
-          status: Status.success,
-          projects: [...state.projects, createdProject],
-        ),
-      );
+      final newProject = ProjectMockModel.random();
+      await _projectRepository.createProject(newProject);
+
+      final updatedProjects = await _projectRepository.getAllProjects();
+      emit(state.copyWith(status: Status.success, projects: updatedProjects));
     } catch (e) {
       emit(state.copyWith(status: Status.failure, error: e.toString()));
     }
+  }
+
+  static BlocProvider<ProjectListCubit> provider({required String projectId}) {
+    return BlocProvider(
+      create:
+          (context) =>
+              ProjectListCubit(projectRepository: ProjectRepositoryMockImpl()),
+    );
   }
 }
 

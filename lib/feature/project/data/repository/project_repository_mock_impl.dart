@@ -64,30 +64,20 @@ final class ProjectRepositoryMockImpl implements ProjectRepository {
   }
 
   @override
-  Future<void> deleteProject(String id) async {
-    _projects.removeWhere((project) => project.id == id);
-    return Future.value();
+  Future<Project> removeMember(String projectId, String userId) {
+    // TODO: implement removeMember
+    throw UnimplementedError();
   }
 
   @override
-  Future<Project> addMember(String projectId, String userId) async {
-    final project = _projects.firstWhere((p) => p.id == projectId);
-    final updatedProject = project.copyWith(
-      memberIds: [...project.memberIds, userId],
-    );
-    final index = _projects.indexWhere((p) => p.id == projectId);
-    _projects[index] = updatedProject;
-    return Future.value(updatedProject);
+  Future<Project> addMember(String projectId, String userId) {
+    // TODO: implement addMember
+    throw UnimplementedError();
   }
 
   @override
-  Future<Project> removeMember(String projectId, String userId) async {
-    final project = _projects.firstWhere((p) => p.id == projectId);
-    final updatedProject = project.copyWith(
-      memberIds: project.memberIds.where((id) => id != userId).toList(),
-    );
-    final index = _projects.indexWhere((p) => p.id == projectId);
-    _projects[index] = updatedProject;
-    return Future.value(updatedProject);
+  Future<void> deleteProject(String id) {
+    // TODO: implement deleteProject
+    throw UnimplementedError();
   }
 }

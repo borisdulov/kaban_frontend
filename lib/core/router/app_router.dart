@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kaban_frontend/core/router/app_router_guards.dart';
 import 'package:kaban_frontend/core/router/navigation_key.dart';
+import 'package:kaban_frontend/feature/board/ui/page/project_list_page.dart';
 import 'package:kaban_frontend/feature/dashboard/ui/page/dashboard_page.dart';
 import 'package:kaban_frontend/feature/board/bloc/board/board_bloc.dart';
 import 'package:kaban_frontend/feature/board/ui/page/project_page.dart';
@@ -38,6 +39,15 @@ abstract final class AppRouter {
               StatefulShellBranch(
                 routes: [
                   GoRoute(
+                    path: ProjectListPage.path,
+                    name: ProjectListPage.name,
+                    builder: (context, state) => ProjectListPage(),
+                  ),
+                ],
+              ),
+              StatefulShellBranch(
+                routes: [
+                  GoRoute(
                     path: '/placeholder',
                     builder: (context, state) => Placeholder(),
                   ),
@@ -47,7 +57,6 @@ abstract final class AppRouter {
           ),
         ],
       ),
-
       ShellRoute(
         navigatorKey: NavigationKey.signKey,
         redirect: AppRouterGuards.unauthorized,
