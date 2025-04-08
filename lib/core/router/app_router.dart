@@ -12,7 +12,6 @@ abstract final class AppRouter {
     navigatorKey: NavigationKey.root,
     initialLocation: "/placeholder",
     routes: [
-      //? authorized
       ShellRoute(
         navigatorKey: NavigationKey.dashboardKey,
         redirect: AppRouterGuards.authorized,
@@ -49,27 +48,31 @@ abstract final class AppRouter {
         ],
       ),
 
-      //? unauthorized
       ShellRoute(
         navigatorKey: NavigationKey.signKey,
         redirect: AppRouterGuards.unauthorized,
         builder: (context, state, child) => child,
         routes: [
-          GoRoute(path: '/login', builder: (context, state) => Placeholder()),
           GoRoute(
-            path: '/register',
+            path: '/auth/login',
+            builder: (context, state) => Placeholder(),
+          ),
+          GoRoute(
+            path: '/auth/register',
             builder: (context, state) => Placeholder(),
           ),
         ],
       ),
 
-      //? public
       ShellRoute(
         navigatorKey: NavigationKey.publicKey,
         redirect: AppRouterGuards.public,
         builder: (context, state, child) => child,
         routes: [
-          GoRoute(path: '/splash', builder: (context, state) => Placeholder()),
+          GoRoute(
+            path: '/auth/loading',
+            builder: (context, state) => Placeholder(),
+          ),
         ],
       ),
     ],
