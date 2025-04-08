@@ -28,7 +28,7 @@ class ProjectMockModel implements Project {
   @override
   final List<String> categoryIds;
   @override
-  final List<Category>? categories;
+  final List<Category>? columns;
   @override
   final ProjectPrivacy privacy;
 
@@ -43,7 +43,7 @@ class ProjectMockModel implements Project {
     required this.memberIds,
     this.members,
     required this.categoryIds,
-    this.categories,
+    this.columns,
     required this.privacy,
   });
 
@@ -72,7 +72,7 @@ class ProjectMockModel implements Project {
       memberIds: memberIds ?? this.memberIds,
       members: members ?? this.members,
       categoryIds: categoryIds ?? this.categoryIds,
-      categories: categories ?? this.categories,
+      columns: categories ?? columns,
       privacy: privacy ?? this.privacy,
     );
   }
@@ -126,7 +126,7 @@ class ProjectMockModel implements Project {
       memberIds: memberIds,
       members: members,
       categoryIds: categoryIds,
-      categories: categories,
+      columns: categories,
       privacy: privacy,
     );
   }

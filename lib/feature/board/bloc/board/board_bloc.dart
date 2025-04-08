@@ -40,17 +40,20 @@ class BoardCubit extends Cubit<BoardState> {
     emit(state.copyWith(status: Status.loading));
 
     try {
-      final project = await _projectRepository.getProjectById(_projectId);
-      debugPrint('Загружена доска: ${project.name}');
+      // final project = await _projectRepository.getProjectById(_projectId);
+      final project = await _projectRepository.getProjectById(
+        "67f4f5485bae78af6594668c",
+      );
+      debugPrint('Загружена доска: $project');
 
       final columns =
-          project.categories?.map((category) {
-            return _createColumnData(
-              category.id,
-              category.name,
-              category.tasks ?? [],
-            );
-          }).toList() ??
+          // project.columns?.map((category) {
+          //   return _createColumnData(
+          //     category.id,
+          //     category.name,
+          //     category.tasks ?? [],
+          //   );
+          // }).toList() ??
           [];
 
       boardController.clear();
@@ -58,9 +61,7 @@ class BoardCubit extends Cubit<BoardState> {
         boardController.addGroup(column);
       }
 
-      emit(
-        BoardState(status: Status.success, columns: columns, project: project),
-      );
+      emit(BoardState(status: Status.success, columns: [], project: project));
     } catch (e) {
       debugPrint('Ошибка загрузки доски: $e');
       emit(BoardState(status: Status.failure, error: e.toString()));

@@ -5,7 +5,7 @@ import 'package:kaban_frontend/core/config/model/di_container.dart';
 import 'package:kaban_frontend/core/domain/entity/dependency.dart';
 import 'package:kaban_frontend/core/domain/entity/env_type.dart';
 import 'package:kaban_frontend/core/network/api_client.dart';
-import 'package:kaban_frontend/feature/board/data/repository/project_repository_mock_impl.dart';
+import 'package:kaban_frontend/feature/board/data/repository/project_repository_api_impl.dart';
 import 'package:kaban_frontend/feature/board/domain/repository/project_repository.dart';
 
 extension ConfigExtension on BuildContext {
@@ -27,9 +27,14 @@ class ConfigBloc extends Cubit<ConfigState> {
   }
 
   Future<void> init() async {
-    put<ProjectRepository>(ProjectRepositoryMockImpl());
-    put<ApiClient>(ApiClient(hostUrl: 'http://localhost:3000'));
-    print(await get<ApiClient>().testRequest());
+    final ApiClient apiClient = ApiClient(hostUrl: 'http://localhost:3000');
+    final ProjectRepository projectRepository = ProjectRepositoryImpl(
+      apiClient: apiClient,
+    );
+
+    put<ApiClient>(apiClient);
+    put<ProjectRepository>(projectRepository);
+
     emit(state.copyWith(status: ConfigStatus.success));
   }
 

@@ -10,9 +10,9 @@ abstract interface class Project {
   DateTime get updatedAt;
   String get ownerId;
   User? get owner;
-  List<String> get memberIds;
-  List<User>? get members;
-  List<String> get categoryIds;
-  List<Category>? get categories;
+  // List<String> get memberIds;
+  // List<User>? get members;
+  // List<String> get columnIds;
+  // List<Category>? get columns;
   ProjectPrivacy get privacy;
 }

@@ -16,7 +16,10 @@ class ProjectPage extends StatelessWidget {
     return BlocBuilder<BoardCubit, BoardState>(
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBarWidget(project: state.project!),
+          appBar:
+              state.project != null
+                  ? AppBarWidget(project: state.project!)
+                  : AppBar(title: const Text('Загрузка')),
           body: BoardWidget(),
         );
       },
