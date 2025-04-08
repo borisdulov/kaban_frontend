@@ -41,6 +41,7 @@ class BoardCubit extends Cubit<BoardState> {
 
     try {
       final project = await _projectRepository.getProjectById(_projectId);
+      debugPrint('Загружена доска: ${project.name}');
 
       final columns =
           project.categories?.map((category) {
@@ -61,6 +62,7 @@ class BoardCubit extends Cubit<BoardState> {
         BoardState(status: Status.success, columns: columns, project: project),
       );
     } catch (e) {
+      debugPrint('Ошибка загрузки доски: $e');
       emit(BoardState(status: Status.failure, error: e.toString()));
     }
   }

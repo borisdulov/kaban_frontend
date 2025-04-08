@@ -28,8 +28,8 @@ class ConfigBloc extends Cubit<ConfigState> {
 
   Future<void> init() async {
     put<ProjectRepository>(ProjectRepositoryMockImpl());
-    put<ApiClient>(ApiClient(hostUrl: 'localhost:3000/'));
-
+    put<ApiClient>(ApiClient(hostUrl: 'http://localhost:3000'));
+    print(await get<ApiClient>().testRequest());
     emit(state.copyWith(status: ConfigStatus.success));
   }
 
