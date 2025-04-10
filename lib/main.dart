@@ -7,6 +7,7 @@ import 'package:kaban_frontend/core/theme/cubit/theme_bloc.dart';
 import 'package:kaban_frontend/core/theme/cubit/theme_state.dart';
 import 'package:kaban_frontend/feature/auth/bloc/auth_cubit.dart';
 import 'package:kaban_frontend/feature/board/bloc/board_list/project_list_bloc.dart';
+import 'package:kaban_frontend/feature/dashboard/bloc/dashboard_bloc.dart';
 
 void main() {
   runApp(AppWidget());
@@ -24,6 +25,7 @@ class AppWidget extends StatelessWidget {
       providers: [
         ThemeBloc.provider(),
         ProjectListCubit.provider(projectId: '1'),
+        DashboardCubit.provider(),
       ],
       child: ConfigProvider(
         envType: envType,
