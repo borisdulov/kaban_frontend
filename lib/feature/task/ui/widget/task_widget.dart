@@ -8,12 +8,13 @@ import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
 import 'package:kaban_frontend/feature/board/bloc/board/board_bloc.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
 import 'package:kaban_frontend/feature/task/ui/widget/date_tag.dart';
+import 'package:kaban_frontend/feature/task/ui/widget/empty_task_widget.dart';
 import 'package:kaban_frontend/feature/task/ui/widget/priority_tag.dart';
 import 'package:kaban_frontend/feature/task/ui/widget/subtasks_tag.dart';
 
 class TaskWidget extends StatelessWidget {
   const TaskWidget({super.key, required this.task});
-  
+
   final Task task;
 
   @override
@@ -38,15 +39,19 @@ class TaskWidget extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.only(left: AppSize.p4),
-                  child: Text(
-                    task.title,
-                    style: GoogleFonts.inter(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: context.colorScheme.onSurface,
-                    ),
-                  ),
+                  child:
+                      task.title.isEmpty
+                          ? EmptyTaskWidget()
+                          : Text(
+                            task.title,
+                            style: GoogleFonts.inter(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: context.colorScheme.onSurface,
+                            ),
+                          ),
                 ),
+
                 SizedBox(
                   width: 32,
                   height: 32,

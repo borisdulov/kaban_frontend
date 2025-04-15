@@ -87,6 +87,17 @@ class TaskMockModel implements Task {
     );
   }
 
+  factory TaskMockModel.empty() {
+    return TaskMockModel(
+      taskId: DateTime.now().microsecondsSinceEpoch.toString(),
+      title: '',
+      categoryId: 'default',
+      isCompleted: false,
+      priority: TaskPriority.medium,
+      createdAt: DateTime.now(),
+    );
+  }
+
   factory TaskMockModel.random() {
     final random = Random();
     return TaskMockModel(

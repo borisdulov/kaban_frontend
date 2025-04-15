@@ -28,7 +28,7 @@ class TaskEditPage extends StatelessWidget {
       body: Container(
         constraints: BoxConstraints(
           minHeight: MediaQuery.of(context).size.height,
-          maxWidth: 320,
+          maxWidth: 400,
         ),
         decoration: BoxDecoration(
           color: context.colorScheme.surfaceContainerLow,
@@ -47,6 +47,7 @@ class TaskEditPage extends StatelessWidget {
                     children: [
                       Expanded(
                         child: TextField(
+                          autofocus: true,
                           controller: _titleController,
                           style: context.textTheme.titleLarge,
                           decoration: InputDecoration(
