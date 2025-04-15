@@ -4,6 +4,7 @@ import 'package:kaban_frontend/core/constants/app_radius.dart';
 import 'package:kaban_frontend/core/constants/app_size.dart';
 import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
 import 'package:kaban_frontend/feature/board/bloc/board/board_bloc.dart';
+import 'package:kaban_frontend/feature/task/data/model/task_mock_model.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
 import 'package:kaban_frontend/feature/task/ui/widget/add_tag_button.dart';
 import 'package:kaban_frontend/feature/task/ui/widget/label_tag_item.dart';
@@ -17,9 +18,14 @@ class TaskEditPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 16,
-      child: Container(
+    final TextEditingController _titleController = TextEditingController(
+      text: task.title,
+    );
+    final TextEditingController _descriptionController = TextEditingController(
+      text: task.description ?? '',
+    );
+    return Scaffold(
+      body: Container(
         constraints: BoxConstraints(
           minHeight: MediaQuery.of(context).size.height,
           maxWidth: 320,
@@ -39,9 +45,27 @@ class TaskEditPage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(task.title, style: context.textTheme.titleLarge),
+                      Expanded(
+                        child: TextField(
+                          controller: _titleController,
+                          style: context.textTheme.titleLarge,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            isDense: true,
+                            contentPadding: EdgeInsets.zero,
+                          ),
+                          onSubmitted: (value) {
+                            _updateTask(context, value);
+                          },
+                        ),
+                      ),
                       IconButton(
                         onPressed: () {
+                          _updateTask(context, _titleController.text);
+                          _updateTaskDescription(
+                            context,
+                            _descriptionController.text,
+                          );
                           context.boardCubit.closeEditPanel();
                         },
                         icon: Icon(Icons.close),
@@ -61,7 +85,6 @@ class TaskEditPage extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // SizedBox(height: AppSize.p4),
                             LabelTagItem(
                               iconPath: AppAssets.list,
                               text: 'Subtask',
@@ -84,7 +107,6 @@ class TaskEditPage extends StatelessWidget {
                           ],
                         ),
                         SizedBox(width: AppSize.p24),
-                        //2
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -127,12 +149,23 @@ class TaskEditPage extends StatelessWidget {
                         color: context.colorScheme.surface,
                         child: Padding(
                           padding: EdgeInsets.all(AppSize.p12),
-                          child: Text(
-                            'Whats is this task about?',
-                            style: TextStyle(
-                              color: context.colorScheme.onSurface.withOpacity(
-                                0.4,
+                          child: FocusScope(
+                            child: TextField(
+                              controller: _descriptionController,
+                              maxLines: 5,
+                              expands: false,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: 'What is this task about?',
+                                hintStyle: TextStyle(
+                                  color: context.colorScheme.onSurface
+                                      .withOpacity(0.4),
+                                ),
                               ),
+                              onSubmitted: (value) {
+                                _updateTaskDescription(context, value);
+                                context.boardCubit.closeEditPanel();
+                              },
                             ),
                           ),
                         ),
@@ -146,5 +179,26 @@ class TaskEditPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _updateTask(BuildContext context, String newTitle) {
+    if (newTitle.trim().isNotEmpty && newTitle != task.title) {
+      final updatedTask = _createUpdatedTask(task, title: newTitle.trim());
+      context.boardCubit.updateTask(updatedTask);
+    }
+  }
+
+  void _updateTaskDescription(BuildContext context, String newDescription) {
+    if (newDescription != task.description) {
+      final updatedTask = _createUpdatedTask(task, description: newDescription);
+      context.boardCubit.updateTask(updatedTask);
+    }
+  }
+
+  Task _createUpdatedTask(Task task, {String? title, String? description}) {
+    if (task is TaskMockModel) {
+      return task.copyWith(title: title, description: description);
+    }
+    throw UnsupportedError('Unsupported Task type');
   }
 }
