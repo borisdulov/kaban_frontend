@@ -102,6 +102,44 @@ class BoardCubit extends Cubit<BoardState> {
     emit(state.copyWith(columns: updatedColumns));
   }
 
+  void openEditPanel(Task task) {
+    emit(state.copyWith(selectedTask: task));
+  }
+
+  void closeEditPanel() {
+    if (state.selectedTask != null) {
+      emit(state.copyWith(selectedTask: null));
+    }
+  }
+
+  void updateTask(Task updateTask) {
+    if (!state.isLoaded) return;
+
+    final newColomns =
+        state.columns.map((column) {
+          final newItems =
+              column.items.map((item) {
+                if (item is TaskItem && item.task.taskId == updateTask.taskId) {
+                  return TaskItem(updateTask);
+                }
+                return item;
+              }).toList();
+          return AppFlowyGroupData(
+            id: column.id,
+            name: column.headerData.groupName,
+            items: newItems,
+            customData: column.customData,
+          );
+        }).toList();
+    _updateBoardController(newColomns);
+    emit(state.copyWith(columns: newColomns, selectedTask: null));
+  }
+
+  void _updateBoardController(List<AppFlowyGroupData> newColomns) {
+    boardController.clear();
+    boardController.addGroups(newColomns);
+  }
+
   @override
   Future<void> close() {
     boardController.dispose();

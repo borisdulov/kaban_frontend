@@ -10,4 +10,5 @@ class AppAssets {
   static const String barChart = 'assets/svg/bar_chart.svg';
   static const String list = 'assets/svg/list.svg';
   static const String svgAvatarAccount = 'assets/svg/svg_avatar_account.svg';
+  static const String accountCircle = 'assets/svg/account_circle.svg';
 }

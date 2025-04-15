@@ -11,13 +11,13 @@ class TagWidget extends StatelessWidget {
     super.key,
     required this.iconPath,
     required this.text,
-    required this.backgroundColor,
+    this.backgroundColor,
     this.color,
   });
 
   final String iconPath;
   final String text;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final Color? color;
 
   @override
