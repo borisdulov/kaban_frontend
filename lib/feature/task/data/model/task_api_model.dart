@@ -44,38 +44,58 @@ class TaskAPIModel implements Task {
   });
 
   factory TaskAPIModel.fromJSON(Map<String, dynamic> json) {
-    return TaskAPIModel(
-      taskId: json['_taskId'] as String,
-      title: json['title'] as String,
-      description: json['description'] as String?,
-      tagId: json['tagId'] as String?,
-      categoryId: json['categoryId'] as String,
-      categoryList: List<String>.from(json['categoryList'] ?? []),
-      userIds: List<String>.from(json['userIds'] ?? []),
-      userList: List<String>.from(json['userList'] ?? []),
-      isCompleted: json['isCompleted'] as bool,
-      priority: TaskPriority.fromString(json['priority'] as String),
-      dueDate:
-          json['dueDate'] != null
-              ? DateTime.parse(json['dueDate'] as String)
-              : null,
-      createdAt: DateTime.parse(json['createdAt'] as String),
-    );
+    try {
+      return TaskAPIModel(
+        taskId:
+            json['_taskId'] ??
+            json['_id'] ??
+            json['id'] ??
+            json['taskId'] ??
+            '',
+        title: json['title'] ?? 'Задача без названия',
+        description: json['description'],
+        tagId: json['tagId'],
+        categoryId: json['categoryId'] ?? json['columnId'] ?? '',
+        categoryList:
+            json['categoryList'] != null
+                ? List<String>.from(json['categoryList'])
+                : [],
+        userIds:
+            json['userIds'] != null ? List<String>.from(json['userIds']) : [],
+        userList:
+            json['userList'] != null ? List<String>.from(json['userList']) : [],
+        isCompleted: json['isCompleted'] ?? false,
+        priority:
+            json['priority'] != null
+                ? TaskPriority.fromString(json['priority'])
+                : TaskPriority.medium,
+        dueDate:
+            json['dueDate'] != null ? DateTime.parse(json['dueDate']) : null,
+        createdAt:
+            json['createdAt'] != null
+                ? DateTime.parse(json['createdAt'])
+                : DateTime.now(),
+      );
+    } catch (e) {
+      print('Ошибка при парсинге задачи: $e, JSON: $json');
+      return TaskAPIModel(
+        taskId: '',
+        title: 'Ошибка загрузки',
+        categoryId: '',
+        isCompleted: false,
+        priority: TaskPriority.medium,
+        createdAt: DateTime.now(),
+      );
+    }
   }
 
   Map<String, dynamic> toJSON() {
     return {
+      'columnId': categoryId,
       'title': title,
-      'description': description,
-      'tagId': tagId,
-      'categoryId': categoryId,
-      'categoryList': categoryList,
-      'userIds': userIds,
-      'userList': userList,
+      'description': description ?? '',
       'isCompleted': isCompleted,
-      'priority': priority.str,
-      'dueDate': dueDate?.toIso8601String(),
-      'createdAt': createdAt.toIso8601String(),
+      'taskPriority': priority.str,
     };
   }
 }

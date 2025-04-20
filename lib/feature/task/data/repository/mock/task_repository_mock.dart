@@ -75,12 +75,13 @@ class TaskRepositoryMock implements TaskRepository {
   }
 
   @override
-  Future<List<Task>> filterTasks(
-      {List<String>? userIds,
-      TaskPriority? priority,
-      List<String>? tags,
-      DateTime? dueDate,
-      String? projectId}) async {
+  Future<List<Task>> filterTasks({
+    List<String>? userIds,
+    TaskPriority? priority,
+    List<String>? tags,
+    DateTime? dueDate,
+    String? projectId,
+  }) async {
     return _tasks.where((task) {
       bool matches = true;
 
@@ -103,5 +104,17 @@ class TaskRepositoryMock implements TaskRepository {
 
       return matches;
     }).toList();
+  }
+
+  @override
+  Future<Task> getTask(String taskId) {
+    // TODO: implement getTask
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> giveTask(String userId, String taskId) {
+    // TODO: implement giveTask
+    throw UnimplementedError();
   }
 }

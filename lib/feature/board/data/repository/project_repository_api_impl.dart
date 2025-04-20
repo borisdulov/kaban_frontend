@@ -11,7 +11,7 @@ final class ProjectRepositoryImpl implements ProjectRepository {
 
   @override
   Future<List<Project>> getAllProjects() async {
-    final response = await _apiClient.get('/board');
+    final response = await _apiClient.get('/board/');
     final List<dynamic> data = response.data;
     return data.map((json) => ProjectAPIModel.fromJSON(json)).toList();
   }
@@ -19,37 +19,49 @@ final class ProjectRepositoryImpl implements ProjectRepository {
   @override
   Future<Project> getProjectById(String id) async {
     final response = await _apiClient.get('/board/$id');
-
     return ProjectAPIModel.fromJSON(response.data);
   }
 
   @override
-  Future<Project> addMember(String projectId, String userId) {
-    // TODO: implement addMember
-    throw UnimplementedError();
+  Future<Project> createProject(Project project) async {
+    final projectModel = project as ProjectAPIModel;
+    final response = await _apiClient.post(
+      '/board/create',
+      data: projectModel.toJSON(),
+    );
+    return ProjectAPIModel.fromJSON(response.data);
   }
 
   @override
-  Future<Project> createProject(Project project) {
-    // TODO: implement createProject
-    throw UnimplementedError();
+  Future<void> deleteProject(String id) async {
+    await _apiClient.get('/board/delete/$id');
   }
 
   @override
-  Future<void> deleteProject(String id) {
-    // TODO: implement deleteProject
-    throw UnimplementedError();
+  Future<Project> addMember(String projectId, String userId) async {
+    final response = await _apiClient.post(
+      '/board/add-users',
+      data: {'projectId': projectId, 'userId': userId},
+    );
+    return ProjectAPIModel.fromJSON(response.data);
   }
 
   @override
-  Future<Project> removeMember(String projectId, String userId) {
-    // TODO: implement removeMember
-    throw UnimplementedError();
+  Future<Project> removeMember(String projectId, String userId) async {
+    final response = await _apiClient.post(
+      '/board/remove-users',
+      data: {'projectId': projectId, 'userId': userId},
+    );
+    return ProjectAPIModel.fromJSON(response.data);
   }
 
   @override
-  Future<Project> updateProject(String id, Project project) {
-    // TODO: implement updateProject
-    throw UnimplementedError();
+  Future<Project> updateProject(String id, Project project) async {
+    final projectModel = project as ProjectAPIModel;
+    final response = await _apiClient.post(
+      '/board/update',
+      data: {'boardId': id, ...projectModel.toJSON()},
+    );
+    return ProjectAPIModel.fromJSON(response.data);
   }
 }

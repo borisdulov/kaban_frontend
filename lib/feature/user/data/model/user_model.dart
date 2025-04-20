@@ -28,13 +28,26 @@ class UserAPIModel implements User {
 
   factory UserAPIModel.fromMap(Map<String, dynamic> map) {
     return UserAPIModel(
-      id: map['id'] as String,
+      id: map['_id'] as String,
       email: map['email'] as String?,
       login: map['login'] as String,
       username: map['username'] as String?,
       bio: map['bio'] as String?,
       avatar: map['avatar'] as String?,
-      projectsIds: List<String>.from(map['projectsIds']), //добавить нулабл
+      projectsIds:
+          map['projectsIds'] != null
+              ? List<String>.from(map['projectsIds'])
+              : null,
     );
+  }
+
+  Map<String, dynamic> toJSON() {
+    return {
+      'email': email,
+      'login': login,
+      'username': username,
+      'bio': bio,
+      'avatar': avatar,
+    };
   }
 }

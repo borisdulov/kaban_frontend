@@ -14,4 +14,6 @@ abstract interface class UserRepository implements Dependency {
   Future<User> getMe(); //вывод пользователя
 
   Future<List<User>> getUsersByUsername(); //вывод по имени всех юзеров
+
+  Future<User> signUp(String login, String password);
 }
