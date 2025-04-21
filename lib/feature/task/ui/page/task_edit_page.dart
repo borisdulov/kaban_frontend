@@ -24,6 +24,7 @@ class TaskEditPage extends StatelessWidget {
     final TextEditingController _descriptionController = TextEditingController(
       text: task.description ?? '',
     );
+
     return Scaffold(
       body: Container(
         constraints: BoxConstraints(
@@ -53,6 +54,7 @@ class TaskEditPage extends StatelessWidget {
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             isDense: true,
+                            hintText: 'Type a task text...',
                             contentPadding: EdgeInsets.zero,
                           ),
                           onSubmitted: (value) {

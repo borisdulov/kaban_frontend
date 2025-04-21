@@ -27,9 +27,6 @@ class BoardWidget extends StatelessWidget {
         if (state.isFailed) {
           return Center(child: Text('Error: ${state.error}'));
         }
-
-        final boardCubit = context.read<BoardCubit>();
-
         return Stack(
           children: [
             Column(
@@ -41,8 +38,8 @@ class BoardWidget extends StatelessWidget {
                       minWidth: MediaQuery.of(context).size.width,
                     ),
                     child: AppFlowyBoard(
-                      controller: boardCubit.boardController,
-                      boardScrollController: boardCubit.boardScrollController,
+                      controller: context.boardCubit.boardController,
+                      boardScrollController: context.boardCubit.boardScrollController,
                       cardBuilder: (context, group, groupItem) {
                         if (groupItem is TaskItem) {
                           return TaskWidget(
@@ -56,7 +53,7 @@ class BoardWidget extends StatelessWidget {
                         return ColumnBoardHeader(
                           key: ValueKey(columnData.id),
                           onTaskCreate:
-                              () => boardCubit.addNewTask(columnData.id),
+                              () => context.boardCubit.addNewTask(columnData.id),
                           title: columnData.headerData.groupName,
                           onMenuPressed: () {},
                         );
@@ -77,7 +74,7 @@ class BoardWidget extends StatelessWidget {
                           right: MediaQuery.of(context).size.width * 0.1,
                         ),
                         child: AddColumnButton(
-                          onPressed: () => boardCubit.addNewColumn(),
+                          onPressed: () => context.boardCubit.addNewColumn(),
                         ),
                       ),
                     ),

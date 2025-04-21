@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:kaban_frontend/core/constants/app_size.dart';
 
 class EmptyTaskWidget extends StatelessWidget {
@@ -11,7 +10,7 @@ class EmptyTaskWidget extends StatelessWidget {
       children: [
         Icon(Icons.edit, size: AppSize.p16),
         SizedBox(width: AppSize.p8),
-        Text('Type a type text...'),
+        Text('Type a task text...'),
       ],
     );
   }
