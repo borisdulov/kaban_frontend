@@ -30,23 +30,29 @@ class IconButtonWidget extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       borderRadius: BorderRadius.circular(AppRadius.r8),
-      child: Row(
-        mainAxisAlignment: showText ? expandedAlignment : collapsedAlignment,
-        children: [
-          SizedBox(
-            width: size,
-            height: size,
-            child: SvgPicture.asset(
-              assetPath,
-              colorFilter:
-                  color != null
-                      ? ColorFilter.mode(color!, BlendMode.srcIn)
-                      : null,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: AppSize.p16,
+          horizontal: AppSize.p4,
+        ),
+        child: Row(
+          mainAxisAlignment: showText ? expandedAlignment : collapsedAlignment,
+          children: [
+            SizedBox(
+              width: size,
+              height: size,
+              child: SvgPicture.asset(
+                assetPath,
+                colorFilter:
+                    color != null
+                        ? ColorFilter.mode(color!, BlendMode.srcIn)
+                        : null,
+              ),
             ),
-          ),
-          if (showText && text != null)
-            Padding(padding: EdgeInsets.only(left: AppSize.p8), child: text),
-        ],
+            if (showText && text != null)
+              Padding(padding: EdgeInsets.only(left: AppSize.p8), child: text),
+          ],
+        ),
       ),
     );
   }

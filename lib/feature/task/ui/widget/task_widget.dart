@@ -1,7 +1,6 @@
 import 'package:appflowy_board/appflowy_board.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kaban_frontend/core/constants/app_assets.dart';
 import 'package:kaban_frontend/core/constants/app_radius.dart';
 import 'package:kaban_frontend/core/constants/app_size.dart';
 import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
@@ -10,7 +9,7 @@ import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
 import 'package:kaban_frontend/feature/task/ui/widget/date_tag.dart';
 import 'package:kaban_frontend/feature/task/ui/widget/empty_task_widget.dart';
 import 'package:kaban_frontend/feature/task/ui/widget/priority_tag.dart';
-import 'package:kaban_frontend/feature/task/ui/widget/subtasks_tag.dart';
+import 'package:kaban_frontend/feature/task/ui/widget/users_tag.dart';
 
 class TaskWidget extends StatelessWidget {
   const TaskWidget({super.key, required this.task});
@@ -75,21 +74,7 @@ class TaskWidget extends StatelessWidget {
                 SizedBox(width: AppSize.p4), //возможно вынеси
                 PriorityTag(priority: task.priority),
                 SizedBox(width: AppSize.p4),
-                SubtasksTag(),
-              ],
-            ),
-            SizedBox(height: AppSize.p8),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.asset(AppAssets.avatarGroup),
-                SizedBox(width: AppSize.p8),
-                Text(
-                  '+1',
-                  style: GoogleFonts.roboto(
-                    color: context.colorScheme.onSurface,
-                  ),
-                ),
+                UsersTag(),
               ],
             ),
           ],

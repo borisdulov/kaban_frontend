@@ -32,7 +32,7 @@ class TaskEditPage extends StatelessWidget {
           maxWidth: 400,
         ),
         decoration: BoxDecoration(
-          color: context.colorScheme.surfaceContainerLow,
+          color: context.colorScheme.surface,
           border: Border(left: BorderSide(color: Colors.grey.shade300)),
         ),
         child: SingleChildScrollView(
@@ -89,11 +89,6 @@ class TaskEditPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             LabelTagItem(
-                              iconPath: AppAssets.list,
-                              text: 'Subtask',
-                            ),
-                            SizedBox(height: AppSize.p24),
-                            LabelTagItem(
                               iconPath: AppAssets.accountCircle,
                               text: 'User',
                             ),
@@ -113,8 +108,6 @@ class TaskEditPage extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            AddTagButton(text: 'Subtask', onPressed: () {}),
-                            SizedBox(height: AppSize.p24),
                             AddTagButton(text: 'Assign', onPressed: () {}),
                             SizedBox(height: AppSize.p24),
                             AddTagButton(text: 'Select date', onPressed: () {}),

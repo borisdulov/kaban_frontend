@@ -22,7 +22,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
         color: context.colorScheme.surface,
         border: Border(
           bottom: BorderSide(
-            color: context.colorScheme.onSurface.withOpacity(0.4),
+            color: context.colorScheme.onSurface.withOpacity(0.2),
             width: 1,
           ),
         ),
@@ -36,7 +36,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
               padding: EdgeInsets.symmetric(vertical: AppThemeSize.p12),
               child: Text(
                 project.name,
-                // style: context.themeData.textTheme.titleLarge,
+                style: context.textTheme.titleLarge,
               ),
             ),
 

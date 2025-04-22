@@ -23,120 +23,105 @@ class DashboardPage extends StatelessWidget {
             children: [
               SizedBox(
                 width: state.panelWidth,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 17),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: AppSize.p16,
-                        ),
-                        child: Column(
-                          children: [
-                            IconButtonWidget(
-                              assetPath: AppAssets.sideBar,
-                              onPressed:
-                                  () => context.dashboardCubit.togglePanel(),
-                              color: context.colorScheme.onSurface,
-                              showText: state.isExpanded,
-                              expandedAlignment: MainAxisAlignment.end,
-                              collapsedAlignment: MainAxisAlignment.center,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSize.p16,
+                      ),
+                      child: Column(
+                        children: [
+                          IconButtonWidget(
+                            assetPath: AppAssets.sideBar,
+                            onPressed:
+                                () => context.dashboardCubit.togglePanel(),
+                            color: context.colorScheme.onSurface,
+                            showText: state.isExpanded,
+                            expandedAlignment: MainAxisAlignment.end,
+                            collapsedAlignment: MainAxisAlignment.center,
+                          ),
+                
+                          SizedBox(height: 7),
+                          Container(
+                            width:
+                                state.isExpanded
+                                    ? state.panelWidth
+                                    : AppSize.p32,
+                            height: 1,
+                            color: context.colorScheme.onSurface.withOpacity(
+                              0.2,
                             ),
-
-                            SizedBox(height: AppSize.p22),
-                            Container(
-                              width:
-                                  state.isExpanded
-                                      ? state.panelWidth
-                                      : AppSize.p32,
-                              height: 1,
-                              color: context.colorScheme.onSurface.withOpacity(
-                                0.2,
-                              ),
+                          ),
+                
+                          SizedBox(height: AppSize.p12),
+                
+                          IconButtonWidget(
+                            assetPath: AppAssets.columns,
+                            onPressed: () => navigationShell.goBranch(0),
+                            color: context.colorScheme.onSurface,
+                            text: Text('My Tasks'),
+                            showText: state.isExpanded,
+                            expandedAlignment: MainAxisAlignment.start,
+                            collapsedAlignment: MainAxisAlignment.center,
+                          ),
+                
+                          SizedBox(height: AppSize.p12),
+                
+                          IconButtonWidget(
+                            assetPath: AppAssets.briefcase,
+                            onPressed: () => navigationShell.goBranch(1),
+                            color: context.colorScheme.onSurface,
+                            text: Text('My Boards'),
+                            showText: state.isExpanded,
+                            expandedAlignment: MainAxisAlignment.start,
+                            collapsedAlignment: MainAxisAlignment.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                
+                    const Spacer(),
+                
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: AppSize.p16),
+                      child: Column(
+                        children: [
+                          IconButtonWidget(
+                            assetPath: AppAssets.svgAvatarAccount,
+                            onPressed: () {},
+                            showText: state.isExpanded,
+                            text: Text('My account'),
+                          ),
+                
+                          SizedBox(height: AppSize.p16),
+                
+                          Container(
+                            width:
+                                state.isExpanded
+                                    ? state.panelWidth
+                                    : AppSize.p32,
+                            height: 1,
+                            color: context.colorScheme.onSurface.withOpacity(
+                              0.2,
                             ),
-
-                            SizedBox(height: AppSize.p22),
-
-                            IconButtonWidget(
-                              assetPath: AppAssets.columns,
+                          ),
+                
+                          SizedBox(
+                            height: kToolbarHeight,
+                            child: IconButtonWidget(
+                              assetPath: AppAssets.settings,
                               onPressed: () => navigationShell.goBranch(0),
                               color: context.colorScheme.onSurface,
-                              text: Text('My Tasks'),
+                              text: Text('Settings'),
                               showText: state.isExpanded,
                               expandedAlignment: MainAxisAlignment.start,
                               collapsedAlignment: MainAxisAlignment.center,
                             ),
-
-                            SizedBox(height: AppSize.p44),
-
-                            IconButtonWidget(
-                              assetPath: AppAssets.checkSquare,
-                              onPressed: () => navigationShell.goBranch(0),
-                              color: context.colorScheme.onSurface,
-                              text: Text('Check'),
-                              showText: state.isExpanded,
-                              expandedAlignment: MainAxisAlignment.start,
-                              collapsedAlignment: MainAxisAlignment.center,
-                            ),
-
-                            SizedBox(height: AppSize.p44),
-
-                            IconButtonWidget(
-                              assetPath: AppAssets.briefcase,
-                              onPressed: () => navigationShell.goBranch(1),
-                              color: context.colorScheme.onSurface,
-                              text: Text('My Boards'),
-                              showText: state.isExpanded,
-                              expandedAlignment: MainAxisAlignment.start,
-                              collapsedAlignment: MainAxisAlignment.center,
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-
-                      const Spacer(),
-
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: AppSize.p16),
-                        child: Column(
-                          children: [
-                            IconButtonWidget(
-                              assetPath: AppAssets.svgAvatarAccount,
-                              onPressed: () {},
-                              showText: state.isExpanded,
-                              text: Text('My account'),
-                            ),
-
-                            SizedBox(height: AppSize.p16),
-
-                            Container(
-                              width:
-                                  state.isExpanded
-                                      ? state.panelWidth
-                                      : AppSize.p32,
-                              height: 1,
-                              color: context.colorScheme.onSurface.withOpacity(
-                                0.2,
-                              ),
-                            ),
-
-                            SizedBox(
-                              height: kToolbarHeight,
-                              child: IconButtonWidget(
-                                assetPath: AppAssets.settings,
-                                onPressed: () => navigationShell.goBranch(0),
-                                color: context.colorScheme.onSurface,
-                                text: Text('Settings'),
-                                showText: state.isExpanded,
-                                expandedAlignment: MainAxisAlignment.start,
-                                collapsedAlignment: MainAxisAlignment.center,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
 
