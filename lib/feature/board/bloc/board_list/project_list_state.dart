@@ -3,12 +3,12 @@ import 'package:kaban_frontend/core/domain/entity/status.dart';
 
 class ProjectListState {
   final Status? status;
-  final List<Project> projects;
+  final List<Project> boards;
   final String? error;
 
   const ProjectListState({
     this.status = Status.initial,
-    this.projects = const [],
+    this.boards = const [],
     this.error,
   });
 
@@ -19,7 +19,7 @@ class ProjectListState {
   }) {
     return ProjectListState(
       status: status ?? this.status,
-      projects: projects ?? this.projects,
+      boards: projects ?? boards,
       error: error ?? this.error,
     );
   }

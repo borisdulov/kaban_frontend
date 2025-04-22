@@ -11,9 +11,9 @@ class ThemeChangeButton extends StatelessWidget {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, state) {
         return IconButton(
-          onPressed: () => context.read<ThemeBloc>().toggleBrightness(),
+          onPressed: () => context.read<ThemeBloc>().toggleTheme(),
           icon: Icon(
-            state.brightness == Brightness.dark
+            state.themeMode == Brightness.dark
                 ? Icons.light_mode
                 : Icons.dark_mode,
           ),

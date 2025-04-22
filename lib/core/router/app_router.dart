@@ -3,9 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kaban_frontend/core/router/app_router_guards.dart';
 import 'package:kaban_frontend/core/router/navigation_key.dart';
+import 'package:kaban_frontend/feature/board/ui/page/project_list_page.dart';
 import 'package:kaban_frontend/feature/dashboard/ui/page/dashboard_page.dart';
 import 'package:kaban_frontend/feature/board/bloc/board/board_bloc.dart';
 import 'package:kaban_frontend/feature/board/ui/page/project_page.dart';
+import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
+import 'package:kaban_frontend/feature/task/ui/page/task_edit_page.dart';
 
 abstract final class AppRouter {
   static final config = GoRouter(
@@ -15,7 +18,11 @@ abstract final class AppRouter {
       ShellRoute(
         navigatorKey: NavigationKey.dashboardKey,
         redirect: AppRouterGuards.authorized,
-        builder: (context, state, child) => child,
+        builder:
+            (context, state, child) => MultiBlocProvider(
+              providers: [BoardCubit.provider(projectId: '1')],
+              child: child,
+            ),
         routes: [
           StatefulShellRoute.indexedStack(
             builder:
@@ -27,11 +34,16 @@ abstract final class AppRouter {
                   GoRoute(
                     path: ProjectPage.path,
                     name: ProjectPage.name,
-                    builder:
-                        (context, state) => MultiBlocProvider(
-                          providers: [BoardCubit.provider(projectId: '1')],
-                          child: ProjectPage(),
-                        ),
+                    builder: (context, state) => ProjectPage(),
+                  ),
+                ],
+              ),
+              StatefulShellBranch(
+                routes: [
+                  GoRoute(
+                    path: ProjectListPage.path,
+                    name: ProjectListPage.name,
+                    builder: (context, state) => ProjectListPage(),
                   ),
                 ],
               ),
@@ -45,9 +57,14 @@ abstract final class AppRouter {
               ),
             ],
           ),
+          GoRoute(
+            path: TaskEditPage.path,
+            name: TaskEditPage.name,
+            builder:
+                (context, state) => TaskEditPage(task: state.extra as Task),
+          ),
         ],
       ),
-
       ShellRoute(
         navigatorKey: NavigationKey.signKey,
         redirect: AppRouterGuards.unauthorized,

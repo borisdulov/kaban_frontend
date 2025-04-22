@@ -8,12 +8,14 @@ class BoardState {
   final List<AppFlowyGroupData> columns;
   final Project? project;
   final String? error;
+  final Task? selectedTask;
 
   const BoardState({
     this.status = Status.initial,
     this.columns = const [],
     this.project,
     this.error,
+    this.selectedTask,
   });
 
   BoardState copyWith({
@@ -21,12 +23,14 @@ class BoardState {
     List<AppFlowyGroupData>? columns,
     Project? project,
     String? error,
+    Task? selectedTask,
   }) {
     return BoardState(
       status: status ?? this.status,
       columns: columns ?? this.columns,
       project: project ?? this.project,
       error: error ?? this.error,
+      selectedTask: selectedTask,
     );
   }
 

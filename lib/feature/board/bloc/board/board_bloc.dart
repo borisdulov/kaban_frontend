@@ -82,11 +82,20 @@ class BoardCubit extends Cubit<BoardState> {
   void addNewTask(String columnId) {
     if (!state.isLoaded) return;
 
-    final newTask = TaskMockModel.random();
+    final newTask = TaskMockModel.empty();
+    final updatedColumns =
+        state.columns.map((column) {
+          if (column.id == columnId) {
+            return AppFlowyGroupData(
+              id: column.id,
+              name: column.headerData.groupName,
+              items: [TaskItem(newTask), ...column.items],
+            );
+          }
+          return column;
+        }).toList();
+    emit(state.copyWith(columns: updatedColumns, selectedTask: newTask));
     boardController.getGroupController(columnId)?.insert(0, TaskItem(newTask));
-
-    final updatedColumns = List<AppFlowyGroupData>.from(state.columns);
-    emit(state.copyWith(columns: updatedColumns));
   }
 
   void addNewColumn() {
@@ -100,6 +109,66 @@ class BoardCubit extends Cubit<BoardState> {
     final updatedColumns = List<AppFlowyGroupData>.from(state.columns)
       ..add(newColumn);
     emit(state.copyWith(columns: updatedColumns));
+  }
+
+  void openEditPanel(Task task) {
+    emit(state.copyWith(selectedTask: task));
+  }
+
+  void closeEditPanel() {
+    if (state.selectedTask != null) {
+      emit(state.copyWith(selectedTask: null));
+    }
+  }
+
+  void updateTask(Task updateTask) {
+    if (!state.isLoaded) return;
+
+    if (updateTask.title.isEmpty) {
+      _removeTask(updateTask);
+      return;
+    }
+
+    final newColomns =
+        state.columns.map((column) {
+          final newItems =
+              column.items.map((item) {
+                if (item is TaskItem && item.task.taskId == updateTask.taskId) {
+                  return TaskItem(updateTask);
+                }
+                return item;
+              }).toList();
+          return AppFlowyGroupData(
+            id: column.id,
+            name: column.headerData.groupName,
+            items: newItems,
+            customData: column.customData,
+          );
+        }).toList();
+    _updateBoardController(newColomns);
+    emit(state.copyWith(columns: newColomns, selectedTask: null));
+  }
+
+  void _removeTask(Task task) {
+    final newColumns =
+        state.columns.map((column) {
+          return AppFlowyGroupData(
+            id: column.id,
+            name: column.headerData.groupName,
+            items:
+                column.items.where((item) {
+                  return !(item is TaskItem && item.task.taskId == task.taskId);
+                }).toList(),
+          );
+        }).toList();
+
+    _updateBoardController(newColumns);
+    emit(state.copyWith(columns: newColumns, selectedTask: null));
+  }
+
+  void _updateBoardController(List<AppFlowyGroupData> newColomns) {
+    boardController.clear();
+    boardController.addGroups(newColomns);
   }
 
   @override
