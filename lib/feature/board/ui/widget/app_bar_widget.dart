@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kaban_frontend/core/constants/app_assets.dart';
-import 'package:kaban_frontend/core/theme/cubit/theme_bloc.dart';
+import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
 import 'package:kaban_frontend/core/theme/data/entity/app_theme_size.dart';
 import 'package:kaban_frontend/core/constants/app_radius.dart';
 import 'package:kaban_frontend/core/theme/ui/widget/theme_change_button.dart';
-import 'package:kaban_frontend/feature/board/domain/entity/project_entity.dart';
+import 'package:kaban_frontend/feature/board/domain/entity/board_entity.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
-  const AppBarWidget({super.key, required this.project});
+  const AppBarWidget({super.key, required this.board});
 
-  final Project project;
+  final Board board;
 
   @override
   Size get preferredSize => const Size.fromHeight(64);
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     return Container(
       decoration: BoxDecoration(
-        color: colorScheme.surface,
+        color: context.colorScheme.surface,
         border: Border(
           bottom: BorderSide(
             color: context.colorScheme.onSurface.withOpacity(0.4),
@@ -36,8 +35,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
             Padding(
               padding: EdgeInsets.symmetric(vertical: AppThemeSize.p12),
               child: Text(
-                project.name,
-                style: context.themeData.textTheme.titleLarge,
+                board.title,
               ),
             ),
 
@@ -51,16 +49,20 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                       child: TextField(
                         decoration: InputDecoration(
                           filled: true,
-                          fillColor: colorScheme.surface,
+                          fillColor: context.colorScheme.surface,
                           hintText: 'Search...',
                           hintStyle: GoogleFonts.inter(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
-                            color: colorScheme.onSurface.withOpacity(0.4),
+                            color: context.colorScheme.onSurface.withOpacity(
+                              0.4,
+                            ),
                           ),
                           prefixIcon: Icon(
                             Icons.search,
-                            color: colorScheme.onSurface.withOpacity(0.4),
+                            color: context.colorScheme.onSurface.withOpacity(
+                              0.4,
+                            ),
                           ),
                           contentPadding: EdgeInsets.symmetric(
                             vertical: 10,
@@ -69,21 +71,27 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(AppRadius.r8),
                             borderSide: BorderSide(
-                              color: colorScheme.outline.withOpacity(0.4),
+                              color: context.colorScheme.outline.withOpacity(
+                                0.4,
+                              ),
                               width: 1.0,
                             ),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(AppRadius.r8),
                             borderSide: BorderSide(
-                              color: colorScheme.outline.withOpacity(0.4),
+                              color: context.colorScheme.outline.withOpacity(
+                                0.4,
+                              ),
                               width: 1.0,
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(AppRadius.r8),
                             borderSide: BorderSide(
-                              color: colorScheme.outline.withOpacity(0.4),
+                              color: context.colorScheme.outline.withOpacity(
+                                0.4,
+                              ),
                               width: 1.5,
                             ),
                           ),
@@ -104,7 +112,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                 Text(
                   '+1',
                   style: GoogleFonts.roboto(
-                    color: colorScheme.onSurface.withOpacity(0.4),
+                    color: context.colorScheme.onSurface.withOpacity(0.4),
                   ),
                 ),
               ],

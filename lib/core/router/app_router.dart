@@ -3,20 +3,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kaban_frontend/core/router/app_router_guards.dart';
 import 'package:kaban_frontend/core/router/navigation_key.dart';
+import 'package:kaban_frontend/feature/board/ui/page/board_list_page.dart';
 import 'package:kaban_frontend/feature/dashboard/ui/page/dashboard_page.dart';
 import 'package:kaban_frontend/feature/board/bloc/board/board_bloc.dart';
-import 'package:kaban_frontend/feature/board/ui/page/project_page.dart';
+import 'package:kaban_frontend/feature/board/ui/page/board_page.dart';
+import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
+import 'package:kaban_frontend/feature/task/ui/page/task_edit_page.dart';
 
 abstract final class AppRouter {
   static final config = GoRouter(
     navigatorKey: NavigationKey.root,
     initialLocation: "/placeholder",
     routes: [
-      //? authorized
       ShellRoute(
         navigatorKey: NavigationKey.dashboardKey,
         redirect: AppRouterGuards.authorized,
-        builder: (context, state, child) => child,
+        builder:
+            (context, state, child) => MultiBlocProvider(
+              providers: [BoardCubit.provider(boardId: '1')],
+              child: child,
+            ),
         routes: [
           StatefulShellRoute.indexedStack(
             builder:
@@ -26,13 +32,18 @@ abstract final class AppRouter {
               StatefulShellBranch(
                 routes: [
                   GoRoute(
-                    path: ProjectPage.path,
-                    name: ProjectPage.name,
-                    builder:
-                        (context, state) => MultiBlocProvider(
-                          providers: [BoardCubit.provider(projectId: '1')],
-                          child: ProjectPage(),
-                        ),
+                    path: BoardPage.path,
+                    name: BoardPage.name,
+                    builder: (context, state) => BoardPage(),
+                  ),
+                ],
+              ),
+              StatefulShellBranch(
+                routes: [
+                  GoRoute(
+                    path: BoardListPage.path,
+                    name: BoardListPage.name,
+                    builder: (context, state) => BoardListPage(),
                   ),
                 ],
               ),
@@ -46,30 +57,39 @@ abstract final class AppRouter {
               ),
             ],
           ),
+          GoRoute(
+            path: TaskEditPage.path,
+            name: TaskEditPage.name,
+            builder:
+                (context, state) => TaskEditPage(task: state.extra as Task),
+          ),
         ],
       ),
-
-      //? unauthorized
       ShellRoute(
         navigatorKey: NavigationKey.signKey,
         redirect: AppRouterGuards.unauthorized,
         builder: (context, state, child) => child,
         routes: [
-          GoRoute(path: '/login', builder: (context, state) => Placeholder()),
           GoRoute(
-            path: '/register',
+            path: '/auth/login',
+            builder: (context, state) => Placeholder(),
+          ),
+          GoRoute(
+            path: '/auth/register',
             builder: (context, state) => Placeholder(),
           ),
         ],
       ),
 
-      //? public
       ShellRoute(
         navigatorKey: NavigationKey.publicKey,
         redirect: AppRouterGuards.public,
         builder: (context, state, child) => child,
         routes: [
-          GoRoute(path: '/splash', builder: (context, state) => Placeholder()),
+          GoRoute(
+            path: '/auth/loading',
+            builder: (context, state) => Placeholder(),
+          ),
         ],
       ),
     ],

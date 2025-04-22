@@ -31,10 +31,10 @@ class TaskCubit extends Cubit<TaskState> {
     }
   }
 
-  Future<void> getTaskByCategoryId(String categoryId) async {
+  Future<void> getTaskByColumnId(String columnId) async {
     emit(state.copyWith(status: Status.loading));
     try {
-      final task = await _taskRepository.getTaskByCategoryId(categoryId);
+      final task = await _taskRepository.getTaskByColumnId(columnId);
       emit(TaskState(status: Status.success, tasks: [task]));
     } catch (e) {
       emit(TaskState(status: Status.failure, error: e.toString()));
@@ -67,7 +67,7 @@ class TaskCubit extends Cubit<TaskState> {
 
       final updatedTasks =
           state.tasks.map((t) {
-            return t.taskId == task.taskId ? updatedTask : t;
+            return t.id == task.id ? updatedTask : t;
           }).toList();
 
       emit(state.copyWith(status: Status.success, tasks: updatedTasks));
@@ -83,8 +83,7 @@ class TaskCubit extends Cubit<TaskState> {
       emit(state.copyWith(status: Status.loading));
       await _taskRepository.deleteTask(taskId);
 
-      final updatedTasks =
-          state.tasks.where((t) => t.taskId != taskId).toList();
+      final updatedTasks = state.tasks.where((t) => t.id != taskId).toList();
 
       emit(state.copyWith(status: Status.success, tasks: updatedTasks));
     } catch (e) {
@@ -92,12 +91,12 @@ class TaskCubit extends Cubit<TaskState> {
     }
   }
 
-  Future<void> moveTaskToCategory(String taskId, String categoryId) async {
+  Future<void> moveTaskToColumn(String taskId, String columnId) async {
     if (!state.isLoaded) return;
 
     try {
       emit(state.copyWith(status: Status.loading));
-      await _taskRepository.moveTaskToCategory(taskId, categoryId);
+      await _taskRepository.moveTaskToColumn(taskId, columnId);
       final tasks = await _taskRepository.getAllTasks();
 
       emit(state.copyWith(status: Status.success, tasks: tasks));
@@ -122,7 +121,7 @@ class TaskCubit extends Cubit<TaskState> {
     TaskPriority? priority,
     List<String>? tags,
     DateTime? dueDate,
-    String? projectId,
+    String? boardId,
   }) async {
     if (!state.isLoaded) return;
     try {
@@ -132,7 +131,7 @@ class TaskCubit extends Cubit<TaskState> {
         priority: priority,
         tags: tags,
         dueDate: dueDate,
-        projectId: projectId,
+        boardId: boardId,
       );
       emit(state.copyWith(status: Status.success, tasks: tasks));
     } catch (e) {

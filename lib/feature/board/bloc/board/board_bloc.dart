@@ -1,44 +1,41 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:appflowy_board/appflowy_board.dart';
 import 'package:kaban_frontend/core/config/bloc/config_bloc.dart';
 import 'package:kaban_frontend/core/domain/entity/status.dart';
 import 'package:kaban_frontend/feature/board/bloc/board/board_state.dart';
-import 'package:kaban_frontend/feature/board/domain/repository/project_repository.dart';
-import 'package:kaban_frontend/feature/category/data/model/category_api_model.dart';
-import 'package:kaban_frontend/feature/category/domain/entity/category_entity.dart';
-import 'package:kaban_frontend/feature/category/domain/repository/category_repository.dart';
+import 'package:kaban_frontend/feature/board/domain/repository/board_repository.dart';
+import 'package:kaban_frontend/feature/column/data/model/column_api_model.dart';
+import 'package:kaban_frontend/feature/column/domain/repository/column_repository.dart';
 import 'package:kaban_frontend/feature/task/data/model/task_api_model.dart';
-import 'package:kaban_frontend/feature/task/data/model/task_mock_model.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_priority_enum.dart';
 import 'package:kaban_frontend/feature/task/domain/repository/task_repository.dart';
+import 'package:kaban_frontend/feature/user/data/model/user_mock_model.dart';
 
 class BoardCubit extends Cubit<BoardState> {
   BoardCubit({
-    required ProjectRepository projectRepository,
-    required CategoryRepository categoryRepository,
+    required BoardRepository boardRepository,
+    required ColumnRepository columnRepository,
     required TaskRepository taskRepository,
-    required String projectId,
-  }) : _projectRepository = projectRepository,
-       _categoryRepository = categoryRepository,
+    required String boardId,
+  }) : _boardRepository = boardRepository,
+       _columnRepository = columnRepository,
        _taskRepository = taskRepository,
-       _projectId = projectId,
+       _boardId = boardId,
        super(const BoardState(status: Status.loading)) {
     load();
   }
 
-  final String _projectId;
-  final ProjectRepository _projectRepository;
-  final CategoryRepository _categoryRepository;
+  final String _boardId;
+  final BoardRepository _boardRepository;
+  final ColumnRepository _columnRepository;
   final TaskRepository _taskRepository;
 
   late final AppFlowyBoardController boardController = AppFlowyBoardController(
     onMoveGroup: (fromGroupId, fromIndex, toGroupId, toIndex) {
       debugPrint('Move item from $fromIndex to $toIndex');
-      _reorderCategories();
+      _reorderColumns();
     },
     onMoveGroupItem: (groupId, fromIndex, toIndex) {
       debugPrint('Move $groupId:$fromIndex to $groupId:$toIndex');
@@ -52,12 +49,9 @@ class BoardCubit extends Cubit<BoardState> {
           final item = items[fromIndex];
           if (item is TaskItem) {
             try {
-              await _taskRepository.moveTaskToCategory(
-                item.task.taskId,
-                toGroupId,
-              );
+              await _taskRepository.moveTaskToColumn(item.task.id, toGroupId);
               debugPrint(
-                'Задача перемещена на сервере: ${item.task.taskId} в колонку $toGroupId',
+                'Задача перемещена на сервере: ${item.task.id} в колонку $toGroupId',
               );
             } catch (e) {
               debugPrint('Ошибка при перемещении задачи: $e');
@@ -75,39 +69,33 @@ class BoardCubit extends Cubit<BoardState> {
     emit(state.copyWith(status: Status.loading));
 
     try {
-      final project = await _projectRepository.getProjectById(_projectId);
-      debugPrint('Загружена доска: $project');
+      final board = await _boardRepository.getBoardById(_boardId);
+      debugPrint('Загружена доска: $board');
 
-      final categories = await _categoryRepository.getCategoriesByProjectId(
-        _projectId,
-      );
+      final columnsData = await _columnRepository.getColumnsByBoardId(_boardId);
 
-      debugPrint('Загружено категорий: ${categories.length}');
+      debugPrint('Загружено категорий: ${columnsData.length}');
 
       final columns = <AppFlowyGroupData>[];
 
-      for (final category in categories) {
+      for (final column in columnsData) {
         try {
-          if (category.id.isEmpty) {
+          if (column.id.isEmpty) {
             debugPrint('Пропущена колонка с пустым ID');
             continue;
           }
 
           List<Task> tasks = [];
           try {
-            tasks = await _categoryRepository.getTasksByCategoryId(category.id);
-            debugPrint('Загружено задач для ${category.name}: ${tasks.length}');
+            tasks = await _columnRepository.getTasksByColumnId(column.id);
+            debugPrint('Загружено задач для ${column.title}: ${tasks.length}');
           } catch (e) {
             debugPrint(
-              'Ошибка при загрузке задач для колонки ${category.id}: $e',
+              'Ошибка при загрузке задач для колонки ${column.id}: $e',
             );
           }
 
-          final columnData = _createColumnData(
-            category.id,
-            category.name,
-            tasks,
-          );
+          final columnData = _createColumnData(column.id, column.title, tasks);
           columns.add(columnData);
         } catch (e) {
           debugPrint('Ошибка при обработке колонки: $e');
@@ -119,9 +107,7 @@ class BoardCubit extends Cubit<BoardState> {
         boardController.addGroup(column);
       }
 
-      emit(
-        BoardState(status: Status.success, columns: columns, project: project),
-      );
+      emit(BoardState(status: Status.success, columns: columns, board: board));
     } catch (e) {
       debugPrint('Ошибка загрузки доски: $e');
       emit(BoardState(status: Status.failure, error: e.toString()));
@@ -146,21 +132,24 @@ class BoardCubit extends Cubit<BoardState> {
     if (!state.isLoaded) return;
 
     try {
+      final creator = UserMockModel.mock();
+
       final newTask = TaskAPIModel(
-        taskId: '',
+        id: '',
         title: 'Новая задача',
         description: '',
-        categoryId: columnId,
-        isCompleted: false,
+        columnId: columnId,
+        userIds: [],
+        creatorId: creator.id,
+        creator: creator,
         priority: TaskPriority.medium,
-        createdAt: DateTime.now(),
       );
 
       debugPrint('Создание задачи для колонки: $columnId');
       debugPrint('Данные для создания задачи: ${newTask.toJSON()}');
 
       final createdTask = await _taskRepository.createTask(newTask);
-      debugPrint('Создана новая задача на сервере: ${createdTask.taskId}');
+      debugPrint('Создана новая задача на сервере: ${createdTask.id}');
 
       boardController
           .getGroupController(columnId)
@@ -177,46 +166,103 @@ class BoardCubit extends Cubit<BoardState> {
     if (!state.isLoaded) return;
 
     try {
-      final newCategory = CategoryAPIModel(
+      final newColumnModel = ColumnAPIModel(
         id: '',
-        name: 'Новая колонка',
-        projectId: _projectId,
-        color: Colors.blue,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-        position: state.columns.length,
+        title: 'Новая колонка',
+        boardId: _boardId,
+        color: '#1976D2',
         taskIds: [],
       );
 
-      final createdCategory = await _categoryRepository.createCategory(
-        newCategory,
+      final createdColumn = await _columnRepository.createColumn(
+        newColumnModel,
       );
-      debugPrint('Создана новая колонка на сервере: ${createdCategory.id}');
+      debugPrint('Создана новая колонка на сервере: ${createdColumn.id}');
 
-      final newColumn = _createColumnData(
-        createdCategory.id,
-        createdCategory.name,
+      final columnData = _createColumnData(
+        createdColumn.id,
+        createdColumn.title,
         [],
       );
 
-      boardController.addGroup(newColumn);
+      boardController.addGroup(columnData);
 
       final updatedColumns = List<AppFlowyGroupData>.from(state.columns)
-        ..add(newColumn);
+        ..add(columnData);
       emit(state.copyWith(columns: updatedColumns));
     } catch (e) {
       debugPrint('Ошибка при создании колонки: $e');
     }
   }
 
-  Future<void> _reorderCategories() async {
+  Future<void> _reorderColumns() async {
     try {
-      final categoryIds = boardController.groupIds;
-      await _categoryRepository.reorderCategories(_projectId, categoryIds);
+      final columnIds = boardController.groupIds;
+      await _columnRepository.reorderColumns(_boardId, columnIds);
       debugPrint('Порядок колонок обновлен на сервере');
     } catch (e) {
       debugPrint('Ошибка при обновлении порядка колонок: $e');
     }
+  }
+
+  void openEditPanel(Task task) {
+    emit(state.copyWith(selectedTask: task));
+  }
+
+  void closeEditPanel() {
+    if (state.selectedTask != null) {
+      emit(state.copyWith(selectedTask: null));
+    }
+  }
+
+  void updateTask(Task updateTask) {
+    if (!state.isLoaded) return;
+
+    if (updateTask.title.isEmpty) {
+      _removeTask(updateTask);
+      return;
+    }
+
+    final newColomns =
+        state.columns.map((column) {
+          final newItems =
+              column.items.map((item) {
+                if (item is TaskItem && item.task.id == updateTask.id) {
+                  return TaskItem(updateTask);
+                }
+                return item;
+              }).toList();
+          return AppFlowyGroupData(
+            id: column.id,
+            name: column.headerData.groupName,
+            items: newItems,
+            customData: column.customData,
+          );
+        }).toList();
+    _updateBoardController(newColomns);
+    emit(state.copyWith(columns: newColomns, selectedTask: null));
+  }
+
+  void _removeTask(Task task) {
+    final newColumns =
+        state.columns.map((column) {
+          return AppFlowyGroupData(
+            id: column.id,
+            name: column.headerData.groupName,
+            items:
+                column.items.where((item) {
+                  return !(item is TaskItem && item.task.id == task.id);
+                }).toList(),
+          );
+        }).toList();
+
+    _updateBoardController(newColumns);
+    emit(state.copyWith(columns: newColumns, selectedTask: null));
+  }
+
+  void _updateBoardController(List<AppFlowyGroupData> newColomns) {
+    boardController.clear();
+    boardController.addGroups(newColomns);
   }
 
   @override
@@ -225,14 +271,14 @@ class BoardCubit extends Cubit<BoardState> {
     return super.close();
   }
 
-  static BlocProvider<BoardCubit> provider({required String projectId}) {
+  static BlocProvider<BoardCubit> provider({required String boardId}) {
     return BlocProvider(
       create:
           (context) => BoardCubit(
-            projectRepository: context.configCubit.get<ProjectRepository>(),
-            categoryRepository: context.configCubit.get<CategoryRepository>(),
+            boardRepository: context.configCubit.get<BoardRepository>(),
+            columnRepository: context.configCubit.get<ColumnRepository>(),
             taskRepository: context.configCubit.get<TaskRepository>(),
-            projectId: "6805780ee522fad62a18def0",
+            boardId: "6807f0f6045465dc53e94254",
           ),
     );
   }

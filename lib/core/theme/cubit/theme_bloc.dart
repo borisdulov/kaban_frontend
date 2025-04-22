@@ -1,68 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../data/entity/theme_color.dart';
 import 'theme_state.dart';
 
 extension ThemeExtension on BuildContext {
   ThemeBloc get themeCubit => read<ThemeBloc>();
-  ThemeData get themeData => themeCubit.state.themeData;
-  ColorScheme get colorScheme => themeData.colorScheme;
-  TextTheme get textTheme => themeData.textTheme;
+  // ThemeData get themeData => themeCubit.state.themeData;
+  // ColorScheme get colorScheme => themeData.colorScheme;
+  // TextTheme get textTheme => themeData.textTheme;
 }
 
 class ThemeBloc extends Cubit<ThemeState> {
-  ThemeBloc()
-    : super(
-        ThemeState(
-          themeData: _createThemeData(ThemeColor.blue, Brightness.light),
-          selectedColor: ThemeColor.blue,
-          brightness: Brightness.light,
-        ),
-      );
+  ThemeBloc() : super(const ThemeState(ThemeMode.light));
 
-  void changeThemeColor(ThemeColor color) {
-    final newThemeData = _createThemeData(color, state.brightness);
-    emit(state.copyWith(themeData: newThemeData, selectedColor: color));
+  void toggleTheme() {
+    final newMode =
+        state.themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+    emit(ThemeState(newMode));
   }
 
-  void toggleBrightness() {
-    final newBrightness =
-        state.brightness == Brightness.light
-            ? Brightness.dark
-            : Brightness.light;
-
-    final newThemeData = _createThemeData(state.selectedColor, newBrightness);
-    emit(state.copyWith(themeData: newThemeData, brightness: newBrightness));
-  }
-
-  static ThemeData _createThemeData(
-    ThemeColor themeColor,
-    Brightness brightness,
-  ) {
-    final bool isDark = brightness == Brightness.dark;
-    final ColorScheme colorScheme = ColorScheme.fromSeed(
-      seedColor: themeColor.color,
-      brightness: brightness,
-      primary: themeColor.color,
-      secondary:
-          isDark
-              ? themeColor.color.withOpacity(0.7)
-              : themeColor.color.withOpacity(0.8),
-      background: isDark ? Colors.grey[900]! : Colors.grey[50]!,
-      surface: isDark ? Colors.grey[800]! : Colors.white,
-      error: isDark ? Colors.red : Colors.redAccent,
-    );
-    return ThemeData(
-      colorScheme: colorScheme,
-      brightness: brightness,
-      useMaterial3: true,
-
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: colorScheme.primary,
-          foregroundColor: colorScheme.onPrimary,
-        ),
-      ),
-    );
+  static BlocProvider<ThemeBloc> provider() {
+    return BlocProvider(create: (context) => ThemeBloc());
   }
 }

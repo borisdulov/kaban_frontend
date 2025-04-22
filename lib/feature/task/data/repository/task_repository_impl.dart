@@ -17,8 +17,8 @@ final class TaskRepositoryImpl implements TaskRepository {
   }
 
   @override
-  Future<Task> getTaskByCategoryId(String categoryId) async {
-    final response = await _apiClient.get('/task/category/$categoryId');
+  Future<Task> getTaskByColumnId(String columnId) async {
+    final response = await _apiClient.get('/task/column/$columnId');
     return TaskAPIModel.fromJSON(response.data);
   }
 
@@ -54,10 +54,10 @@ final class TaskRepositoryImpl implements TaskRepository {
   }
 
   @override
-  Future<void> moveTaskToCategory(String taskId, String categoryId) async {
+  Future<void> moveTaskToColumn(String taskId, String columnId) async {
     await _apiClient.post(
       '/task/moveTask',
-      data: {'taskId': taskId, 'newColumnId': categoryId},
+      data: {'taskId': taskId, 'newColumnId': columnId},
     );
   }
 
@@ -82,7 +82,7 @@ final class TaskRepositoryImpl implements TaskRepository {
     TaskPriority? priority,
     List<String>? tags,
     DateTime? dueDate,
-    String? projectId,
+    String? boardId,
   }) async {
     final Map<String, dynamic> queryParams = {};
 
@@ -102,8 +102,8 @@ final class TaskRepositoryImpl implements TaskRepository {
       queryParams['dueDate'] = dueDate.toIso8601String();
     }
 
-    if (projectId != null) {
-      queryParams['projectId'] = projectId;
+    if (boardId != null) {
+      queryParams['boardId'] = boardId;
     }
 
     final response = await _apiClient.get(
