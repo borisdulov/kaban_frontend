@@ -7,6 +7,8 @@ abstract interface class TaskRepository implements Dependency {
 
   Future<Task> getTaskByCategoryId(String categoryId);
 
+  Future<Task> getTask(String taskId);
+
   Future<Task> createTask(Task task);
 
   Future<Task> updateTask(Task task);
@@ -14,6 +16,8 @@ abstract interface class TaskRepository implements Dependency {
   Future<void> deleteTask(String taskId);
 
   Future<void> moveTaskToCategory(String taskId, String categoryId);
+
+  Future<void> giveTask(String userId, String taskId);
 
   Future<List<Task>> searchTasks();
 
