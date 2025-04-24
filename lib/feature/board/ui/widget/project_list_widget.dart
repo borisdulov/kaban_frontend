@@ -15,7 +15,7 @@ class ProjectListWidget extends StatelessWidget {
     return BlocBuilder<ProjectListCubit, ProjectListState>(
       builder: (context, state) {
         return Padding(
-          padding: const EdgeInsets.all(AppSize.p40),
+          padding: const EdgeInsets.all(AppSize.p8),
           child: Card(
             elevation: 0,
             color: context.colorScheme.surfaceContainerLow,

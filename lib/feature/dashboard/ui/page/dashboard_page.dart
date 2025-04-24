@@ -40,7 +40,7 @@ class DashboardPage extends StatelessWidget {
                             expandedAlignment: MainAxisAlignment.end,
                             collapsedAlignment: MainAxisAlignment.center,
                           ),
-                
+
                           SizedBox(height: 7),
                           Container(
                             width:
@@ -52,9 +52,9 @@ class DashboardPage extends StatelessWidget {
                               0.2,
                             ),
                           ),
-                
+
                           SizedBox(height: AppSize.p12),
-                
+
                           IconButtonWidget(
                             assetPath: AppAssets.columns,
                             onPressed: () => navigationShell.goBranch(0),
@@ -64,9 +64,9 @@ class DashboardPage extends StatelessWidget {
                             expandedAlignment: MainAxisAlignment.start,
                             collapsedAlignment: MainAxisAlignment.center,
                           ),
-                
+
                           SizedBox(height: AppSize.p12),
-                
+
                           IconButtonWidget(
                             assetPath: AppAssets.briefcase,
                             onPressed: () => navigationShell.goBranch(1),
@@ -79,22 +79,13 @@ class DashboardPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                
+
                     const Spacer(),
-                
+
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: AppSize.p16),
                       child: Column(
                         children: [
-                          IconButtonWidget(
-                            assetPath: AppAssets.svgAvatarAccount,
-                            onPressed: () {},
-                            showText: state.isExpanded,
-                            text: Text('My account'),
-                          ),
-                
-                          SizedBox(height: AppSize.p16),
-                
                           Container(
                             width:
                                 state.isExpanded
@@ -105,18 +96,14 @@ class DashboardPage extends StatelessWidget {
                               0.2,
                             ),
                           ),
-                
-                          SizedBox(
-                            height: kToolbarHeight,
-                            child: IconButtonWidget(
-                              assetPath: AppAssets.settings,
-                              onPressed: () => navigationShell.goBranch(0),
-                              color: context.colorScheme.onSurface,
-                              text: Text('Settings'),
-                              showText: state.isExpanded,
-                              expandedAlignment: MainAxisAlignment.start,
-                              collapsedAlignment: MainAxisAlignment.center,
-                            ),
+
+                          SizedBox(height: AppSize.p8),
+
+                          IconButtonWidget(
+                            assetPath: AppAssets.svgAvatarAccount,
+                            onPressed: () {},
+                            showText: state.isExpanded,
+                            text: Text('My account'),
                           ),
                         ],
                       ),
