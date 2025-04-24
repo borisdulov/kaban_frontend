@@ -11,4 +11,6 @@ class AppAssets {
   static const String list = 'assets/svg/list.svg';
   static const String svgAvatarAccount = 'assets/svg/svg_avatar_account.svg';
   static const String accountCircle = 'assets/svg/account_circle.svg';
+  static const String logoKaban = 'assets/svg/logo_kaban.svg';
+  static const String logoKabanPng = 'assets/png/logo_kaban_black.png';
 }
