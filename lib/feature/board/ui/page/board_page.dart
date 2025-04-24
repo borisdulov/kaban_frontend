@@ -9,7 +9,7 @@ class BoardPage extends StatelessWidget {
   const BoardPage({super.key});
 
   static const String name = 'Board';
-  static const String path = '/board';
+  static const String path = '/board/';
 
   @override
   Widget build(BuildContext context) {

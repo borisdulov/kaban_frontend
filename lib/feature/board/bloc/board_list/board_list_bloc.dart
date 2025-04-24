@@ -25,7 +25,7 @@ class BoardListCubit extends Cubit<BoardListState> {
   Future<void> fetchBoards() async {
     emit(state.copyWith(status: Status.loading));
     try {
-      final boards = await _boardRepository.getAllBoards();
+      final boards = await _boardRepository.getMyBoards();
       emit(BoardListState(status: Status.success, boards: boards));
     } catch (e) {
       emit(BoardListState(status: Status.failure, error: e.toString()));
@@ -57,7 +57,7 @@ class BoardListCubit extends Cubit<BoardListState> {
       final newBoard = BoardMockModel.random();
       await _boardRepository.createBoard(newBoard);
 
-      final updatedBoards = await _boardRepository.getAllBoards();
+      final updatedBoards = await _boardRepository.getMyBoards();
       emit(state.copyWith(status: Status.success, boards: updatedBoards));
     } catch (e) {
       emit(state.copyWith(status: Status.failure, error: e.toString()));

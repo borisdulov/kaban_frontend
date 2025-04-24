@@ -9,7 +9,7 @@ final class BoardRepositoryImpl implements BoardRepository {
   BoardRepositoryImpl({required ApiClient apiClient}) : _apiClient = apiClient;
 
   @override
-  Future<List<Board>> getAllBoards() async {
+  Future<List<Board>> getMyBoards() async {
     final response = await _apiClient.get('/board/');
     final List<dynamic> data = response.data;
     return data.map((json) => BoardAPIModel.fromJSON(json)).toList();

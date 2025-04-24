@@ -6,7 +6,7 @@ final class BoardRepositoryMockImpl implements BoardRepository {
   final List<BoardMockModel> _boards = [BoardMockModel.random()];
 
   @override
-  Future<List<Board>> getAllBoards() async {
+  Future<List<Board>> getMyBoards() async {
     return Future.value(_boards);
   }
 

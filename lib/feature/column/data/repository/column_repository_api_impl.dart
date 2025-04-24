@@ -10,10 +10,11 @@ import 'package:kaban_frontend/feature/user/data/model/user_mock_model.dart';
 import 'package:flutter/material.dart' hide Column;
 import 'package:flutter/foundation.dart';
 
-final class ColumnRepositoryImpl implements ColumnRepository {
+final class ColumnRepositoryApiImpl implements ColumnRepository {
   final ApiClient _apiClient;
 
-  ColumnRepositoryImpl({required ApiClient apiClient}) : _apiClient = apiClient;
+  ColumnRepositoryApiImpl({required ApiClient apiClient})
+    : _apiClient = apiClient;
 
   @override
   Future<List<column_entity.Column>> getColumnsByBoardId(String boardId) async {

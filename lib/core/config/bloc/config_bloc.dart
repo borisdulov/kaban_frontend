@@ -7,7 +7,7 @@ import 'package:kaban_frontend/core/domain/entity/env_type.dart';
 import 'package:kaban_frontend/core/network/api_client.dart';
 import 'package:kaban_frontend/feature/board/data/repository/board_repository_api_impl.dart';
 import 'package:kaban_frontend/feature/board/domain/repository/board_repository.dart';
-import 'package:kaban_frontend/feature/column/data/repository/column_repository_impl.dart';
+import 'package:kaban_frontend/feature/column/data/repository/column_repository_api_impl.dart';
 import 'package:kaban_frontend/feature/column/domain/repository/column_repository.dart';
 import 'package:kaban_frontend/feature/task/data/repository/task_repository_impl.dart';
 import 'package:kaban_frontend/feature/task/domain/repository/task_repository.dart';
@@ -43,7 +43,7 @@ class ConfigBloc extends Cubit<ConfigState> {
       apiClient: apiClient,
     );
 
-    final ColumnRepository columnRepository = ColumnRepositoryImpl(
+    final ColumnRepository columnRepository = ColumnRepositoryApiImpl(
       apiClient: apiClient,
     );
 
