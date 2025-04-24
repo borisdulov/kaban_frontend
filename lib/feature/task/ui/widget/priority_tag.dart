@@ -7,13 +7,17 @@ import 'package:kaban_frontend/feature/task/ui/widget/tag_widget.dart';
 class PriorityTag extends StatelessWidget {
   const PriorityTag({super.key, required this.priority});
 
-  final TaskPriority priority;
+  final TaskPriority? priority;
 
   @override
   Widget build(BuildContext context) {
+    if (priority == null) {
+      return const SizedBox.shrink();
+    }
+
     return TagWidget(
       iconPath: AppAssets.barChart,
-      text: priority.str,
+      text: priority!.str,
       backgroundColor: Colors.blue,
       color: context.colorScheme.onSurface,
     );

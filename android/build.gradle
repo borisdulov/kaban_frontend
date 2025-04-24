@@ -1,18 +1,18 @@
-allprojects {
+allboards {
     repositories {
         google()
         mavenCentral()
     }
 }
 
-rootProject.buildDir = "../build"
-subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
+rootBoard.buildDir = "../build"
+subboards {
+    board.buildDir = "${rootBoard.buildDir}/${board.name}"
 }
-subprojects {
-    project.evaluationDependsOn(":app")
+subboards {
+    board.evaluationDependsOn(":app")
 }
 
 tasks.register("clean", Delete) {
-    delete rootProject.buildDir
+    delete rootBoard.buildDir
 }

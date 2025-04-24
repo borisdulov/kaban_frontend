@@ -6,7 +6,7 @@ import 'package:kaban_frontend/core/config/bloc/config_provider.dart';
 import 'package:kaban_frontend/core/theme/cubit/theme_bloc.dart';
 import 'package:kaban_frontend/core/theme/cubit/theme_state.dart';
 import 'package:kaban_frontend/feature/auth/bloc/auth_cubit.dart';
-import 'package:kaban_frontend/feature/board/bloc/board_list/project_list_bloc.dart';
+import 'package:kaban_frontend/feature/board/bloc/board_list/board_list_bloc.dart';
 import 'package:kaban_frontend/feature/dashboard/bloc/dashboard_bloc.dart';
 
 void main() {
@@ -24,7 +24,7 @@ class AppWidget extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         ThemeBloc.provider(),
-        ProjectListCubit.provider(projectId: '1'),
+        BoardListCubit.provider(boardId: '1'),
         DashboardCubit.provider(),
       ],
       child: ConfigProvider(

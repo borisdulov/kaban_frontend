@@ -5,12 +5,12 @@ import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
 import 'package:kaban_frontend/core/theme/data/entity/app_theme_size.dart';
 import 'package:kaban_frontend/core/constants/app_radius.dart';
 import 'package:kaban_frontend/core/theme/ui/widget/theme_change_button.dart';
-import 'package:kaban_frontend/feature/board/domain/entity/project_entity.dart';
+import 'package:kaban_frontend/feature/board/domain/entity/board_entity.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
-  const AppBarWidget({super.key, required this.project});
+  const AppBarWidget({super.key, required this.board});
 
-  final Project project;
+  final Board board;
 
   @override
   Size get preferredSize => const Size.fromHeight(64);
@@ -35,8 +35,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
             Padding(
               padding: EdgeInsets.symmetric(vertical: AppThemeSize.p12),
               child: Text(
-                project.name,
-                // style: context.themeData.textTheme.titleLarge,
+                board.title,
               ),
             ),
 

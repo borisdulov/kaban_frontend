@@ -26,7 +26,9 @@ class TagWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(AppRadius.r8),
-        border: Border.all(color: context.colorScheme.onSurface.withOpacity(0.2)),
+        border: Border.all(
+          color: context.colorScheme.onSurface.withOpacity(0.2),
+        ),
       ),
       child: Padding(
         padding: const EdgeInsets.all(AppSize.p8),

@@ -5,8 +5,14 @@ import 'package:kaban_frontend/core/config/model/di_container.dart';
 import 'package:kaban_frontend/core/domain/entity/dependency.dart';
 import 'package:kaban_frontend/core/domain/entity/env_type.dart';
 import 'package:kaban_frontend/core/network/api_client.dart';
-import 'package:kaban_frontend/feature/board/data/repository/project_repository_mock_impl.dart';
-import 'package:kaban_frontend/feature/board/domain/repository/project_repository.dart';
+import 'package:kaban_frontend/feature/board/data/repository/board_repository_api_impl.dart';
+import 'package:kaban_frontend/feature/board/domain/repository/board_repository.dart';
+import 'package:kaban_frontend/feature/column/data/repository/column_repository_impl.dart';
+import 'package:kaban_frontend/feature/column/domain/repository/column_repository.dart';
+import 'package:kaban_frontend/feature/task/data/repository/task_repository_impl.dart';
+import 'package:kaban_frontend/feature/task/domain/repository/task_repository.dart';
+import 'package:kaban_frontend/feature/user/data/repository/user_repository_impl.dart';
+import 'package:kaban_frontend/feature/user/domain/repository/user_repository.dart';
 
 extension ConfigExtension on BuildContext {
   ConfigBloc get configCubit => read<ConfigBloc>();
@@ -27,8 +33,29 @@ class ConfigBloc extends Cubit<ConfigState> {
   }
 
   Future<void> init() async {
-    put<ProjectRepository>(ProjectRepositoryMockImpl());
-    put<ApiClient>(ApiClient(hostUrl: 'localhost:3000/'));
+    final ApiClient apiClient = ApiClient(hostUrl: 'http://localhost:3000');
+
+    final BoardRepository boardRepository = BoardRepositoryImpl(
+      apiClient: apiClient,
+    );
+
+    final TaskRepository taskRepository = TaskRepositoryImpl(
+      apiClient: apiClient,
+    );
+
+    final ColumnRepository columnRepository = ColumnRepositoryImpl(
+      apiClient: apiClient,
+    );
+
+    final UserRepository userRepository = UserRepositoryImpl(
+      apiClient: apiClient,
+    );
+
+    put<ApiClient>(apiClient);
+    put<BoardRepository>(boardRepository);
+    put<TaskRepository>(taskRepository);
+    put<ColumnRepository>(columnRepository);
+    put<UserRepository>(userRepository);
 
     emit(state.copyWith(status: ConfigStatus.success));
   }
