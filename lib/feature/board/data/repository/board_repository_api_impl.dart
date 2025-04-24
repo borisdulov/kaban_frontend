@@ -37,29 +37,11 @@ final class BoardRepositoryImpl implements BoardRepository {
   }
 
   @override
-  Future<Board> addUser(String boardId, String userId) async {
-    final response = await _apiClient.post(
-      '/board/add-users',
-      data: {'boardId': boardId, 'userId': userId},
-    );
-    return BoardAPIModel.fromJSON(response.data);
-  }
-
-  @override
-  Future<Board> removeUser(String boardId, String userId) async {
-    final response = await _apiClient.post(
-      '/board/remove-users',
-      data: {'boardId': boardId, 'userId': userId},
-    );
-    return BoardAPIModel.fromJSON(response.data);
-  }
-
-  @override
-  Future<Board> updateBoard(String id, Board board) async {
+  Future<Board> updateBoard(Board board) async {
     final boardModel = board as BoardAPIModel;
     final response = await _apiClient.post(
       '/board/update',
-      data: {'boardId': id, ...boardModel.toJSON()},
+      data: {'boardId': boardModel.id, 'title': boardModel.title},
     );
     return BoardAPIModel.fromJSON(response.data);
   }

@@ -27,6 +27,30 @@ class BoardCubit extends Cubit<BoardState> {
     load();
   }
 
+  static BoardCubit from(BuildContext context, {required String boardId}) {
+    final configBloc = context.configCubit;
+    return BoardCubit(
+      boardRepository: configBloc.get<BoardRepository>(),
+      columnRepository: configBloc.get<ColumnRepository>(),
+      taskRepository: configBloc.get<TaskRepository>(),
+      boardId: boardId,
+    );
+  }
+
+  static BlocProvider<BoardCubit> provider({required String boardId}) {
+    return BlocProvider<BoardCubit>(
+      create: (context) {
+        final configBloc = context.configCubit;
+        return BoardCubit(
+          boardRepository: configBloc.get<BoardRepository>(),
+          columnRepository: configBloc.get<ColumnRepository>(),
+          taskRepository: configBloc.get<TaskRepository>(),
+          boardId: boardId,
+        );
+      },
+    );
+  }
+
   final String _boardId;
   final BoardRepository _boardRepository;
   final ColumnRepository _columnRepository;
@@ -35,7 +59,7 @@ class BoardCubit extends Cubit<BoardState> {
   late final AppFlowyBoardController boardController = AppFlowyBoardController(
     onMoveGroup: (fromGroupId, fromIndex, toGroupId, toIndex) {
       debugPrint('Move item from $fromIndex to $toIndex');
-      _reorderColumns();
+      // _reorderColumns();
     },
     onMoveGroupItem: (groupId, fromIndex, toIndex) {
       debugPrint('Move $groupId:$fromIndex to $groupId:$toIndex');
@@ -195,15 +219,15 @@ class BoardCubit extends Cubit<BoardState> {
     }
   }
 
-  Future<void> _reorderColumns() async {
-    try {
-      final columnIds = boardController.groupIds;
-      await _columnRepository.reorderColumns(_boardId, columnIds);
-      debugPrint('Порядок колонок обновлен на сервере');
-    } catch (e) {
-      debugPrint('Ошибка при обновлении порядка колонок: $e');
-    }
-  }
+  // Future<void> _reorderColumns() async {
+  //   try {
+  //     final columnIds = boardController.groupIds;
+  //     await _columnRepository.reorderColumns(_boardId, columnIds);
+  //     debugPrint('Порядок колонок обновлен на сервере');
+  //   } catch (e) {
+  //     debugPrint('Ошибка при обновлении порядка колонок: $e');
+  //   }
+  // }
 
   void openEditPanel(Task task) {
     emit(state.copyWith(selectedTask: task));
@@ -269,18 +293,6 @@ class BoardCubit extends Cubit<BoardState> {
   Future<void> close() {
     boardController.dispose();
     return super.close();
-  }
-
-  static BlocProvider<BoardCubit> provider({required String boardId}) {
-    return BlocProvider(
-      create:
-          (context) => BoardCubit(
-            boardRepository: context.configCubit.get<BoardRepository>(),
-            columnRepository: context.configCubit.get<ColumnRepository>(),
-            taskRepository: context.configCubit.get<TaskRepository>(),
-            boardId: "6807f0f6045465dc53e94254",
-          ),
-    );
   }
 }
 

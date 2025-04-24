@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kaban_frontend/core/constants/app_assets.dart';
 import 'package:kaban_frontend/core/constants/app_radius.dart';
 import 'package:kaban_frontend/core/constants/app_size.dart';
 import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
 import 'package:kaban_frontend/feature/board/domain/entity/board_entity.dart';
+import 'package:kaban_frontend/feature/board/ui/page/board_page.dart';
 
 class BoardCard extends StatelessWidget {
   const BoardCard({super.key, required this.board});
@@ -25,19 +27,25 @@ class BoardCard extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(AppRadius.r8),
         ),
-        child: Padding(
-          padding: const EdgeInsets.only(
-            top: AppSize.p12,
-            left: AppSize.p12,
-            bottom: AppSize.p8,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(board.title),
-              SizedBox(height: AppSize.p24),
-              Image.asset(AppAssets.avatarAccount, width: AppSize.p24),
-            ],
+        child: InkWell(
+          onTap: () {
+            context.go('${BoardPage.path}${board.id}');
+          },
+          borderRadius: BorderRadius.circular(AppRadius.r8),
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: AppSize.p12,
+              left: AppSize.p12,
+              bottom: AppSize.p8,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(board.title),
+                SizedBox(height: AppSize.p24),
+                Image.asset(AppAssets.avatarAccount, width: AppSize.p24),
+              ],
+            ),
           ),
         ),
       ),

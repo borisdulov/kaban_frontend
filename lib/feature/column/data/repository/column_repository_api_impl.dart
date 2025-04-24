@@ -54,53 +54,16 @@ final class ColumnRepositoryApiImpl implements ColumnRepository {
     await _apiClient.get('/column/delete/$id');
   }
 
-  @override
-  Future<List<Task>> getTasksByColumnId(String columnId) async {
-    try {
-      final response = await _apiClient.get('/column/findTasks/$columnId');
-
-      if (response.data is! List) {
-        debugPrint(
-          'Неверный формат данных при получении задач: ${response.data}',
-        );
-        return [];
-      }
-
-      final List<dynamic> data = response.data;
-      return data.map((json) {
-        if (json is! Map<String, dynamic>) {
-          debugPrint('Неверный формат элемента в списке задач: $json');
-          final creator = UserMockModel.mock();
-
-          return TaskAPIModel(
-            id: '',
-            title: 'Ошибка формата',
-            description: '',
-            columnId: columnId,
-            userIds: [],
-            creatorId: creator.id,
-            creator: creator,
-            priority: TaskPriority.medium,
-          );
-        }
-        return TaskAPIModel.fromJSON(json);
-      }).toList();
-    } catch (e) {
-      debugPrint('Ошибка при получении задач для колонки $columnId: $e');
-      return [];
-    }
-  }
-
-  @override
-  Future<List<column_entity.Column>> reorderColumns(
-    String boardId,
-    List<String> columnIds,
-  ) async {
-    final response = await _apiClient.post(
-      '/column/reorder',
-      data: {'boardId': boardId, 'columnIds': columnIds},
-    );
-    final List<dynamic> data = response.data;
-    return data.map((json) => ColumnAPIModel.fromJSON(json)).toList();
-  }
+  // @override
+  // Future<List<column_entity.Column>> reorderColumns(
+  //   String boardId,
+  //   List<String> columnIds,
+  // ) async {
+  //   final response = await _apiClient.post(
+  //     '/column/reorder',
+  //     data: {'boardId': boardId, 'columnIds': columnIds},
+  //   );
+  //   final List<dynamic> data = response.data;
+  //   return data.map((json) => ColumnAPIModel.fromJSON(json)).toList();
+  // }
 }

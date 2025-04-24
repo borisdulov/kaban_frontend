@@ -64,7 +64,7 @@ class BoardListCubit extends Cubit<BoardListState> {
     }
   }
 
-  static BlocProvider<BoardListCubit> provider({required String boardId}) {
+  static BlocProvider<BoardListCubit> provider() {
     return BlocProvider(
       create:
           (context) =>

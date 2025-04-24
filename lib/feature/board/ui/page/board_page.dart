@@ -6,7 +6,9 @@ import 'package:kaban_frontend/feature/board/ui/widget/board_widget.dart';
 import 'package:kaban_frontend/feature/board/ui/widget/app_bar_widget.dart';
 
 class BoardPage extends StatelessWidget {
-  const BoardPage({super.key});
+  const BoardPage({super.key, required this.boardId});
+
+  final String boardId;
 
   static const String name = 'Board';
   static const String path = '/board/';
@@ -19,7 +21,7 @@ class BoardPage extends StatelessWidget {
           appBar:
               state.board != null
                   ? AppBarWidget(board: state.board!)
-                  : AppBar(title: const Text('Загрузка')),
+                  : AppBar(title: Text('Доска $boardId')),
           body: BoardWidget(),
         );
       },

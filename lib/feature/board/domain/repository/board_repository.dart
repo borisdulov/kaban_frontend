@@ -7,6 +7,4 @@ abstract interface class BoardRepository implements Dependency {
   Future<Board> createBoard(Board board);
   Future<Board> updateBoard(Board board);
   Future<void> deleteBoard(String id);
-  Future<Board> addUser(String userId);
-  Future<Board> removeUser(String userId);
 }

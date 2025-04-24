@@ -24,7 +24,7 @@ class AppWidget extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         ThemeBloc.provider(),
-        BoardListCubit.provider(boardId: '1'),
+        BoardListCubit.provider(),
         DashboardCubit.provider(),
       ],
       child: ConfigProvider(

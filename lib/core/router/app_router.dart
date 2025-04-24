@@ -32,9 +32,16 @@ abstract final class AppRouter {
               StatefulShellBranch(
                 routes: [
                   GoRoute(
-                    path: BoardPage.path,
+                    path: '${BoardPage.path}:id',
                     name: BoardPage.name,
-                    builder: (context, state) => BoardPage(),
+                    builder: (context, state) {
+                      final id = state.pathParameters['id'] ?? '1';
+                      return BlocProvider(
+                        create:
+                            (context) => BoardCubit.from(context, boardId: id),
+                        child: BoardPage(boardId: id),
+                      );
+                    },
                   ),
                 ],
               ),
