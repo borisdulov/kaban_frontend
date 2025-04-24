@@ -1,5 +1,6 @@
 import 'package:appflowy_board/appflowy_board.dart';
 import 'package:flutter/material.dart';
+import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
 import 'package:kaban_frontend/core/theme/data/entity/app_theme_size.dart';
 
 class ColumnBoardHeader extends StatelessWidget {
@@ -35,7 +36,7 @@ class ColumnBoardHeader extends StatelessWidget {
                   icon: Icon(
                     Icons.add,
                     size: 20,
-                    color: Color.fromRGBO(68, 68, 68, 1),
+                    color: context.colorScheme.onSurface,
                   ),
                 ),
                 IconButton(
@@ -43,7 +44,7 @@ class ColumnBoardHeader extends StatelessWidget {
                   icon: Icon(
                     Icons.more_vert,
                     size: 20,
-                    color: Color.fromRGBO(68, 68, 68, 1),
+                    color: context.colorScheme.onSurface,
                   ),
                 ),
               ],

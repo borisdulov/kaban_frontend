@@ -28,28 +28,11 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<User> updateUser(
-    String? email,
-    String? username,
-    String? bio,
-    String? avatar,
-  ) async {
+  Future<User> updateUser(String? username) async {
     final Map<String, dynamic> data = {};
-
-    if (email != null) {
-      data['email'] = email;
-    }
 
     if (username != null) {
       data['username'] = username;
-    }
-
-    if (bio != null) {
-      data['bio'] = bio;
-    }
-
-    if (avatar != null) {
-      data['avatar'] = avatar;
     }
 
     final response = await _apiClient.post('/user/update', data: data);

@@ -48,22 +48,12 @@ class UserCubit extends Cubit<UserState> {
     }
   }
 
-  Future<void> updateUser({
-    String? email,
-    String? username,
-    String? bio,
-    String? avatar,
-  }) async {
+  Future<void> updateUser({String? username}) async {
     if (!state.isLoaded) return;
 
     try {
       emit(state.copyWith(status: Status.loading));
-      final updatedUser = await _userRepository.updateUser(
-        email,
-        username,
-        bio,
-        avatar,
-      );
+      final updatedUser = await _userRepository.updateUser(username);
 
       final updatedUsers =
           state.users.map((u) {

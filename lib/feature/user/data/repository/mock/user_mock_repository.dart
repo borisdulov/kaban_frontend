@@ -11,18 +11,8 @@ class UserMockRepository implements UserRepository {
   }
 
   @override
-  Future<UserMockModel> updateUser(
-    String? email,
-    String? username,
-    String? bio,
-    String? avatar,
-  ) async {
-    _currentUser = _currentUser.copyWith(
-      email: email,
-      username: 'new_name',
-      bio: 'its new bio',
-      avatar: '',
-    );
+  Future<UserMockModel> updateUser(String? username) async {
+    _currentUser = _currentUser.copyWith(username: 'new_name');
 
     return _currentUser;
   }

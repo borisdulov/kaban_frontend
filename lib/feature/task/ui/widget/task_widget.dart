@@ -4,25 +4,30 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:kaban_frontend/core/constants/app_assets.dart';
 import 'package:kaban_frontend/core/constants/app_radius.dart';
 import 'package:kaban_frontend/core/constants/app_size.dart';
+import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
+import 'package:kaban_frontend/feature/board/bloc/board/board_bloc.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
 import 'package:kaban_frontend/feature/task/ui/widget/date_tag.dart';
+import 'package:kaban_frontend/feature/task/ui/widget/empty_task_widget.dart';
 import 'package:kaban_frontend/feature/task/ui/widget/priority_tag.dart';
 import 'package:kaban_frontend/feature/task/ui/widget/subtasks_tag.dart';
 
 class TaskWidget extends StatelessWidget {
-  final Task task;
-
   const TaskWidget({super.key, required this.task});
+
+  final Task task;
 
   @override
   Widget build(BuildContext context) {
     return AppFlowyGroupCard(
-      key: ValueKey('${task.taskId}52'),
+      key: ValueKey('${task.id}52'),
       margin: EdgeInsets.symmetric(vertical: AppSize.p8),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.colorScheme.surface,
         borderRadius: BorderRadius.circular(AppRadius.r16),
-        border: Border.all(color: Color.fromRGBO(0, 0, 0, 0.2)),
+        border: Border.all(
+          color: context.colorScheme.onSurface.withOpacity(0.2),
+        ),
       ),
       child: Padding(
         padding: const EdgeInsets.all(AppSize.p8),
@@ -34,24 +39,30 @@ class TaskWidget extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.only(left: AppSize.p4),
-                  child: Text(
-                    task.title,
-                    style: GoogleFonts.inter(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(68, 68, 68, 1),
-                    ),
-                  ),
+                  child:
+                      task.title.isEmpty
+                          ? EmptyTaskWidget()
+                          : Text(
+                            task.title,
+                            style: GoogleFonts.inter(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: context.colorScheme.onSurface,
+                            ),
+                          ),
                 ),
+
                 SizedBox(
                   width: 32,
                   height: 32,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.boardCubit.openEditPanel(task);
+                    },
                     icon: Icon(
                       Icons.more_vert,
                       size: 16,
-                      color: Color.fromRGBO(30, 30, 30, 1),
+                      color: context.colorScheme.onSurface,
                     ),
                   ),
                 ),
@@ -76,7 +87,7 @@ class TaskWidget extends StatelessWidget {
                 Text(
                   '+1',
                   style: GoogleFonts.roboto(
-                    color: Color.fromRGBO(117, 117, 117, 1),
+                    color: context.colorScheme.onSurface,
                   ),
                 ),
               ],

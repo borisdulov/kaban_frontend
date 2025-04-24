@@ -5,7 +5,7 @@ import 'package:kaban_frontend/feature/task/domain/entity/task_priority_enum.dar
 abstract interface class TaskRepository implements Dependency {
   Future<List<Task>> getAllTasks();
 
-  Future<Task> getTaskByCategoryId(String categoryId);
+  Future<Task> getTaskByColumnId(String columnId);
 
   Future<Task> getTask(String taskId);
 
@@ -15,7 +15,7 @@ abstract interface class TaskRepository implements Dependency {
 
   Future<void> deleteTask(String taskId);
 
-  Future<void> moveTaskToCategory(String taskId, String categoryId);
+  Future<void> moveTaskToColumn(String taskId, String columnId);
 
   Future<void> giveTask(String userId, String taskId);
 
@@ -26,6 +26,6 @@ abstract interface class TaskRepository implements Dependency {
     TaskPriority? priority,
     List<String>? tags,
     DateTime? dueDate,
-    String? projectId,
+    String? boardId,
   });
 }
