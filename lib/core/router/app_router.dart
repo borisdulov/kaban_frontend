@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kaban_frontend/core/router/app_router_guards.dart';
 import 'package:kaban_frontend/core/router/navigation_key.dart';
+import 'package:kaban_frontend/feature/auth/ui/page/auth_page.dart';
 import 'package:kaban_frontend/feature/board/ui/page/project_list_page.dart';
 import 'package:kaban_frontend/feature/dashboard/ui/page/dashboard_page.dart';
 import 'package:kaban_frontend/feature/board/bloc/board/board_bloc.dart';
@@ -51,7 +52,7 @@ abstract final class AppRouter {
                 routes: [
                   GoRoute(
                     path: '/placeholder',
-                    builder: (context, state) => Placeholder(),
+                    builder: (context, state) => AuthPage(),
                   ),
                 ],
               ),
@@ -71,8 +72,9 @@ abstract final class AppRouter {
         builder: (context, state, child) => child,
         routes: [
           GoRoute(
-            path: '/auth/login',
-            builder: (context, state) => Placeholder(),
+            path: AuthPage.path,
+            name: AuthPage.name,
+            builder: (context, state) => AuthPage(),
           ),
           GoRoute(
             path: '/auth/register',
