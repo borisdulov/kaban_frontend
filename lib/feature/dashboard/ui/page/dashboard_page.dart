@@ -101,7 +101,7 @@ class DashboardPage extends StatelessWidget {
 
                           IconButtonWidget(
                             assetPath: AppAssets.svgAvatarAccount,
-                            onPressed: () {},
+                            onPressed: () => navigationShell.goBranch(2),
                             showText: state.isExpanded,
                             text: Text('My account'),
                           ),
