@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kaban_frontend/core/constants/app_assets.dart';
 import 'package:kaban_frontend/core/constants/app_size.dart';
 import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
+import 'package:kaban_frontend/feature/auth/ui/page/log_in_page.dart';
 import 'package:kaban_frontend/feature/auth/ui/widget/auth_button_widget.dart';
 import 'package:kaban_frontend/feature/auth/ui/widget/text_field_widget.dart';
 
@@ -19,7 +21,12 @@ class SignUpWidget extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Image.asset(AppAssets.logoKabanPng, width: 128, height: 128),
+                Image.asset(
+                  AppAssets.logoKabanPng,
+                  width: 128,
+                  height: 128,
+                  color: context.colorScheme.onSurface,
+                ),
                 SizedBox(height: AppSize.p16),
                 Text('Sign Up', style: TextStyle(fontSize: 32)),
                 SizedBox(height: AppSize.p8),
@@ -49,12 +56,14 @@ class SignUpWidget extends StatelessWidget {
                   isPassword: true,
                 ),
                 SizedBox(height: AppSize.p20),
-                AuthButtonWidget(text: 'Create account'),
+                AuthButtonWidget(text: 'Create account', onPressed: () {}),
                 SizedBox(height: AppSize.p24),
                 Text('Already registered?'),
                 SizedBox(height: AppSize.p12),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.go(LogInPage.path);
+                  },
                   style: TextButton.styleFrom(
                     foregroundColor: context.colorScheme.onSurface,
                   ),

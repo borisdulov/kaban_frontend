@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kaban_frontend/core/router/app_router_guards.dart';
 import 'package:kaban_frontend/core/router/navigation_key.dart';
-import 'package:kaban_frontend/feature/auth/ui/page/auth_page.dart';
+import 'package:kaban_frontend/feature/auth/ui/page/log_in_page.dart';
+import 'package:kaban_frontend/feature/auth/ui/page/sing_up_page.dart';
 import 'package:kaban_frontend/feature/board/ui/page/project_list_page.dart';
 import 'package:kaban_frontend/feature/dashboard/ui/page/dashboard_page.dart';
 import 'package:kaban_frontend/feature/board/bloc/board/board_bloc.dart';
@@ -52,7 +53,7 @@ abstract final class AppRouter {
                 routes: [
                   GoRoute(
                     path: '/placeholder',
-                    builder: (context, state) => AuthPage(),
+                    builder: (context, state) => Placeholder(),
                   ),
                 ],
               ),
@@ -68,17 +69,18 @@ abstract final class AppRouter {
       ),
       ShellRoute(
         navigatorKey: NavigationKey.signKey,
-        redirect: AppRouterGuards.unauthorized,
+        //! redirect: AppRouterGuards.unauthorized,
         builder: (context, state, child) => child,
         routes: [
           GoRoute(
-            path: AuthPage.path,
-            name: AuthPage.name,
-            builder: (context, state) => AuthPage(),
+            path: LogInPage.path,
+            name: LogInPage.name,
+            builder: (context, state) => LogInPage(),
           ),
           GoRoute(
-            path: '/auth/register',
-            builder: (context, state) => Placeholder(),
+            path: SignUpPage.path,
+            name: SignUpPage.name,
+            builder: (context, state) => SignUpPage(),
           ),
         ],
       ),
