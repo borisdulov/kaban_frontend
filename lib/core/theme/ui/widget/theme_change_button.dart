@@ -10,12 +10,27 @@ class ThemeChangeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, state) {
-        return IconButton(
-          onPressed: () => context.read<ThemeBloc>().toggleTheme(),
-          icon: Icon(
-            state.themeMode == Brightness.dark
-                ? Icons.light_mode
-                : Icons.dark_mode,
+        return GestureDetector(
+          onTap: () => context.read<ThemeBloc>().toggleTheme(),
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            transitionBuilder: (child, animation) {
+              return RotationTransition(
+                turns: animation,
+                child: ScaleTransition(scale: animation, child: child),
+              );
+            },
+            child: state.themeMode == ThemeMode.dark
+                ? const Icon(
+                    Icons.nightlight_round,
+                    key: ValueKey('moon'),
+                    size: 24,
+                  )
+                : const Icon(
+                    Icons.wb_sunny,
+                    key: ValueKey('sun'),
+                    size: 24,
+                  ),
           ),
         );
       },
