@@ -3,12 +3,6 @@ import 'package:kaban_frontend/feature/column/data/model/column_api_model.dart';
 import 'package:kaban_frontend/feature/column/domain/entity/column_entity.dart'
     as column_entity;
 import 'package:kaban_frontend/feature/column/domain/repository/column_repository.dart';
-import 'package:kaban_frontend/feature/task/data/model/task_api_model.dart';
-import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
-import 'package:kaban_frontend/feature/task/domain/entity/task_priority_enum.dart';
-import 'package:kaban_frontend/feature/user/data/model/user_mock_model.dart';
-import 'package:flutter/material.dart' hide Column;
-import 'package:flutter/foundation.dart';
 
 final class ColumnRepositoryApiImpl implements ColumnRepository {
   final ApiClient _apiClient;
