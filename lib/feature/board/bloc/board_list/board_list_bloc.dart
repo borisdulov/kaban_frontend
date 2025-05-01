@@ -1,11 +1,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kaban_frontend/core/config/bloc/config_bloc.dart';
 import 'package:kaban_frontend/core/domain/entity/status.dart';
-import 'package:kaban_frontend/feature/board/data/model/board_mock_model.dart';
+import 'package:kaban_frontend/feature/board/data/model/board_api_model.dart';
 import 'package:kaban_frontend/feature/board/bloc/board_list/board_list_state.dart';
 import 'package:kaban_frontend/feature/board/domain/repository/board_repository.dart';
-import 'package:kaban_frontend/feature/board/data/repository/board_repository_mock_impl.dart'
-    as board;
 
 extension BoardListExtension on BuildContext {
   BoardListCubit get boardListCubit => read<BoardListCubit>();
@@ -49,26 +48,44 @@ class BoardListCubit extends Cubit<BoardListState> {
     }
   }
 
-  Future<void> createBoard() async {
-    if (!state.isLoaded) return;
+  Future<String?> createBoard() async {
+    return createBoardWithTitle('New Board');
+  }
+
+  Future<String?> createBoardWithTitle(String title) async {
+    if (!state.isLoaded) return null;
 
     try {
       emit(state.copyWith(status: Status.loading));
-      final newBoard = BoardMockModel.random();
-      await _boardRepository.createBoard(newBoard);
+
+      final newBoard = BoardAPIModel(
+        id: '',
+        title: title,
+        ownerId: '',
+        userIds: [],
+        columnIds: [],
+      );
+
+      final createdBoard = await _boardRepository.createBoard(newBoard);
+      print('Created board: ${createdBoard.id}');
 
       final updatedBoards = await _boardRepository.getMyBoards();
       emit(state.copyWith(status: Status.success, boards: updatedBoards));
+
+      return createdBoard.id;
     } catch (e) {
+      print('Error creating board: $e');
       emit(state.copyWith(status: Status.failure, error: e.toString()));
+      return null;
     }
   }
 
   static BlocProvider<BoardListCubit> provider() {
     return BlocProvider(
-      create:
-          (context) =>
-              BoardListCubit(boardRepository: board.BoardRepositoryMockImpl()),
+      create: (context) {
+        final repo = context.configCubit.get<BoardRepository>();
+        return BoardListCubit(boardRepository: repo);
+      },
     );
   }
 }

@@ -34,9 +34,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           children: [
             Padding(
               padding: EdgeInsets.symmetric(vertical: AppThemeSize.p12),
-              child: Text(
-                board.title,
-              ),
+              child: Text(board.title),
             ),
 
             Flexible(

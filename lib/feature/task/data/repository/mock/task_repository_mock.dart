@@ -21,6 +21,11 @@ class TaskRepositoryMock implements TaskRepository {
   }
 
   @override
+  Future<List<Task>> getTasksByColumnId(String columnId) async {
+    return _tasks.where((task) => task.columnId == columnId).toList();
+  }
+
+  @override
   Future<Task> createTask(Task task) async {
     final creator = UserMockModel.mock();
 

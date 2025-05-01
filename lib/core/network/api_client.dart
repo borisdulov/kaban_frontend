@@ -1,9 +1,23 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:kaban_frontend/core/domain/entity/dependency.dart';
 
 final class ApiClient implements Dependency {
   ApiClient({required this.hostUrl}) {
-    client = Dio(BaseOptions(baseUrl: hostUrl));
+    client = Dio(
+      BaseOptions(
+        baseUrl: hostUrl,
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 10),
+        contentType: 'application/json',
+      ),
+    );
+
+    if (kDebugMode) {
+      client.interceptors.add(
+        LogInterceptor(requestBody: true, responseBody: true),
+      );
+    }
   }
 
   late final Dio client;
@@ -16,13 +30,18 @@ final class ApiClient implements Dependency {
     CancelToken? cancelToken,
     void Function(int, int)? onReceiveProgress,
   }) async {
-    return client.get(
-      path,
-      queryParameters: queryParameters,
-      options: options,
-      cancelToken: cancelToken,
-      onReceiveProgress: onReceiveProgress,
-    );
+    try {
+      return await client.get(
+        path,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+        onReceiveProgress: onReceiveProgress,
+      );
+    } catch (e) {
+      debugPrint('GET error on $path: $e');
+      rethrow;
+    }
   }
 
   Future<Response> post(
@@ -34,15 +53,20 @@ final class ApiClient implements Dependency {
     void Function(int, int)? onSendProgress,
     void Function(int, int)? onReceiveProgress,
   }) async {
-    return client.post(
-      path,
-      data: data,
-      queryParameters: queryParameters,
-      options: options,
-      cancelToken: cancelToken,
-      onSendProgress: onSendProgress,
-      onReceiveProgress: onReceiveProgress,
-    );
+    try {
+      return await client.post(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
+      );
+    } catch (e) {
+      debugPrint('POST error on $path: $e');
+      rethrow;
+    }
   }
 
   Future testRequest() async {
@@ -50,7 +74,8 @@ final class ApiClient implements Dependency {
       final response = await client.get('/board');
       return response.data;
     } catch (e) {
-      throw Exception();
+      debugPrint('Test request error: $e');
+      throw Exception('Failed to connect to API server');
     }
   }
 }

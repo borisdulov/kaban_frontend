@@ -39,7 +39,8 @@ class BoardWidget extends StatelessWidget {
                     ),
                     child: AppFlowyBoard(
                       controller: context.boardCubit.boardController,
-                      boardScrollController: context.boardCubit.boardScrollController,
+                      boardScrollController:
+                          context.boardCubit.boardScrollController,
                       cardBuilder: (context, group, groupItem) {
                         if (groupItem is TaskItem) {
                           return TaskWidget(
@@ -53,7 +54,8 @@ class BoardWidget extends StatelessWidget {
                         return ColumnBoardHeader(
                           key: ValueKey(columnData.id),
                           onTaskCreate:
-                              () => context.boardCubit.addNewTask(columnData.id),
+                              () =>
+                                  context.boardCubit.addNewTask(columnData.id),
                           title: columnData.headerData.groupName,
                           onMenuPressed: () {},
                         );

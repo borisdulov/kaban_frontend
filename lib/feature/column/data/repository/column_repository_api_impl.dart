@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:kaban_frontend/core/network/api_client.dart';
 import 'package:kaban_frontend/feature/column/data/model/column_api_model.dart';
 import 'package:kaban_frontend/feature/column/domain/entity/column_entity.dart'
@@ -12,9 +13,49 @@ final class ColumnRepositoryApiImpl implements ColumnRepository {
 
   @override
   Future<List<column_entity.Column>> getColumnsByBoardId(String boardId) async {
-    final response = await _apiClient.get('/column/getByBoard/$boardId');
-    final List<dynamic> data = response.data;
-    return data.map((json) => ColumnAPIModel.fromJSON(json)).toList();
+    try {
+      final response = await _apiClient.get('/board/$boardId');
+      final Map<String, dynamic> data = response.data;
+
+      final List<dynamic> columnsData = data['columns'] ?? [];
+      final List<column_entity.Column> columns = [];
+
+      for (final item in columnsData) {
+        try {
+          if (item is Map<String, dynamic>) {
+            columns.add(ColumnAPIModel.fromJSON(item));
+          } else if (item is String) {
+            final columnResponse = await _apiClient.get(
+              '/column/getColumn/$item',
+            );
+            columns.add(ColumnAPIModel.fromJSON(columnResponse.data));
+          }
+        } catch (e) {
+          debugPrint('Error parsing column data: $e');
+        }
+      }
+
+      if (columns.isEmpty && data['columnIds'] != null) {
+        final List<dynamic> columnIds = data['columnIds'];
+        for (final id in columnIds) {
+          try {
+            if (id is String) {
+              final columnResponse = await _apiClient.get(
+                '/column/getColumn/$id',
+              );
+              columns.add(ColumnAPIModel.fromJSON(columnResponse.data));
+            }
+          } catch (e) {
+            debugPrint('Error fetching column $id: $e');
+          }
+        }
+      }
+
+      return columns;
+    } catch (e) {
+      debugPrint('Error getting columns for board $boardId: $e');
+      rethrow;
+    }
   }
 
   @override

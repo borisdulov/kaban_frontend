@@ -30,6 +30,7 @@ abstract final class AppRouter {
                     DashboardPage(navigationShell: navigationShell),
             branches: [
               StatefulShellBranch(
+                initialLocation: '/board/1',
                 routes: [
                   GoRoute(
                     path: '${BoardPage.path}:id',
@@ -46,6 +47,7 @@ abstract final class AppRouter {
                 ],
               ),
               StatefulShellBranch(
+                initialLocation: BoardListPage.path,
                 routes: [
                   GoRoute(
                     path: BoardListPage.path,
@@ -55,6 +57,7 @@ abstract final class AppRouter {
                 ],
               ),
               StatefulShellBranch(
+                initialLocation: '/placeholder',
                 routes: [
                   GoRoute(
                     path: '/placeholder',

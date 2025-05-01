@@ -98,7 +98,7 @@ class BoardCubit extends Cubit<BoardState> {
 
       final columnsData = await _columnRepository.getColumnsByBoardId(_boardId);
 
-      debugPrint('Загружено категорий: ${columnsData.length}');
+      debugPrint('Загружено колонок: ${columnsData.length}');
 
       final columns = <AppFlowyGroupData>[];
 
@@ -111,7 +111,7 @@ class BoardCubit extends Cubit<BoardState> {
 
           List<Task> tasks = [];
           try {
-            tasks = await _columnRepository.getTasksByColumnId(column.id);
+            tasks = await _taskRepository.getTasksByColumnId(column.id);
             debugPrint('Загружено задач для ${column.title}: ${tasks.length}');
           } catch (e) {
             debugPrint(

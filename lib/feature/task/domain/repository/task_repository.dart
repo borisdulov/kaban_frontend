@@ -8,4 +8,5 @@ abstract interface class TaskRepository implements Dependency {
   Future<Task> updateTask(Task task);
   Future<void> deleteTask(String taskId);
   Future<void> moveTaskToColumn(String taskId, String columnId);
+  Future<List<Task>> getTasksByColumnId(String columnId);
 }

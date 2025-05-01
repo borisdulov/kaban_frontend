@@ -36,18 +36,13 @@ class BoardAPIModel implements Board {
       id: json['_id'] ?? json['id'] ?? '',
       title: json['title'] ?? json['name'] ?? 'Без названия',
       ownerId: json['ownerId'] ?? '',
-      owner: null, 
+      owner: null,
       userIds: List<String>.from(json['userIds'] ?? json['memberIds'] ?? []),
       columnIds: List<String>.from(json['columnIds'] ?? []),
     );
   }
 
   Map<String, dynamic> toJSON() {
-    return {
-      'title': title,
-      'ownerId': ownerId,
-      'userIds': userIds,
-      'columnIds': columnIds,
-    };
+    return {'title': title};
   }
 }
