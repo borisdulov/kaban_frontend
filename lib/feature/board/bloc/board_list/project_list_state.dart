@@ -5,22 +5,26 @@ class ProjectListState {
   final Status? status;
   final List<Project> boards;
   final String? error;
+  final String? editingBoardId;
 
   const ProjectListState({
     this.status = Status.initial,
     this.boards = const [],
     this.error,
+    this.editingBoardId,
   });
 
   ProjectListState copyWith({
     Status? status,
     List<Project>? projects,
     String? error,
+    String? editingBoardId,
   }) {
     return ProjectListState(
       status: status ?? this.status,
       boards: projects ?? boards,
       error: error ?? this.error,
+      editingBoardId: editingBoardId ?? this.editingBoardId,
     );
   }
 

@@ -40,7 +40,7 @@ class ProjectListWidget extends StatelessWidget {
                           ),
                           icon: Icon(Icons.add),
                           label: Text(
-                            'Add new project',
+                            'Add new board',
                             style: TextStyle(fontSize: AppSize.p16),
                           ),
                         ),

@@ -10,7 +10,7 @@ class AddProjectCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 192,
+      width: 230,
       height: 96,
       child: Card(
         color: context.colorScheme.surface,

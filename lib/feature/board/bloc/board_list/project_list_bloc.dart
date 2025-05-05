@@ -25,9 +25,21 @@ class ProjectListCubit extends Cubit<ProjectListState> {
     emit(state.copyWith(status: Status.loading));
     try {
       final projects = await _projectRepository.getAllProjects();
-      emit(ProjectListState(status: Status.success, boards: projects));
+      emit(
+        ProjectListState(
+          status: Status.success,
+          boards: projects,
+          editingBoardId: null,
+        ),
+      );
     } catch (e) {
-      emit(ProjectListState(status: Status.failure, error: e.toString()));
+      emit(
+        ProjectListState(
+          status: Status.failure,
+          error: e.toString(),
+          editingBoardId: null,
+        ),
+      );
     }
   }
 
@@ -60,6 +72,30 @@ class ProjectListCubit extends Cubit<ProjectListState> {
       emit(state.copyWith(status: Status.success, projects: updatedProjects));
     } catch (e) {
       emit(state.copyWith(status: Status.failure, error: e.toString()));
+    }
+  }
+
+  void startEditing(String boardId) {
+    emit(state.copyWith(editingBoardId: boardId));
+  }
+
+  Future<void> renameProject(String projectId, String newName) async {
+    final projectId = state.editingBoardId;
+    if (projectId == null) return;
+    final project =
+        state.boards.firstWhere((p) => p.id == projectId) as ProjectMockModel;
+    final updatedProject = project.copyWith(name: newName);
+    try {
+      await _projectRepository.updateProject(projectId, updatedProject);
+
+      final newProjects =
+          state.boards
+              .map((p) => p.id == projectId ? updatedProject : p)
+              .toList();
+
+      emit(state.copyWith(projects: newProjects, editingBoardId: null));
+    } catch (e) {
+      emit(state.copyWith(editingBoardId: null));
     }
   }
 
