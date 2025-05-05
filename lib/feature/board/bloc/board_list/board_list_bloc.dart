@@ -64,6 +64,30 @@ class BoardListCubit extends Cubit<BoardListState> {
     }
   }
 
+  void startEditing(String boardId) {
+    emit(state.copyWith(editingBoardId: boardId));
+  }
+
+  Future<void> renameBoard(String boardId, String newTitle) async {
+    final boardId = state.editingBoardId;
+    if (boardId == null) return;
+    final board =
+        state.boards.firstWhere((p) => p.id == boardId) as BoardMockModel;
+    final updatedBoard = board.copyWith(title: newTitle);
+    try {
+      await _boardRepository.updateBoard(boardId, updatedBoard);
+
+      final newBoards =
+          state.boards
+              .map((p) => p.id == boardId ? updatedBoard : p)
+              .toList();
+
+      emit(state.copyWith(boards: newBoards, editingBoardId: null));
+    } catch (e) {
+      emit(state.copyWith(editingBoardId: null));
+    }
+  }
+
   static BlocProvider<BoardListCubit> provider({required String boardId}) {
     return BlocProvider(
       create:

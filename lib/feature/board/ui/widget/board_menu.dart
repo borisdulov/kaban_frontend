@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
-import 'package:kaban_frontend/feature/board/bloc/board_list/project_list_bloc.dart';
-import 'package:kaban_frontend/feature/board/domain/entity/project_entity.dart';
+import 'package:kaban_frontend/feature/board/bloc/board_list/board_list_bloc.dart';
+import 'package:kaban_frontend/feature/board/domain/entity/board_entity.dart';
 
 class BoardMenu extends StatelessWidget {
   const BoardMenu({super.key, required this.board});
 
-  final Project board;
+  final Board board;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class BoardMenu extends StatelessWidget {
           ],
       onSelected: (value) {
         if (value == 'rename') {
-          context.read<ProjectListCubit>().startEditing(board.id);
+          context.read<BoardListCubit>().startEditing(board.id);
         }
       },
     );

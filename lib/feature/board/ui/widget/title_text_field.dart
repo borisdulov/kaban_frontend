@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
-import 'package:kaban_frontend/feature/board/bloc/board_list/project_list_bloc.dart';
-import 'package:kaban_frontend/feature/board/domain/entity/project_entity.dart';
+import 'package:kaban_frontend/feature/board/bloc/board_list/board_list_bloc.dart';
+import 'package:kaban_frontend/feature/board/domain/entity/board_entity.dart';
 
 class TitleTextField extends StatelessWidget {
   TitleTextField({super.key, required this.board})
-    : _controller = TextEditingController(text: board.name);
+    : _controller = TextEditingController(text: board.title);
 
-  final Project board;
+  final Board board;
   late final TextEditingController _controller;
 
   @override
@@ -41,12 +41,12 @@ class TitleTextField extends StatelessWidget {
 
   void _handleSave(BuildContext context) {
     if (_controller.text.trim().isNotEmpty) {
-      context.read<ProjectListCubit>().renameProject(
+      context.read<BoardListCubit>().renameBoard(
         board.id,
         _controller.text.trim(),
       );
 
-      context.read<ProjectListCubit>().fetchProjects();
+      context.read<BoardListCubit>().fetchBoards();
     }
   }
 }
