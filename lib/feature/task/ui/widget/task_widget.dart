@@ -19,7 +19,7 @@ class TaskWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppFlowyGroupCard(
-      key: ValueKey('${task.taskId}52'),
+      key: ValueKey('${task.id}52'),
       margin: EdgeInsets.symmetric(vertical: AppSize.p8),
       decoration: BoxDecoration(
         color: context.colorScheme.surface,

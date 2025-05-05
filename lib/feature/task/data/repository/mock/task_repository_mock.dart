@@ -2,6 +2,7 @@ import 'package:kaban_frontend/feature/task/data/model/task_mock_model.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_priority_enum.dart';
 import 'package:kaban_frontend/feature/task/domain/repository/task_repository.dart';
+import 'package:kaban_frontend/feature/user/data/model/user_mock_model.dart';
 
 class TaskRepositoryMock implements TaskRepository {
   final List<TaskMockModel> _tasks = [];
@@ -15,19 +16,24 @@ class TaskRepositoryMock implements TaskRepository {
   Future<List<Task>> getAllTasks() async => _tasks.toList();
 
   @override
-  Future<Task> getTaskByCategoryId(String categoryId) async {
-    return _tasks.firstWhere((t) => t.categoryId == categoryId);
+  Future<Task> getTaskByColumnId(String columnId) async {
+    return _tasks.firstWhere((t) => t.columnId == columnId);
   }
 
   @override
   Future<Task> createTask(Task task) async {
+    final creator = UserMockModel.mock();
+
     final newTask = TaskMockModel(
-      taskId: (_idCounter++).toString(),
+      id: (_idCounter++).toString(),
       title: task.title,
-      categoryId: task.categoryId,
-      isCompleted: task.isCompleted,
+      description: task.description,
+      columnId: task.columnId,
+      userIds: task.userIds,
+      creatorId: creator.id,
+      creator: creator,
       priority: task.priority,
-      createdAt: task.createdAt,
+      dueDate: task.dueDate,
     );
     _tasks.add(newTask);
     return newTask;
@@ -35,17 +41,13 @@ class TaskRepositoryMock implements TaskRepository {
 
   @override
   Future<Task> updateTask(Task task) async {
-    final index = _tasks.indexWhere((t) => t.taskId == task.taskId);
+    final index = _tasks.indexWhere((t) => t.id == task.id);
 
     final updatedTask = _tasks[index].copyWith(
       title: task.title,
       description: task.description,
-      tagId: task.tagId,
-      categoryId: task.categoryId,
-      categoryList: task.categoryList,
+      columnId: task.columnId,
       userIds: task.userIds,
-      userList: task.userList,
-      isCompleted: task.isCompleted,
       priority: task.priority,
       dueDate: task.dueDate,
     );
@@ -56,52 +58,67 @@ class TaskRepositoryMock implements TaskRepository {
 
   @override
   Future<void> deleteTask(String taskId) async {
-    _tasks.removeWhere((t) => t.tagId == taskId);
+    _tasks.removeWhere((t) => t.id == taskId);
   }
 
   @override
-  Future<void> moveTaskToCategory(String taskId, String categoryId) async {
-    final index = _tasks.indexWhere((t) => t.taskId == taskId);
+  Future<void> moveTaskToColumn(String taskId, String columnId) async {
+    final index = _tasks.indexWhere((t) => t.id == taskId);
+    if (index != -1) {
+      _tasks[index] = _tasks[index].copyWith(columnId: columnId);
+    }
+  }
 
-    _tasks[index] = _tasks[index].copyWith(
-      categoryId: categoryId,
-      categoryList: [...?_tasks[index].categoryList, categoryId],
-    );
+  @override
+  Future<Task> getTask(String taskId) async {
+    return _tasks.firstWhere((t) => t.id == taskId);
+  }
+
+  @override
+  Future<void> giveTask(String userId, String taskId) async {
+    final index = _tasks.indexWhere((t) => t.id == taskId);
+    if (index != -1) {
+      final currentUserIds = List<String>.from(_tasks[index].userIds);
+      if (!currentUserIds.contains(userId)) {
+        currentUserIds.add(userId);
+        _tasks[index] = _tasks[index].copyWith(userIds: currentUserIds);
+      }
+    }
   }
 
   @override
   Future<List<Task>> searchTasks() async {
-    return _tasks.toList();
+    return _tasks;
   }
 
   @override
-  Future<List<Task>> filterTasks(
-      {List<String>? userIds,
-      TaskPriority? priority,
-      List<String>? tags,
-      DateTime? dueDate,
-      String? projectId}) async {
+  Future<List<Task>> filterTasks({
+    List<String>? userIds,
+    TaskPriority? priority,
+    List<String>? tags,
+    DateTime? dueDate,
+    String? boardId,
+  }) async {
     return _tasks.where((task) {
-      bool matches = true;
+      bool match = true;
 
-      if (userIds != null) {
-        matches = task.userIds?.any(userIds.contains) ?? false;
+      if (userIds != null && userIds.isNotEmpty) {
+        match = match && userIds.any((id) => task.userIds.contains(id));
       }
+
       if (priority != null) {
-        matches = matches && task.priority == priority;
-      }
-      if (tags != null) {
-        matches = matches && (task.tagId != null && tags.contains(task.tagId));
-      }
-      if (dueDate != null) {
-        matches = matches && task.dueDate!.isAtSameMomentAs(dueDate);
-      }
-      if (projectId != null) {
-        // Предполагаем, что projectId связан с категорией
-        matches = matches && task.categoryId == projectId;
+        match = match && task.priority == priority;
       }
 
-      return matches;
+      if (dueDate != null && task.dueDate != null) {
+        match =
+            match &&
+            task.dueDate!.year == dueDate.year &&
+            task.dueDate!.month == dueDate.month &&
+            task.dueDate!.day == dueDate.day;
+      }
+
+      return match;
     }).toList();
   }
 }

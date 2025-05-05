@@ -5,11 +5,11 @@ import 'package:kaban_frontend/core/router/app_router_guards.dart';
 import 'package:kaban_frontend/core/router/navigation_key.dart';
 import 'package:kaban_frontend/feature/auth/ui/page/log_in_page.dart';
 import 'package:kaban_frontend/feature/auth/ui/page/sing_up_page.dart';
-import 'package:kaban_frontend/feature/board/ui/page/project_list_page.dart';
+import 'package:kaban_frontend/feature/board/ui/page/board_list_page.dart';
 import 'package:kaban_frontend/feature/board/ui/page/settings_page.dart';
 import 'package:kaban_frontend/feature/dashboard/ui/page/dashboard_page.dart';
 import 'package:kaban_frontend/feature/board/bloc/board/board_bloc.dart';
-import 'package:kaban_frontend/feature/board/ui/page/project_page.dart';
+import 'package:kaban_frontend/feature/board/ui/page/board_page.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
 import 'package:kaban_frontend/feature/task/ui/page/task_edit_page.dart';
 
@@ -23,7 +23,7 @@ abstract final class AppRouter {
         redirect: AppRouterGuards.authorized,
         builder:
             (context, state, child) => MultiBlocProvider(
-              providers: [BoardCubit.provider(projectId: '1')],
+              providers: [BoardCubit.provider(boardId: '1')],
               child: child,
             ),
         routes: [
@@ -35,18 +35,18 @@ abstract final class AppRouter {
               StatefulShellBranch(
                 routes: [
                   GoRoute(
-                    path: ProjectPage.path,
-                    name: ProjectPage.name,
-                    builder: (context, state) => ProjectPage(),
+                    path: BoardPage.path,
+                    name: BoardPage.name,
+                    builder: (context, state) => BoardPage(),
                   ),
                 ],
               ),
               StatefulShellBranch(
                 routes: [
                   GoRoute(
-                    path: ProjectListPage.path,
-                    name: ProjectListPage.name,
-                    builder: (context, state) => ProjectListPage(),
+                    path: BoardListPage.path,
+                    name: BoardListPage.name,
+                    builder: (context, state) => BoardListPage(),
                   ),
                 ],
               ),

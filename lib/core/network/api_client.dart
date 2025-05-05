@@ -44,4 +44,13 @@ final class ApiClient implements Dependency {
       onReceiveProgress: onReceiveProgress,
     );
   }
+
+  Future testRequest() async {
+    try {
+      final response = await client.get('/board');
+      return response.data;
+    } catch (e) {
+      throw Exception();
+    }
+  }
 }
