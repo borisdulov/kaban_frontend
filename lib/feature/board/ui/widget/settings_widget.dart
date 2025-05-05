@@ -30,7 +30,7 @@ class SettingsWidget extends StatelessWidget {
                   children: [
                     Text('Username'),
                     SizedBox(width: AppSize.p8),
-                    Text(user.username ?? 'No username'),
+                    Text(user.username),
                   ],
                 ),
                 SizedBox(height: AppSize.p16),

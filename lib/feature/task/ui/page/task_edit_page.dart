@@ -22,7 +22,7 @@ class TaskEditPage extends StatelessWidget {
       text: task.title,
     );
     final TextEditingController _descriptionController = TextEditingController(
-      text: task.description ?? '',
+      text: task.description,
     );
 
     return Scaffold(

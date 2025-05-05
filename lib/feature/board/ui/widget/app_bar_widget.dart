@@ -4,7 +4,6 @@ import 'package:kaban_frontend/core/constants/app_assets.dart';
 import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
 import 'package:kaban_frontend/core/theme/data/entity/app_theme_size.dart';
 import 'package:kaban_frontend/core/constants/app_radius.dart';
-import 'package:kaban_frontend/core/theme/ui/widget/theme_change_button.dart';
 import 'package:kaban_frontend/feature/board/domain/entity/board_entity.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
