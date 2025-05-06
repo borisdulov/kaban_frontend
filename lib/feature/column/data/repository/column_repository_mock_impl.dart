@@ -7,7 +7,6 @@ class ColumnRepositoryMockImpl implements ColumnRepository {
   int _idCounter = 1;
 
   ColumnRepositoryMockImpl() {
-    // Инициализация тестовыми данными
     _columns.add(ColumnMockModel.random());
   }
 
