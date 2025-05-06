@@ -167,6 +167,7 @@ class BoardCubit extends Cubit<BoardState> {
         creatorId: creator.id,
         creator: creator,
         priority: TaskPriority.medium,
+        isCompleted: false,
       );
 
       debugPrint('Создание задачи для колонки: $columnId');

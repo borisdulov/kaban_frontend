@@ -5,7 +5,6 @@ import 'package:kaban_frontend/core/constants/app_size.dart';
 import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
 import 'package:kaban_frontend/feature/board/bloc/board_list/board_list_bloc.dart';
 import 'package:kaban_frontend/feature/board/bloc/board_list/board_list_state.dart';
-import 'package:kaban_frontend/feature/board/ui/page/board_page.dart';
 import 'package:kaban_frontend/feature/board/ui/widget/add_board_card.dart';
 import 'package:kaban_frontend/feature/board/ui/widget/board_card.dart';
 
@@ -40,13 +39,13 @@ class BoardListWidget extends StatelessWidget {
             ),
             actions: [
               TextButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => context.pop(),
                 child: const Text('Cancel'),
               ),
               TextButton(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    Navigator.pop(context, titleController.text);
+                    context.pop(titleController.text);
                   }
                 },
                 child: const Text('Create'),
@@ -55,7 +54,6 @@ class BoardListWidget extends StatelessWidget {
           ),
     );
 
-    // If title was entered, create the board
     if (title != null && title.isNotEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -68,16 +66,17 @@ class BoardListWidget extends StatelessWidget {
         final String? boardId = await context.boardListCubit
             .createBoardWithTitle(title);
 
-        if (boardId != null && boardId.isNotEmpty && context.mounted) {
-          ScaffoldMessenger.of(context).clearSnackBars();
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Board created successfully'),
+              duration: Duration(seconds: 2),
+            ),
+          );
 
-          if (boardId.length == 24) {
-            context.go('${BoardPage.path}$boardId');
-          } else {
-            _showErrorSnackBar(context, 'Invalid board ID returned: $boardId');
+          if (boardId != null && boardId.isNotEmpty) {
+            context.go('/board/$boardId');
           }
-        } else if (context.mounted) {
-          _showErrorSnackBar(context, 'Failed to create board');
         }
       } catch (e) {
         if (context.mounted) {
@@ -97,12 +96,10 @@ class BoardListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<BoardListCubit, BoardListState>(
       builder: (context, state) {
-        // Show loading indicator while loading
         if (state.isLoading) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        // Show error message if failed
         if (state.isFailed) {
           return Center(
             child: Column(

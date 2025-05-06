@@ -39,11 +39,31 @@ class ColumnAPIModel implements Column {
     }
 
     List<Task> tasks = [];
+    List<String> taskIds = [];
+
+    if (json['tasksId'] != null) {
+      taskIds = List<String>.from(json['tasksId']);
+    }
+
     if (json['tasks'] != null) {
-      tasks =
-          (json['tasks'] as List)
-              .map((taskJson) => TaskAPIModel.fromJSON(taskJson))
-              .toList();
+      if (json['tasks'] is List) {
+        final tasksList = json['tasks'] as List;
+
+        if (tasksList.isNotEmpty) {
+          if (tasksList.first is String) {
+            taskIds = List<String>.from(tasksList);
+          } else if (tasksList.first is Map<String, dynamic>) {
+            tasks =
+                tasksList
+                    .map(
+                      (taskJson) => TaskAPIModel.fromJSON(
+                        taskJson as Map<String, dynamic>,
+                      ),
+                    )
+                    .toList();
+          }
+        }
+      }
     }
 
     String id = json['_id'] ?? json['id'] ?? '';
@@ -55,7 +75,7 @@ class ColumnAPIModel implements Column {
       boardId: json['boardId'] ?? json['board'] ?? '',
       board:
           json['board'] != null ? BoardAPIModel.fromJSON(json['board']) : null,
-      taskIds: List<String>.from(json['taskIds'] ?? []),
+      taskIds: taskIds,
       tasks: tasks,
     );
   }

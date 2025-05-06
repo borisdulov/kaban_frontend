@@ -4,6 +4,7 @@ import 'package:kaban_frontend/feature/column/data/model/column_api_model.dart';
 import 'package:kaban_frontend/feature/column/domain/entity/column_entity.dart'
     as column_entity;
 import 'package:kaban_frontend/feature/column/domain/repository/column_repository.dart';
+import 'package:kaban_frontend/feature/task/data/model/task_api_model.dart';
 
 final class ColumnRepositoryApiImpl implements ColumnRepository {
   final ApiClient _apiClient;
@@ -17,37 +18,42 @@ final class ColumnRepositoryApiImpl implements ColumnRepository {
       final response = await _apiClient.get('/board/$boardId');
       final Map<String, dynamic> data = response.data;
 
-      final List<dynamic> columnsData = data['columns'] ?? [];
-      final List<column_entity.Column> columns = [];
-
-      for (final item in columnsData) {
-        try {
-          if (item is Map<String, dynamic>) {
-            columns.add(ColumnAPIModel.fromJSON(item));
-          } else if (item is String) {
-            final columnResponse = await _apiClient.get(
-              '/column/getColumn/$item',
-            );
-            columns.add(ColumnAPIModel.fromJSON(columnResponse.data));
-          }
-        } catch (e) {
-          debugPrint('Error parsing column data: $e');
-        }
+      List<String> columnIds = [];
+      if (data['columns'] != null && data['columns'] is List) {
+        columnIds = List<String>.from(data['columns']);
+      } else if (data['columnsId'] != null && data['columnsId'] is List) {
+        columnIds = List<String>.from(data['columnsId']);
       }
 
-      if (columns.isEmpty && data['columnIds'] != null) {
-        final List<dynamic> columnIds = data['columnIds'];
-        for (final id in columnIds) {
+      final List<column_entity.Column> columns = [];
+
+      for (final columnId in columnIds) {
+        try {
+          final columnResponse = await _apiClient.get(
+            '/column/getColumn/$columnId',
+          );
+          final columnData = columnResponse.data;
+
+          final column = ColumnAPIModel.fromJSON(columnData);
+
           try {
-            if (id is String) {
-              final columnResponse = await _apiClient.get(
-                '/column/getColumn/$id',
-              );
-              columns.add(ColumnAPIModel.fromJSON(columnResponse.data));
-            }
+            final tasksResponse = await _apiClient.get(
+              '/column/findTasks/$columnId',
+            );
+            final List<dynamic> tasksData = tasksResponse.data;
+
+            final tasks =
+                tasksData
+                    .map((taskJson) => TaskAPIModel.fromJSON(taskJson))
+                    .toList();
+
+            columns.add((column).copyWith(tasks: tasks));
           } catch (e) {
-            debugPrint('Error fetching column $id: $e');
+            debugPrint('Error fetching tasks for column $columnId: $e');
+            columns.add(column);
           }
+        } catch (e) {
+          debugPrint('Error fetching column $columnId: $e');
         }
       }
 

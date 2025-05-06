@@ -55,7 +55,7 @@ final class TaskRepositoryImpl implements TaskRepository {
 
   @override
   Future<List<Task>> getTasksByColumnId(String columnId) async {
-    final response = await _apiClient.get('/task/column/all/$columnId');
+    final response = await _apiClient.get('/column/findTasks/$columnId');
     final List<dynamic> data = response.data;
     return data.map((json) => TaskAPIModel.fromJSON(json)).toList();
   }
