@@ -3,6 +3,7 @@ import 'package:kaban_frontend/core/constants/app_radius.dart';
 import 'package:kaban_frontend/core/constants/app_size.dart';
 import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
 import 'package:kaban_frontend/core/theme/ui/widget/theme_change_button.dart';
+import 'package:kaban_frontend/feature/board/bloc/board/board_bloc.dart';
 import 'package:kaban_frontend/feature/user/domain/entity/user_entity.dart';
 
 class SettingsWidget extends StatelessWidget {
@@ -106,6 +107,12 @@ class SettingsWidget extends StatelessWidget {
                     SizedBox(width: AppSize.p8),
                     ThemeChangeButton(),
                   ],
+                ),
+                Spacer(),
+                SwitchListTile(
+                  title: const Text('Use Mock Data'),
+                  value: context.configBloc.state.useMocks,
+                  onChanged: (value) => context.toggleMocks(value),
                 ),
               ],
             ),

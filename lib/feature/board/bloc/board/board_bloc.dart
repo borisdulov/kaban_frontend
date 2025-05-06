@@ -4,10 +4,15 @@ import 'package:appflowy_board/appflowy_board.dart';
 import 'package:kaban_frontend/core/config/bloc/config_bloc.dart';
 import 'package:kaban_frontend/core/domain/entity/status.dart';
 import 'package:kaban_frontend/feature/board/bloc/board/board_state.dart';
+import 'package:kaban_frontend/feature/board/data/repository/board_repository_mock_impl.dart';
 import 'package:kaban_frontend/feature/board/domain/repository/board_repository.dart';
 import 'package:kaban_frontend/feature/column/data/model/column_api_model.dart';
+import 'package:kaban_frontend/feature/column/data/model/column_mock_model.dart';
+import 'package:kaban_frontend/feature/column/data/repository/column_repository_mock_impl.dart';
 import 'package:kaban_frontend/feature/column/domain/repository/column_repository.dart';
 import 'package:kaban_frontend/feature/task/data/model/task_api_model.dart';
+import 'package:kaban_frontend/feature/task/data/model/task_mock_model.dart';
+import 'package:kaban_frontend/feature/task/data/repository/mock/task_repository_mock.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_priority_enum.dart';
 import 'package:kaban_frontend/feature/task/domain/repository/task_repository.dart';
@@ -19,11 +24,14 @@ class BoardCubit extends Cubit<BoardState> {
     required ColumnRepository columnRepository,
     required TaskRepository taskRepository,
     required String boardId,
+    required bool useMocks,
   }) : _boardRepository = boardRepository,
        _columnRepository = columnRepository,
        _taskRepository = taskRepository,
        _boardId = boardId,
+       _useMocks = useMocks,
        super(const BoardState(status: Status.loading)) {
+    _initMocks();
     load();
   }
 
@@ -31,6 +39,21 @@ class BoardCubit extends Cubit<BoardState> {
   final BoardRepository _boardRepository;
   final ColumnRepository _columnRepository;
   final TaskRepository _taskRepository;
+  final bool _useMocks;
+
+  void _initMocks() {
+    if (_useMocks) {
+      if (_columnRepository is ColumnRepositoryMockImpl) {
+        _columnRepository
+          ..createColumn(ColumnMockModel.random())
+          ..createColumn(ColumnMockModel.random());
+      }
+      if (_taskRepository is TaskRepositoryMock) {
+        (_taskRepository)
+          .createTask(TaskMockModel.random());
+      }
+    }
+  }
 
   late final AppFlowyBoardController boardController = AppFlowyBoardController(
     onMoveGroup: (fromGroupId, fromIndex, toGroupId, toIndex) {
@@ -273,19 +296,40 @@ class BoardCubit extends Cubit<BoardState> {
 
   static BlocProvider<BoardCubit> provider({required String boardId}) {
     return BlocProvider(
-      create:
-          (context) => BoardCubit(
-            boardRepository: context.configCubit.get<BoardRepository>(),
-            columnRepository: context.configCubit.get<ColumnRepository>(),
-            taskRepository: context.configCubit.get<TaskRepository>(),
-            boardId: "6807f0f6045465dc53e94254",
-          ),
+      create: (context) {
+        final config = context.configCubit.state;
+
+        return BoardCubit(
+          boardRepository:
+              config.useMocks
+                  ? BoardRepositoryMockImpl()
+                  : context.configCubit.get<BoardRepository>(),
+          columnRepository:
+              config.useMocks
+                  ? ColumnRepositoryMockImpl()
+                  : context.configCubit.get<ColumnRepository>(),
+          taskRepository:
+              config.useMocks
+                  ? TaskRepositoryMock()
+                  : context.configCubit.get<TaskRepository>(),
+          boardId: boardId,
+          useMocks: config.useMocks,
+        );
+      },
     );
   }
 }
 
 extension BoardExtension on BuildContext {
   BoardCubit get boardCubit => read<BoardCubit>();
+}
+
+extension ConfigExtension on BuildContext {
+  void toggleMocks(bool value) {
+    read<ConfigBloc>().toggleMocks(value);
+  }
+
+  ConfigBloc get configBloc => read<ConfigBloc>();
 }
 
 typedef BoardBuilder = BlocBuilder<BoardCubit, BoardState>;

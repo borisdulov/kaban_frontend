@@ -27,9 +27,14 @@ class ConfigBloc extends Cubit<ConfigState> {
           container: DIContainer(),
           status: ConfigStatus.loading,
           envType: envType,
+          useMocks: false,
         ),
       ) {
     init();
+  }
+
+  void toggleMocks(bool value) {
+    emit(state.copyWith(useMocks: value));
   }
 
   Future<void> init() async {
