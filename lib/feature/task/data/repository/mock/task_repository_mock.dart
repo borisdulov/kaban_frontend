@@ -1,6 +1,5 @@
 import 'package:kaban_frontend/feature/task/data/model/task_mock_model.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
-import 'package:kaban_frontend/feature/task/domain/entity/task_priority_enum.dart';
 import 'package:kaban_frontend/feature/task/domain/repository/task_repository.dart';
 import 'package:kaban_frontend/feature/user/data/model/user_mock_model.dart';
 
@@ -13,11 +12,13 @@ class TaskRepositoryMock implements TaskRepository {
   }
 
   @override
-  Future<List<Task>> getAllTasks() async => _tasks.toList();
-
-  @override
   Future<Task> getTaskByColumnId(String columnId) async {
     return _tasks.firstWhere((t) => t.columnId == columnId);
+  }
+
+  @override
+  Future<List<Task>> getTasksByColumnId(String columnId) async {
+    return _tasks.where((task) => task.columnId == columnId).toList();
   }
 
   @override
@@ -72,53 +73,5 @@ class TaskRepositoryMock implements TaskRepository {
   @override
   Future<Task> getTask(String taskId) async {
     return _tasks.firstWhere((t) => t.id == taskId);
-  }
-
-  @override
-  Future<void> giveTask(String userId, String taskId) async {
-    final index = _tasks.indexWhere((t) => t.id == taskId);
-    if (index != -1) {
-      final currentUserIds = List<String>.from(_tasks[index].userIds);
-      if (!currentUserIds.contains(userId)) {
-        currentUserIds.add(userId);
-        _tasks[index] = _tasks[index].copyWith(userIds: currentUserIds);
-      }
-    }
-  }
-
-  @override
-  Future<List<Task>> searchTasks() async {
-    return _tasks;
-  }
-
-  @override
-  Future<List<Task>> filterTasks({
-    List<String>? userIds,
-    TaskPriority? priority,
-    List<String>? tags,
-    DateTime? dueDate,
-    String? boardId,
-  }) async {
-    return _tasks.where((task) {
-      bool match = true;
-
-      if (userIds != null && userIds.isNotEmpty) {
-        match = match && userIds.any((id) => task.userIds.contains(id));
-      }
-
-      if (priority != null) {
-        match = match && task.priority == priority;
-      }
-
-      if (dueDate != null && task.dueDate != null) {
-        match =
-            match &&
-            task.dueDate!.year == dueDate.year &&
-            task.dueDate!.month == dueDate.month &&
-            task.dueDate!.day == dueDate.day;
-      }
-
-      return match;
-    }).toList();
   }
 }

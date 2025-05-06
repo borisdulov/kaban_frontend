@@ -33,15 +33,24 @@ abstract final class AppRouter {
                     DashboardPage(navigationShell: navigationShell),
             branches: [
               StatefulShellBranch(
+                initialLocation: '/board/1',
                 routes: [
                   GoRoute(
-                    path: BoardPage.path,
+                    path: '${BoardPage.path}:id',
                     name: BoardPage.name,
-                    builder: (context, state) => BoardPage(),
+                    builder: (context, state) {
+                      final id = state.pathParameters['id'] ?? '1';
+                      return BlocProvider(
+                        create:
+                            (context) => BoardCubit.from(context, boardId: id),
+                        child: BoardPage(boardId: id),
+                      );
+                    },
                   ),
                 ],
               ),
               StatefulShellBranch(
+                initialLocation: BoardListPage.path,
                 routes: [
                   GoRoute(
                     path: BoardListPage.path,
@@ -60,6 +69,7 @@ abstract final class AppRouter {
                 ],
               ),
               StatefulShellBranch(
+                initialLocation: '/placeholder',
                 routes: [
                   GoRoute(
                     path: '/placeholder',

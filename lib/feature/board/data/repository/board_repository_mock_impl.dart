@@ -6,7 +6,7 @@ final class BoardRepositoryMockImpl implements BoardRepository {
   final List<BoardMockModel> _boards = [BoardMockModel.random()];
 
   @override
-  Future<List<Board>> getAllBoards() async {
+  Future<List<Board>> getMyBoards() async {
     return Future.value(_boards);
   }
 
@@ -37,11 +37,11 @@ final class BoardRepositoryMockImpl implements BoardRepository {
   }
 
   @override
-  Future<Board> updateBoard(String id, Board board) async {
-    final index = _boards.indexWhere((p) => p.id == id);
+  Future<Board> updateBoard(Board board) async {
+    final index = _boards.indexWhere((p) => p.id == board.id);
     if (index != -1) {
       _boards[index] = BoardMockModel(
-        id: id,
+        id: board.id,
         title: board.title,
         ownerId: board.ownerId,
         userIds: board.userIds,
@@ -59,25 +59,5 @@ final class BoardRepositoryMockImpl implements BoardRepository {
   Future<void> deleteBoard(String id) async {
     _boards.removeWhere((board) => board.id == id);
     return Future.value();
-  }
-
-  @override
-  Future<Board> addUser(String boardId, String userId) async {
-    final board = _boards.firstWhere((p) => p.id == boardId);
-    final updatedBoard = board.copyWith(userIds: [...board.userIds, userId]);
-    final index = _boards.indexWhere((p) => p.id == boardId);
-    _boards[index] = updatedBoard;
-    return Future.value(updatedBoard);
-  }
-
-  @override
-  Future<Board> removeUser(String boardId, String userId) async {
-    final board = _boards.firstWhere((p) => p.id == boardId);
-    final updatedBoard = board.copyWith(
-      userIds: board.userIds.where((id) => id != userId).toList(),
-    );
-    final index = _boards.indexWhere((p) => p.id == boardId);
-    _boards[index] = updatedBoard;
-    return Future.value(updatedBoard);
   }
 }

@@ -153,4 +153,8 @@ class TaskMockModel implements Task {
   static String _randomColumnId() =>
       ['work', 'personal', 'shopping', 'health'][Random().nextInt(4)];
   static String _randomUserId() => 'user_${Random().nextInt(100)}';
+
+  @override
+  // TODO: implement isCompleted
+  bool get isCompleted => throw UnimplementedError();
 }

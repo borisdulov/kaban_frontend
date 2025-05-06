@@ -18,4 +18,5 @@ abstract interface class Task {
 
   TaskPriority? get priority;
   DateTime? get dueDate;
+  bool get isCompleted;
 }

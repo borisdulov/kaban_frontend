@@ -35,6 +35,51 @@ class BoardCubit extends Cubit<BoardState> {
     load();
   }
 
+  static BoardCubit from(BuildContext context, {required String boardId}) {
+    final config = context.configCubit.state;
+    return BoardCubit(
+      boardRepository:
+          config.useMocks
+              ? BoardRepositoryMockImpl()
+              : context.configCubit.get<BoardRepository>(),
+      columnRepository:
+          config.useMocks
+              ? ColumnRepositoryMockImpl()
+              : context.configCubit.get<ColumnRepository>(),
+      taskRepository:
+          config.useMocks
+              ? TaskRepositoryMock()
+              : context.configCubit.get<TaskRepository>(),
+      boardId: boardId,
+      useMocks: config.useMocks,
+    );
+  }
+
+  static BlocProvider<BoardCubit> provider({required String boardId}) {
+    return BlocProvider(
+      create: (context) {
+        final config = context.configCubit.state;
+
+        return BoardCubit(
+          boardRepository:
+              config.useMocks
+                  ? BoardRepositoryMockImpl()
+                  : context.configCubit.get<BoardRepository>(),
+          columnRepository:
+              config.useMocks
+                  ? ColumnRepositoryMockImpl()
+                  : context.configCubit.get<ColumnRepository>(),
+          taskRepository:
+              config.useMocks
+                  ? TaskRepositoryMock()
+                  : context.configCubit.get<TaskRepository>(),
+          boardId: boardId,
+          useMocks: config.useMocks,
+        );
+      },
+    );
+  }
+
   final String _boardId;
   final BoardRepository _boardRepository;
   final ColumnRepository _columnRepository;
@@ -49,8 +94,7 @@ class BoardCubit extends Cubit<BoardState> {
           ..createColumn(ColumnMockModel.random());
       }
       if (_taskRepository is TaskRepositoryMock) {
-        (_taskRepository)
-          .createTask(TaskMockModel.random());
+        (_taskRepository).createTask(TaskMockModel.random());
       }
     }
   }
@@ -58,7 +102,7 @@ class BoardCubit extends Cubit<BoardState> {
   late final AppFlowyBoardController boardController = AppFlowyBoardController(
     onMoveGroup: (fromGroupId, fromIndex, toGroupId, toIndex) {
       debugPrint('Move item from $fromIndex to $toIndex');
-      _reorderColumns();
+      // _reorderColumns();
     },
     onMoveGroupItem: (groupId, fromIndex, toIndex) {
       debugPrint('Move $groupId:$fromIndex to $groupId:$toIndex');
@@ -97,7 +141,7 @@ class BoardCubit extends Cubit<BoardState> {
 
       final columnsData = await _columnRepository.getColumnsByBoardId(_boardId);
 
-      debugPrint('Загружено категорий: ${columnsData.length}');
+      debugPrint('Загружено колонок: ${columnsData.length}');
 
       final columns = <AppFlowyGroupData>[];
 
@@ -110,7 +154,7 @@ class BoardCubit extends Cubit<BoardState> {
 
           List<Task> tasks = [];
           try {
-            tasks = await _columnRepository.getTasksByColumnId(column.id);
+            tasks = await _taskRepository.getTasksByColumnId(column.id);
             debugPrint('Загружено задач для ${column.title}: ${tasks.length}');
           } catch (e) {
             debugPrint(
@@ -166,6 +210,7 @@ class BoardCubit extends Cubit<BoardState> {
         creatorId: creator.id,
         creator: creator,
         priority: TaskPriority.medium,
+        isCompleted: false,
       );
 
       debugPrint('Создание задачи для колонки: $columnId');
@@ -218,15 +263,15 @@ class BoardCubit extends Cubit<BoardState> {
     }
   }
 
-  Future<void> _reorderColumns() async {
-    try {
-      final columnIds = boardController.groupIds;
-      await _columnRepository.reorderColumns(_boardId, columnIds);
-      debugPrint('Порядок колонок обновлен на сервере');
-    } catch (e) {
-      debugPrint('Ошибка при обновлении порядка колонок: $e');
-    }
-  }
+  // Future<void> _reorderColumns() async {
+  //   try {
+  //     final columnIds = boardController.groupIds;
+  //     await _columnRepository.reorderColumns(_boardId, columnIds);
+  //     debugPrint('Порядок колонок обновлен на сервере');
+  //   } catch (e) {
+  //     debugPrint('Ошибка при обновлении порядка колонок: $e');
+  //   }
+  // }
 
   void openEditPanel(Task task) {
     emit(state.copyWith(selectedTask: task));
@@ -292,31 +337,6 @@ class BoardCubit extends Cubit<BoardState> {
   Future<void> close() {
     boardController.dispose();
     return super.close();
-  }
-
-  static BlocProvider<BoardCubit> provider({required String boardId}) {
-    return BlocProvider(
-      create: (context) {
-        final config = context.configCubit.state;
-
-        return BoardCubit(
-          boardRepository:
-              config.useMocks
-                  ? BoardRepositoryMockImpl()
-                  : context.configCubit.get<BoardRepository>(),
-          columnRepository:
-              config.useMocks
-                  ? ColumnRepositoryMockImpl()
-                  : context.configCubit.get<ColumnRepository>(),
-          taskRepository:
-              config.useMocks
-                  ? TaskRepositoryMock()
-                  : context.configCubit.get<TaskRepository>(),
-          boardId: boardId,
-          useMocks: config.useMocks,
-        );
-      },
-    );
   }
 }
 

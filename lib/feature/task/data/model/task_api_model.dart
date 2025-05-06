@@ -28,6 +28,8 @@ class TaskAPIModel implements Task {
   final TaskPriority? priority;
   @override
   final DateTime? dueDate;
+  @override
+  final bool isCompleted;
 
   TaskAPIModel({
     required this.id,
@@ -41,6 +43,7 @@ class TaskAPIModel implements Task {
     required this.creator,
     this.priority,
     this.dueDate,
+    this.isCompleted = false,
   });
 
   factory TaskAPIModel.fromJSON(Map<String, dynamic> json) {
@@ -65,9 +68,12 @@ class TaskAPIModel implements Task {
         priority:
             json['priority'] != null
                 ? TaskPriority.fromString(json['priority'])
-                : null,
+                : (json['taskPriority'] != null
+                    ? TaskPriority.fromString(json['taskPriority'])
+                    : null),
         dueDate:
             json['dueDate'] != null ? DateTime.parse(json['dueDate']) : null,
+        isCompleted: json['isCompleted'] ?? false,
       );
     } catch (e) {
       print('Ошибка при парсинге задачи: $e, JSON: $json');
@@ -82,6 +88,7 @@ class TaskAPIModel implements Task {
         userIds: [],
         creatorId: '',
         creator: defaultCreator,
+        isCompleted: false,
       );
     }
   }
@@ -93,7 +100,8 @@ class TaskAPIModel implements Task {
       'columnId': columnId,
       'userIds': userIds,
       'creatorId': creatorId,
-      'priority': priority?.str,
+      'taskPriority': priority?.str ?? 'none',
+      'isCompleted': false,
       'dueDate': dueDate?.toIso8601String(),
     };
   }

@@ -43,28 +43,32 @@ class UserMockModel implements User {
   }
 
   factory UserMockModel.mock() {
+    const String validObjectId = '507f1f77bcf86cd799439011';
+
     return const UserMockModel(
-      id: '1',
+      id: validObjectId,
       username: 'test_user',
       login: 'test_log',
-      boardIds: ['1'],
+      boardIds: ['507f1f77bcf86cd799439012'],
     );
   }
 
   factory UserMockModel.random() {
-    final random = Random();
+    String generateObjectId() {
+      final random = Random();
+      final buffer = StringBuffer();
+      for (var i = 0; i < 24; i++) {
+        buffer.write(random.nextInt(16).toRadixString(16));
+      }
+      return buffer.toString();
+    }
 
-    final id = random.nextInt(100000).toString();
+    final id = generateObjectId();
+    final login = 'user${Random().nextInt(1000)}';
+    final username = 'user_${Random().nextInt(1000)}';
 
-    final login = 'user${random.nextInt(1000)}';
-
-    final username = 'user_${random.nextInt(1000)}';
-
-    final numBoards = random.nextInt(4);
-    final boardIds = List.generate(
-      numBoards,
-      (_) => random.nextInt(10000).toString(),
-    );
+    final numBoards = Random().nextInt(4);
+    final boardIds = List.generate(numBoards, (_) => generateObjectId());
 
     return UserMockModel(
       id: id,
