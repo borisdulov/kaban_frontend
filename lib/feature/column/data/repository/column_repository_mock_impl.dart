@@ -1,7 +1,6 @@
 import 'package:kaban_frontend/feature/column/data/model/column_mock_model.dart';
 import 'package:kaban_frontend/feature/column/domain/entity/column_entity.dart';
 import 'package:kaban_frontend/feature/column/domain/repository/column_repository.dart';
-import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
 
 class ColumnRepositoryMockImpl implements ColumnRepository {
   final List<ColumnMockModel> _columns = [];
@@ -41,14 +40,6 @@ class ColumnRepositoryMockImpl implements ColumnRepository {
   }
 
   @override
-  Future<List<Task>> getTasksByColumnId(String columnId) async {
-    // Здесь нужно подключить TaskRepository
-    return [];
-  }
-
-
-
-  @override
   Future<Column> updateColumn(Column column) async {
     final index = _columns.indexWhere((c) => c.id == column.id);
     _columns[index] = ColumnMockModel(
@@ -59,11 +50,5 @@ class ColumnRepositoryMockImpl implements ColumnRepository {
       taskIds: column.taskIds,
     );
     return _columns[index];
-  }
-  
-  @override
-  Future<List<Column>> reorderColumns(String boardId, List<String> columnIds) {
-    // TODO: implement reorderColumns
-    throw UnimplementedError();
   }
 }

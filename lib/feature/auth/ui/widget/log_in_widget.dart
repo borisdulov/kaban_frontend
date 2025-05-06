@@ -6,6 +6,7 @@ import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
 import 'package:kaban_frontend/feature/auth/ui/page/sing_up_page.dart';
 import 'package:kaban_frontend/feature/auth/ui/widget/auth_button_widget.dart';
 import 'package:kaban_frontend/feature/auth/ui/widget/text_field_widget.dart';
+import 'package:kaban_frontend/feature/board/ui/page/settings_page.dart';
 
 class LogInWidget extends StatelessWidget {
   const LogInWidget({super.key});
@@ -50,7 +51,12 @@ class LogInWidget extends StatelessWidget {
                   isPassword: true,
                 ),
                 SizedBox(height: AppSize.p20),
-                AuthButtonWidget(text: 'Log In', onPressed: () {}),
+                AuthButtonWidget(
+                  text: 'Log In',
+                  onPressed: () {
+                    context.go(SettingsPage.path);
+                  },
+                ),
                 SizedBox(height: AppSize.p24),
                 Text('Dont have an account?'),
                 SizedBox(height: AppSize.p12),

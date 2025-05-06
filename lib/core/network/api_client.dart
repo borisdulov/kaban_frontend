@@ -78,13 +78,4 @@ final class ApiClient implements Dependency {
       throw Exception('Failed to connect to API server');
     }
   }
-
-  Future testRequest() async {
-    try {
-      final response = await client.get('/board');
-      return response.data;
-    } catch (e) {
-      throw Exception();
-    }
-  }
 }

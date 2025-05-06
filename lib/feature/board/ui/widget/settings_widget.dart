@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kaban_frontend/core/constants/app_radius.dart';
 import 'package:kaban_frontend/core/constants/app_size.dart';
 import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
 import 'package:kaban_frontend/core/theme/ui/widget/theme_change_button.dart';
+import 'package:kaban_frontend/feature/auth/ui/page/log_in_page.dart';
 import 'package:kaban_frontend/feature/board/bloc/board/board_bloc.dart';
 import 'package:kaban_frontend/feature/user/domain/entity/user_entity.dart';
 
@@ -70,7 +72,9 @@ class SettingsWidget extends StatelessWidget {
                 SizedBox(
                   width: 200,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.go(LogInPage.path);
+                    },
                     style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.all(
                         context.colorScheme.error.withRed(255),
