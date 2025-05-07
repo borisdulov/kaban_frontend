@@ -167,6 +167,17 @@ class TaskEditPage extends StatelessWidget {
                         ),
                       ),
                     ),
+                    SizedBox(height: AppSize.p8),
+                    TextButton(
+                      onPressed: () {},
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStateProperty.all(Colors.green),
+                        foregroundColor: WidgetStateProperty.all(
+                          context.colorScheme.onSurface,
+                        ),
+                      ),
+                      child: Text('Save Changes'),
+                    ),
                   ],
                 ),
               ],

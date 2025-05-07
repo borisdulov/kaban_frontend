@@ -27,7 +27,8 @@ class SignUpWidget extends StatelessWidget {
                   height: 128,
                   color: context.colorScheme.onSurface,
                 ),
-                SizedBox(height: AppSize.p16),
+                Text('KABAN'),
+                SizedBox(height: AppSize.p8),
                 Text('Sign Up', style: TextStyle(fontSize: 32)),
                 SizedBox(height: AppSize.p8),
                 Text(
