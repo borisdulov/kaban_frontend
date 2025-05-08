@@ -59,7 +59,7 @@ class DashboardPage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          SizedBox(height: AppSize.p12),
+                          SizedBox(height: 0),
                           IconButtonWidget(
                             assetPath: AppAssets.columns,
                             onPressed: () => navigationShell.goBranch(0),

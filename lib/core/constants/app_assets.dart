@@ -16,4 +16,5 @@ class AppAssets {
   static const String user = 'assets/svg/user.svg';
   static const String sun = 'assets/png/sun.png';
   static const String moon = 'assets/png/moon.png';
+  static const String users = 'assets/svg/users.svg';
 }

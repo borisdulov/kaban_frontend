@@ -18,7 +18,7 @@ class SettingsPage extends StatelessWidget {
           padding: const EdgeInsets.all(AppSize.p12),
           child: Text('Settings', style: context.textTheme.titleLarge),
         ),
-        toolbarHeight: 63,
+        toolbarHeight: 64,
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1),
           child: Container(
