@@ -13,4 +13,7 @@ class AppAssets {
   static const String accountCircle = 'assets/svg/account_circle.svg';
   static const String logoKaban = 'assets/svg/logo_kaban.svg';
   static const String logoKabanPng = 'assets/png/logo_kaban_black.png';
+  static const String user = 'assets/svg/user.svg';
+  static const String sun = 'assets/png/sun.png';
+  static const String moon = 'assets/png/moon.png';
 }

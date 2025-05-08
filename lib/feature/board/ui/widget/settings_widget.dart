@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kaban_frontend/core/constants/app_assets.dart';
 import 'package:kaban_frontend/core/constants/app_radius.dart';
 import 'package:kaban_frontend/core/constants/app_size.dart';
 import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
-import 'package:kaban_frontend/core/theme/ui/widget/theme_change_button.dart';
+import 'package:kaban_frontend/core/theme/cubit/theme_bloc.dart';
 import 'package:kaban_frontend/feature/auth/ui/page/log_in_page.dart';
 import 'package:kaban_frontend/feature/board/bloc/board/board_bloc.dart';
 import 'package:kaban_frontend/feature/user/domain/entity/user_entity.dart';
@@ -31,9 +32,9 @@ class SettingsWidget extends StatelessWidget {
                 SizedBox(height: AppSize.p20),
                 Row(
                   children: [
-                    Text('Username'),
+                    Text('Username', style: context.textTheme.bodyLarge),
                     SizedBox(width: AppSize.p8),
-                    Text(user.username),
+                    Text(user.username, style: context.textTheme.bodyLarge),
                   ],
                 ),
                 SizedBox(height: AppSize.p16),
@@ -48,7 +49,10 @@ class SettingsWidget extends StatelessWidget {
                           context.colorScheme.onSurface,
                         ),
                       ),
-                      child: Text('Change password'),
+                      child: Text(
+                        'Change password',
+                        style: context.textTheme.bodyLarge,
+                      ),
                     ),
                   ],
                 ),
@@ -64,7 +68,10 @@ class SettingsWidget extends StatelessWidget {
                           context.colorScheme.onSurface,
                         ),
                       ),
-                      child: Text('Change e-mail'),
+                      child: Text(
+                        'Change e-mail',
+                        style: context.textTheme.bodyLarge,
+                      ),
                     ),
                   ],
                 ),
@@ -77,7 +84,7 @@ class SettingsWidget extends StatelessWidget {
                     },
                     style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.all(
-                        context.colorScheme.error.withRed(255),
+                        context.colorScheme.surfaceDim,
                       ),
                       foregroundColor: WidgetStateProperty.all(
                         context.colorScheme.surface,
@@ -94,7 +101,14 @@ class SettingsWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    child: Text('Logout'),
+                    child: Text(
+                      'Logout',
+                      style: TextStyle(
+                        color: context.colorScheme.error.withRed(255),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(height: AppSize.p24),
@@ -107,9 +121,22 @@ class SettingsWidget extends StatelessWidget {
                 SizedBox(height: AppSize.p20),
                 Row(
                   children: [
-                    Text('Theme'),
+                    Text('Dark Theme', style: context.textTheme.bodyLarge),
                     SizedBox(width: AppSize.p8),
-                    ThemeChangeButton(),
+                    Switch(
+                      activeColor: context.colorScheme.onSurface,
+                      activeTrackColor: context.colorScheme.onSurface
+                          .withOpacity(0.1),
+                      inactiveTrackColor: context.colorScheme.onSurface
+                          .withOpacity(0.1),
+                      inactiveThumbColor: context.colorScheme.onSurface
+                          .withOpacity(0.1),
+                      activeThumbImage: AssetImage(AppAssets.moon),
+                      inactiveThumbImage: AssetImage(AppAssets.sun),
+                      value:
+                          context.themeCubit.state.themeMode == ThemeMode.dark,
+                      onChanged: (value) => context.themeCubit.toggleTheme(),
+                    ),
                   ],
                 ),
                 Spacer(),
