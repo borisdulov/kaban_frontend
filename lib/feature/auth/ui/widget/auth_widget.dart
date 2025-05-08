@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:kaban_frontend/core/constants/app_assets.dart';
 import 'package:kaban_frontend/core/constants/app_size.dart';
 import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
-import 'package:kaban_frontend/feature/auth/ui/page/log_in_page.dart';
 import 'package:kaban_frontend/feature/auth/ui/widget/auth_button_widget.dart';
-import 'package:kaban_frontend/feature/auth/ui/widget/text_field_widget.dart';
 
-class SignUpWidget extends StatelessWidget {
-  const SignUpWidget({super.key});
+class AuthWidget extends StatelessWidget {
+  const AuthWidget({
+    super.key,
+    required this.mode,
+    this.onPressed,
+    this.onSwitchMode,
+    required this.fields,
+  });
+
+  final AuthMode mode;
+  final VoidCallback? onPressed;
+  final VoidCallback? onSwitchMode;
+  final List<Widget> fields;
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: SingleChildScrollView(
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 400),
+          constraints: const BoxConstraints(maxWidth: 400),
           child: Padding(
             padding: const EdgeInsets.all(AppSize.p16),
             child: Column(
@@ -27,49 +35,44 @@ class SignUpWidget extends StatelessWidget {
                   height: 128,
                   color: context.colorScheme.onSurface,
                 ),
-                Text('KABAN'),
-                SizedBox(height: AppSize.p8),
-                Text('Sign Up', style: TextStyle(fontSize: 32)),
+                Text('Kaban', style: context.textTheme.displayMedium),
+                SizedBox(height: AppSize.p20),
+                Text(
+                  mode == AuthMode.login ? 'Log in' : 'Sign Up',
+                  style: const TextStyle(fontSize: 32),
+                ),
                 SizedBox(height: AppSize.p8),
                 Text(
-                  'Welcome to Kaban - Lets create account',
+                  mode == AuthMode.login
+                      ? 'Continue work'
+                      : 'Welcome to Kaban - Lets create account',
                   style: TextStyle(
                     color: context.colorScheme.onSurface.withOpacity(0.4),
                   ),
                 ),
-                SizedBox(height: AppSize.p48),
-                TextFieldWidget(
-                  text: 'Username',
-                  icon: Icons.person,
-                  hintText: 'Enter your username...',
-                ),
-                SizedBox(height: AppSize.p12),
-                TextFieldWidget(
-                  text: 'E-mail',
-                  icon: Icons.mail,
-                  hintText: 'Enter your address...',
-                ),
-                SizedBox(height: AppSize.p12),
-                TextFieldWidget(
-                  text: 'Passsword',
-                  icon: Icons.lock,
-                  hintText: 'Create your password',
-                  isPassword: true,
-                ),
+                SizedBox(height: AppSize.p40),
+                ...fields,
                 SizedBox(height: AppSize.p20),
-                AuthButtonWidget(text: 'Create account', onPressed: () {}),
+                AuthButtonWidget(
+                  text: mode == AuthMode.login ? 'Log In' : 'Create account',
+                  onPressed: onPressed!,
+                ),
                 SizedBox(height: AppSize.p24),
-                Text('Already registered?'),
+                Text(
+                  mode == AuthMode.login
+                      ? 'Don\'t have an account?'
+                      : 'Already registered?',
+                ),
                 SizedBox(height: AppSize.p12),
                 TextButton(
-                  onPressed: () {
-                    context.go(LogInPage.path);
-                  },
+                  onPressed: onSwitchMode,
                   style: TextButton.styleFrom(
                     foregroundColor: context.colorScheme.onSurface,
                   ),
                   child: Text(
-                    'Login to account',
+                    mode == AuthMode.login
+                        ? 'Register for free'
+                        : 'Login to account',
                     style: TextStyle(
                       decoration: TextDecoration.underline,
                       decorationColor: context.colorScheme.onSurface,
@@ -85,3 +88,5 @@ class SignUpWidget extends StatelessWidget {
     );
   }
 }
+
+enum AuthMode { login, signup }
