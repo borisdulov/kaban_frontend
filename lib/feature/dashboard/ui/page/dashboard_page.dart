@@ -7,6 +7,7 @@ import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
 import 'package:kaban_frontend/feature/dashboard/bloc/dashboard_bloc.dart';
 import 'package:kaban_frontend/feature/dashboard/bloc/dashboard_state.dart';
 import 'package:kaban_frontend/feature/dashboard/ui/widget/icon_button_widget.dart';
+import 'package:kaban_frontend/feature/dashboard/ui/widget/sidebar_button.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key, required this.navigationShell});
@@ -31,30 +32,34 @@ class DashboardPage extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
-                          IconButtonWidget(
-                            assetPath: AppAssets.sideBar,
-                            onPressed:
-                                () => context.dashboardCubit.togglePanel(),
-                            color: context.colorScheme.onSurface,
-                            showText: state.isExpanded,
-                            expandedAlignment: MainAxisAlignment.end,
-                            collapsedAlignment: MainAxisAlignment.center,
-                          ),
-
-                          SizedBox(height: 7),
-                          Container(
-                            width:
-                                state.isExpanded
-                                    ? state.panelWidth
-                                    : AppSize.p32,
-                            height: 1,
-                            color: context.colorScheme.onSurface.withOpacity(
-                              0.2,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: AppSize.p12,
+                            ),
+                            child: Column(
+                              children: [
+                                SidebarButton(
+                                  onPressed:
+                                      () =>
+                                          context.dashboardCubit.togglePanel(),
+                                  assetPath: AppAssets.sideBar,
+                                  isExpanded: state.isExpanded,
+                                  color: context.colorScheme.onSurface,
+                                ),
+                                const SizedBox(height: AppSize.p12),
+                                Container(
+                                  width:
+                                      state.isExpanded
+                                          ? state.panelWidth
+                                          : AppSize.p32,
+                                  height: 1,
+                                  color: context.colorScheme.onSurface
+                                      .withOpacity(0.2),
+                                ),
+                              ],
                             ),
                           ),
-
                           SizedBox(height: AppSize.p12),
-
                           IconButtonWidget(
                             assetPath: AppAssets.columns,
                             onPressed: () => navigationShell.goBranch(0),
@@ -96,14 +101,19 @@ class DashboardPage extends StatelessWidget {
                               0.2,
                             ),
                           ),
-
-                          SizedBox(height: AppSize.p8),
-
-                          IconButtonWidget(
-                            assetPath: AppAssets.svgAvatarAccount,
-                            onPressed: () => navigationShell.goBranch(2),
-                            showText: state.isExpanded,
-                            text: Text('My account'),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: AppSize.p8,
+                            ),
+                            child: IconButtonWidget(
+                              assetPath: AppAssets.settings,
+                              onPressed: () => navigationShell.goBranch(2),
+                              color: context.colorScheme.onSurface,
+                              text: Text('Settings'),
+                              showText: state.isExpanded,
+                              expandedAlignment: MainAxisAlignment.start,
+                              collapsedAlignment: MainAxisAlignment.center,
+                            ),
                           ),
                         ],
                       ),

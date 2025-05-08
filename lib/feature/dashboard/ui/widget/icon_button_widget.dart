@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:kaban_frontend/core/constants/app_radius.dart';
 import 'package:kaban_frontend/core/constants/app_size.dart';
+import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
 
 class IconButtonWidget extends StatelessWidget {
   final String assetPath;
@@ -12,6 +13,7 @@ class IconButtonWidget extends StatelessWidget {
   final bool showText;
   final MainAxisAlignment expandedAlignment;
   final MainAxisAlignment collapsedAlignment;
+  final TextStyle? textStyle;
 
   const IconButtonWidget({
     super.key,
@@ -23,17 +25,18 @@ class IconButtonWidget extends StatelessWidget {
     required this.showText,
     this.expandedAlignment = MainAxisAlignment.start,
     this.collapsedAlignment = MainAxisAlignment.center,
+    this.textStyle,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressed,
-      borderRadius: BorderRadius.circular(AppRadius.r8),
+      borderRadius: BorderRadius.circular(AppRadius.r16),
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          vertical: AppSize.p16,
-          horizontal: AppSize.p4,
+          vertical: AppSize.p8,
+          horizontal: AppSize.p8,
         ),
         child: Row(
           mainAxisAlignment: showText ? expandedAlignment : collapsedAlignment,
@@ -50,7 +53,16 @@ class IconButtonWidget extends StatelessWidget {
               ),
             ),
             if (showText && text != null)
-              Padding(padding: EdgeInsets.only(left: AppSize.p8), child: text),
+              Padding(
+                padding: EdgeInsets.only(left: AppSize.p8),
+                child: DefaultTextStyle(
+                  style: TextStyle(
+                    fontWeight: FontWeight.w900,
+                    color: context.colorScheme.onSurface.withOpacity(0.8),
+                  ),
+                  child: text!,
+                ),
+              ),
           ],
         ),
       ),

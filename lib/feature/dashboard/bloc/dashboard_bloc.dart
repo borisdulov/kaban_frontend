@@ -7,9 +7,9 @@ extension DaboardExtension on BuildContext {
 }
 
 class DashboardCubit extends Cubit<DashboardState> {
-  DashboardCubit() : super(DashboardState(isExpanded: false, panelWidth: 64));
+  DashboardCubit() : super(DashboardState(isExpanded: false, panelWidth: 72));
 
-  static const double collapsedWidth = 64;
+  static const double collapsedWidth = 72;
   static const double expandedWidth = 200;
 
   void togglePanel() {
