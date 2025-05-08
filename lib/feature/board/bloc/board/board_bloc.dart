@@ -224,7 +224,7 @@ class BoardCubit extends Cubit<BoardState> {
           ?.insert(0, TaskItem(createdTask));
 
       final updatedColumns = List<AppFlowyGroupData>.from(state.columns);
-      emit(state.copyWith(columns: updatedColumns));
+      emit(state.copyWith(columns: updatedColumns, selectedTask: createdTask));
     } catch (e) {
       debugPrint('Ошибка при создании задачи: $e');
     }

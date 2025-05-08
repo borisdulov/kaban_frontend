@@ -33,7 +33,11 @@ class TaskEditPage extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: context.colorScheme.surface,
-          border: Border(left: BorderSide(color: Colors.grey.shade300)),
+          border: Border(
+            left: BorderSide(
+              color: context.colorScheme.onSurface.withOpacity(0.2),
+            ),
+          ),
         ),
         child: SingleChildScrollView(
           child: Padding(

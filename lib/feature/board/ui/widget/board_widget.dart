@@ -27,71 +27,73 @@ class BoardWidget extends StatelessWidget {
         if (state.isFailed) {
           return Center(child: Text('Error: ${state.error}'));
         }
-        return Stack(
+        return Column(
           children: [
             Expanded(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minWidth: MediaQuery.of(context).size.width,
-                ),
-                child: AppFlowyBoard(
-                  controller: context.boardCubit.boardController,
-                  boardScrollController:
-                      context.boardCubit.boardScrollController,
-                  cardBuilder: (context, group, groupItem) {
-                    if (groupItem is TaskItem) {
-                      return TaskWidget(
-                        task: groupItem.task,
-                        key: ValueKey(groupItem.id),
-                      );
-                    }
-                    return Text('Error: groupItem is not TaskItem');
-                  },
-                  headerBuilder: (context, columnData) {
-                    return ColumnBoardHeader(
-                      key: ValueKey(columnData.id),
-                      onTaskCreate:
-                          () => context.boardCubit.addNewTask(
-                            columnData.id,
-                          ),
-                      title: columnData.headerData.groupName,
-                      onMenuPressed: () {},
-                    );
-                  },
-                  config: AppFlowyBoardConfig(
-                    stretchGroupHeight: false,
-                    groupBackgroundColor:
-                        context.colorScheme.surfaceContainerLow,
-                    groupMargin: EdgeInsets.all(AppThemeSize.p12),
-                    groupCornerRadius: AppRadius.r16,
-                    cardMargin: EdgeInsets.zero,
-                  ),
-                  groupConstraints: BoxConstraints.tightFor(width: 300),
-                  trailing: Padding(
-                    padding: EdgeInsets.only(
-                      top: AppSize.p8,
-                      left: AppThemeSize.p16,
-                      right: MediaQuery.of(context).size.width * 0.1,
+              child: Stack(
+                children: [
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minWidth: MediaQuery.of(context).size.width,
                     ),
-                    child: AddColumnButton(
-                      onPressed:
-                          () => context.boardCubit.addNewColumn(),
+                    child: AppFlowyBoard(
+                      controller: context.boardCubit.boardController,
+                      boardScrollController:
+                          context.boardCubit.boardScrollController,
+                      cardBuilder: (context, group, groupItem) {
+                        if (groupItem is TaskItem) {
+                          return TaskWidget(
+                            task: groupItem.task,
+                            key: ValueKey(groupItem.id),
+                          );
+                        }
+                        return Text('Error: groupItem is not TaskItem');
+                      },
+                      headerBuilder: (context, columnData) {
+                        return ColumnBoardHeader(
+                          key: ValueKey(columnData.id),
+                          onTaskCreate:
+                              () {
+                                context.boardCubit.addNewTask(columnData.id);
+                              },
+                          title: columnData.headerData.groupName,
+                          onMenuPressed: () {},
+                        );
+                      },
+                      config: AppFlowyBoardConfig(
+                        stretchGroupHeight: false,
+                        groupBackgroundColor:
+                            context.colorScheme.surfaceContainerLow,
+                        groupMargin: EdgeInsets.all(AppThemeSize.p12),
+                        groupCornerRadius: AppRadius.r16,
+                        cardMargin: EdgeInsets.zero,
+                      ),
+                      groupConstraints: BoxConstraints.tightFor(width: 300),
+                      trailing: Padding(
+                        padding: EdgeInsets.only(
+                          top: AppSize.p8,
+                          left: AppThemeSize.p16,
+                          right: MediaQuery.of(context).size.width * 0.1,
+                        ),
+                        child: AddColumnButton(
+                          onPressed: () => context.boardCubit.addNewColumn(),
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  if (state.selectedTask != null)
+                    Positioned.fill(
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: SizedBox(
+                          width: 360,
+                          child: TaskEditPage(task: state.selectedTask!),
+                        ),
+                      ),
+                    ),
+                ],
               ),
             ),
-
-            if (state.selectedTask != null)
-              Positioned.fill(
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: SizedBox(
-                    width: 360,
-                    child: TaskEditPage(task: state.selectedTask!),
-                  ),
-                ),
-              ),
           ],
         );
       },
