@@ -283,19 +283,24 @@ class BoardCubit extends Cubit<BoardState> {
     }
   }
 
-  void updateTask(Task updateTask) {
+  void updateTask(Task updateTask) async {
     if (!state.isLoaded) return;
+    debugPrint('Attempting to update task: ${updateTask.id}');
+    debugPrint(
+      'Task data - Title: ${updateTask.title}, Description: ${updateTask.description}',
+    );
 
     if (updateTask.title.isEmpty) {
       _removeTask(updateTask);
       return;
     }
 
-    final newColomns =
+    final newColumns =
         state.columns.map((column) {
           final newItems =
               column.items.map((item) {
                 if (item is TaskItem && item.task.id == updateTask.id) {
+                  debugPrint('Found task to update in UI: ${item.task.id}');
                   return TaskItem(updateTask);
                 }
                 return item;
@@ -307,8 +312,47 @@ class BoardCubit extends Cubit<BoardState> {
             customData: column.customData,
           );
         }).toList();
-    _updateBoardController(newColomns);
-    emit(state.copyWith(columns: newColomns, selectedTask: null));
+
+    _updateBoardController(newColumns);
+    emit(state.copyWith(columns: newColumns, selectedTask: null));
+    debugPrint('UI updated with new task data');
+
+    if (!_useMocks) {
+      try {
+        debugPrint('Sending task update to backend: ${updateTask.id}');
+        final updatedTask = await _taskRepository.updateTask(updateTask);
+        debugPrint('Task updated successfully on the backend');
+        debugPrint(
+          'Backend response - Title: ${updatedTask.title}, Description: ${updatedTask.description}',
+        );
+
+        final refreshedColumns =
+            newColumns.map((column) {
+              final refreshedItems =
+                  column.items.map((item) {
+                    if (item is TaskItem && item.task.id == updatedTask.id) {
+                      debugPrint(
+                        'Refreshing UI with backend data for task: ${updatedTask.id}',
+                      );
+                      return TaskItem(updatedTask);
+                    }
+                    return item;
+                  }).toList();
+              return AppFlowyGroupData(
+                id: column.id,
+                name: column.headerData.groupName,
+                items: refreshedItems,
+                customData: column.customData,
+              );
+            }).toList();
+
+        _updateBoardController(refreshedColumns);
+        emit(state.copyWith(columns: refreshedColumns));
+        debugPrint('UI refreshed with backend data');
+      } catch (e) {
+        debugPrint('Error updating task on the backend: $e');
+      }
+    }
   }
 
   void _removeTask(Task task) {

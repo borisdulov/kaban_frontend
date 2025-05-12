@@ -95,13 +95,14 @@ class TaskAPIModel implements Task {
 
   Map<String, dynamic> toJSON() {
     return {
+      'taskId': id,
       'title': title,
       'description': description,
       'columnId': columnId,
       'userIds': userIds,
       'creatorId': creatorId,
       'taskPriority': priority?.str ?? 'none',
-      'isCompleted': false,
+      'isCompleted': isCompleted,
       'dueDate': dueDate?.toIso8601String(),
     };
   }

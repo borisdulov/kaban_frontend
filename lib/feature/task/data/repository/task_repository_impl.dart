@@ -2,6 +2,7 @@ import 'package:kaban_frontend/core/network/api_client.dart';
 import 'package:kaban_frontend/feature/task/data/model/task_api_model.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
 import 'package:kaban_frontend/feature/task/domain/repository/task_repository.dart';
+import 'package:flutter/foundation.dart';
 
 final class TaskRepositoryImpl implements TaskRepository {
   final ApiClient _apiClient;
@@ -27,10 +28,12 @@ final class TaskRepositoryImpl implements TaskRepository {
   @override
   Future<Task> updateTask(Task task) async {
     final taskModel = task as TaskAPIModel;
-    final response = await _apiClient.post(
-      '/task/update',
-      data: taskModel.toJSON(),
-    );
+    final requestData = taskModel.toJSON();
+    debugPrint('Updating task with data: $requestData');
+
+    final response = await _apiClient.post('/task/update', data: requestData);
+
+    debugPrint('Task update response: ${response.data}');
     return TaskAPIModel.fromJSON(response.data);
   }
 

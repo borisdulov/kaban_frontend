@@ -67,6 +67,19 @@ class TaskWidget extends StatelessWidget {
                 ),
               ],
             ),
+            if (task.description.isNotEmpty)
+              Padding(
+                padding: EdgeInsets.only(left: AppSize.p4, top: AppSize.p4),
+                child: Text(
+                  task.description,
+                  style: GoogleFonts.inter(
+                    fontSize: 12,
+                    color: context.colorScheme.onSurface.withOpacity(0.7),
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
             SizedBox(height: AppSize.p8),
             Row(
               children: [

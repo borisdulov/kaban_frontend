@@ -4,6 +4,7 @@ import 'package:kaban_frontend/core/constants/app_radius.dart';
 import 'package:kaban_frontend/core/constants/app_size.dart';
 import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
 import 'package:kaban_frontend/feature/board/bloc/board/board_bloc.dart';
+import 'package:kaban_frontend/feature/task/data/model/task_api_model.dart';
 import 'package:kaban_frontend/feature/task/data/model/task_mock_model.dart';
 import 'package:kaban_frontend/feature/task/domain/entity/task_entity.dart';
 import 'package:kaban_frontend/feature/task/ui/widget/add_tag_button.dart';
@@ -173,7 +174,21 @@ class TaskEditPage extends StatelessWidget {
                     ),
                     SizedBox(height: AppSize.p8),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        final updatedTask = _createUpdatedTask(
+                          task,
+                          title: _titleController.text.trim(),
+                          description: _descriptionController.text,
+                        );
+
+                        if (updatedTask.title.isNotEmpty) {
+                          context.boardCubit.updateTask(updatedTask);
+                          debugPrint(
+                            'Updating task: ${updatedTask.id} with title: ${updatedTask.title} and description: ${updatedTask.description}',
+                          );
+                          context.boardCubit.closeEditPanel();
+                        }
+                      },
                       style: ButtonStyle(
                         backgroundColor: WidgetStateProperty.all(Colors.green),
                         foregroundColor: WidgetStateProperty.all(
@@ -193,22 +208,35 @@ class TaskEditPage extends StatelessWidget {
   }
 
   void _updateTask(BuildContext context, String newTitle) {
-    if (newTitle.trim().isNotEmpty && newTitle != task.title) {
+    if (newTitle.trim().isNotEmpty) {
       final updatedTask = _createUpdatedTask(task, title: newTitle.trim());
       context.boardCubit.updateTask(updatedTask);
     }
   }
 
   void _updateTaskDescription(BuildContext context, String newDescription) {
-    if (newDescription != task.description) {
-      final updatedTask = _createUpdatedTask(task, description: newDescription);
-      context.boardCubit.updateTask(updatedTask);
-    }
+    final updatedTask = _createUpdatedTask(task, description: newDescription);
+    context.boardCubit.updateTask(updatedTask);
   }
 
   Task _createUpdatedTask(Task task, {String? title, String? description}) {
     if (task is TaskMockModel) {
       return task.copyWith(title: title, description: description);
+    } else if (task is TaskAPIModel) {
+      return TaskAPIModel(
+        id: task.id,
+        title: title ?? task.title,
+        description: description ?? task.description,
+        columnId: task.columnId,
+        userIds: task.userIds,
+        creatorId: task.creatorId,
+        creator: task.creator,
+        priority: task.priority,
+        dueDate: task.dueDate,
+        isCompleted: task.isCompleted,
+        users: task.users,
+        column: task.column,
+      );
     }
     throw UnsupportedError('Unsupported Task type');
   }
