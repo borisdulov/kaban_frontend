@@ -85,8 +85,12 @@ class BoardListCubit extends Cubit<BoardListState> {
       final createdBoard = await _boardRepository.createBoard(newBoard);
       print('Created board: ${createdBoard.id}');
 
-      final updatedBoards = await _boardRepository.getMyBoards();
-      emit(state.copyWith(status: Status.success, boards: updatedBoards));
+      emit(
+        state.copyWith(
+          status: Status.success,
+          boards: [...state.boards, createdBoard],
+        ),
+      );
 
       return createdBoard.id;
     } catch (e) {
@@ -110,6 +114,14 @@ class BoardListCubit extends Cubit<BoardListState> {
       Board updatedBoard;
       if (board is BoardMockModel) {
         updatedBoard = board.copyWith(title: newTitle);
+      } else if (board is BoardAPIModel) {
+        updatedBoard = BoardAPIModel(
+          id: board.id,
+          title: newTitle,
+          ownerId: board.ownerId,
+          userIds: board.userIds,
+          columnIds: board.columnIds,
+        );
       } else {
         throw Exception('Unsupported board type');
       }

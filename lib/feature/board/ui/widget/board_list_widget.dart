@@ -75,7 +75,8 @@ class BoardListWidget extends StatelessWidget {
           );
 
           if (boardId != null && boardId.isNotEmpty) {
-            context.go('/board/$boardId');
+            await Future.delayed(const Duration(milliseconds: 500));
+            await context.boardListCubit.fetchBoardById(boardId);
           }
         }
       } catch (e) {

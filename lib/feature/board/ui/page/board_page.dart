@@ -15,16 +15,24 @@ class BoardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BoardCubit, BoardState>(
-      builder: (context, state) {
-        return Scaffold(
-          appBar:
-              state.board != null
-                  ? AppBarWidget(board: state.board!)
-                  : AppBar(title: Text('Доска $boardId')),
-          body: BoardWidget(),
-        );
-      },
+    return BlocProvider(
+      create: (context) => BoardCubit.from(context, boardId: boardId),
+      key: ValueKey('board_page_$boardId'),
+      child: Builder(
+        builder: (context) {
+          return BlocBuilder<BoardCubit, BoardState>(
+            builder: (context, state) {
+              return Scaffold(
+                appBar:
+                    state.board != null
+                        ? AppBarWidget(board: state.board!)
+                        : AppBar(title: Text('Доска $boardId')),
+                body: BoardWidget(),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

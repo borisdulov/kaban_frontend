@@ -40,11 +40,7 @@ abstract final class AppRouter {
                     name: BoardPage.name,
                     builder: (context, state) {
                       final id = state.pathParameters['id'] ?? '1';
-                      return BlocProvider(
-                        create:
-                            (context) => BoardCubit.from(context, boardId: id),
-                        child: BoardPage(boardId: id),
-                      );
+                      return BoardPage(boardId: id);
                     },
                   ),
                 ],
