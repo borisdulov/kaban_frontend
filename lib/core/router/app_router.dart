@@ -16,7 +16,7 @@ import 'package:kaban_frontend/feature/task/ui/page/task_edit_page.dart';
 abstract final class AppRouter {
   static final config = GoRouter(
     navigatorKey: NavigationKey.root,
-    initialLocation: "/placeholder",
+    initialLocation: DashboardPage.path,
     routes: [
       ShellRoute(
         navigatorKey: NavigationKey.dashboardKey,
@@ -89,7 +89,7 @@ abstract final class AppRouter {
       ),
       ShellRoute(
         navigatorKey: NavigationKey.signKey,
-        //! redirect: AppRouterGuards.unauthorized,
+        redirect: AppRouterGuards.unauthorized,
         builder: (context, state, child) => child,
         routes: [
           GoRoute(

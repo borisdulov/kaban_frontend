@@ -12,6 +12,8 @@ import 'package:kaban_frontend/feature/dashboard/ui/widget/sidebar_button.dart';
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key, required this.navigationShell});
 
+  static const String path = '/dashboard';
+
   final StatefulNavigationShell navigationShell;
 
   @override

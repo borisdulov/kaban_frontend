@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kaban_frontend/feature/auth/bloc/auth_cubit.dart';
 import 'package:kaban_frontend/feature/auth/bloc/auth_cubit_state.dart';
-import 'package:kaban_frontend/feature/auth/ui/page/sing_up_page.dart';
+import 'package:kaban_frontend/feature/auth/ui/page/log_in_page.dart';
 
 abstract final class AppRouterGuards {
   static FutureOr<String?> unauthorized(
@@ -26,7 +26,7 @@ abstract final class AppRouterGuards {
     final authState = AuthBloc.i(context).state;
 
     if (authState is AuthCubitUnauthorized) {
-      return SignUpPage.path;
+      return LogInPage.path;
     }
 
     if (authState is AuthCubitLoading) {

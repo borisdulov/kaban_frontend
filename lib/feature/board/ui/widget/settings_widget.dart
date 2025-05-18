@@ -5,8 +5,8 @@ import 'package:kaban_frontend/core/constants/app_radius.dart';
 import 'package:kaban_frontend/core/constants/app_size.dart';
 import 'package:kaban_frontend/core/extensions/build_context_exntension.dart';
 import 'package:kaban_frontend/core/theme/cubit/theme_bloc.dart';
+import 'package:kaban_frontend/feature/auth/bloc/auth_cubit.dart';
 import 'package:kaban_frontend/feature/auth/ui/page/log_in_page.dart';
-import 'package:kaban_frontend/feature/board/bloc/board/board_bloc.dart';
 import 'package:kaban_frontend/feature/user/domain/entity/user_entity.dart';
 
 class SettingsWidget extends StatelessWidget {
@@ -80,6 +80,7 @@ class SettingsWidget extends StatelessWidget {
                   width: 200,
                   child: TextButton(
                     onPressed: () {
+                      context.authBloc.logout();
                       context.go(LogInPage.path);
                     },
                     style: ButtonStyle(
@@ -138,12 +139,6 @@ class SettingsWidget extends StatelessWidget {
                       onChanged: (value) => context.themeCubit.toggleTheme(),
                     ),
                   ],
-                ),
-                Spacer(),
-                SwitchListTile(
-                  title: const Text('Use Mock Data'),
-                  value: context.configBloc.state.useMocks,
-                  onChanged: (value) => context.toggleMocks(value),
                 ),
               ],
             ),

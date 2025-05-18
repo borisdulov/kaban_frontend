@@ -344,13 +344,6 @@ extension BoardExtension on BuildContext {
   BoardCubit get boardCubit => read<BoardCubit>();
 }
 
-extension ConfigExtension on BuildContext {
-  void toggleMocks(bool value) {
-    read<ConfigBloc>().toggleMocks(value);
-  }
-
-  ConfigBloc get configBloc => read<ConfigBloc>();
-}
 
 typedef BoardBuilder = BlocBuilder<BoardCubit, BoardState>;
 typedef BoardSelector<T> = BlocSelector<BoardCubit, BoardState, T>;
