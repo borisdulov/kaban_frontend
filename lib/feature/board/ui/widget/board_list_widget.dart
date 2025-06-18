@@ -95,7 +95,7 @@ class BoardListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BoardListCubit, BoardListState>(
+    return BlocBuilder<BoardListBloc, BoardListState>(
       builder: (context, state) {
         if (state.isLoading) {
           return const Center(child: CircularProgressIndicator());

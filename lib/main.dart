@@ -38,6 +38,7 @@ class AppWidget extends StatelessWidget {
               darkTheme: ThemeData.dark(),
               themeMode: state.themeMode,
               themeAnimationDuration: Duration.zero,
+              debugShowCheckedModeBanner: false,
             );
           },
         ),

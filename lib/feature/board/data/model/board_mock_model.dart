@@ -15,11 +15,11 @@ class BoardMockModel implements Board {
   @override
   final User? owner;
   @override
-  final List<String> userIds;
+  final List<String> usersId;
   @override
   final List<User> users;
   @override
-  final List<String> columnIds;
+  final List<String> columnsId;
   @override
   final List<Column> columns;
 
@@ -28,9 +28,9 @@ class BoardMockModel implements Board {
     required this.title,
     required this.ownerId,
     this.owner,
-    required this.userIds,
+    required this.usersId,
     this.users = const [],
-    required this.columnIds,
+    required this.columnsId,
     this.columns = const [],
   });
 
@@ -49,9 +49,9 @@ class BoardMockModel implements Board {
       title: title ?? this.title,
       ownerId: ownerId ?? this.ownerId,
       owner: owner ?? this.owner,
-      userIds: userIds ?? this.userIds,
+      usersId: userIds ?? this.usersId,
       users: users ?? this.users,
-      columnIds: columnIds ?? this.columnIds,
+      columnsId: columnIds ?? this.columnsId,
       columns: columns ?? this.columns,
     );
   }
@@ -84,9 +84,9 @@ class BoardMockModel implements Board {
       title: title,
       ownerId: ownerId,
       owner: owner,
-      userIds: userIds,
+      usersId: userIds,
       users: users,
-      columnIds: columnIds,
+      columnsId: columnIds,
       columns: columns,
     );
   }

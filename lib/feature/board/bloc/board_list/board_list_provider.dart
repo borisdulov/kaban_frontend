@@ -5,10 +5,10 @@ import 'package:kaban_frontend/feature/board/data/repository/board_repository_mo
 import 'package:kaban_frontend/feature/board/domain/repository/board_repository.dart';
 
 abstract final class BoardListProvider {
-  static BlocProvider<BoardListCubit> get instance => BlocProvider(
+  static BlocProvider<BoardListBloc> get instance => BlocProvider(
     create: (context) {
       final config = context.configCubit.state;
-      return BoardListCubit(
+      return BoardListBloc(
         boardRepository:
             config.useMocks
                 ? BoardRepositoryMockImpl()

@@ -16,14 +16,14 @@ import 'package:kaban_frontend/feature/task/ui/page/task_edit_page.dart';
 abstract final class AppRouter {
   static final config = GoRouter(
     navigatorKey: NavigationKey.root,
-    initialLocation: "/placeholder",
+    initialLocation: BoardListPage.path,
     routes: [
       ShellRoute(
         navigatorKey: NavigationKey.dashboardKey,
         redirect: AppRouterGuards.authorized,
         builder:
             (context, state, child) => MultiBlocProvider(
-              providers: [BoardCubit.provider(boardId: '1')],
+              providers: [BoardCubit.provider()],
               child: child,
             ),
         routes: [
@@ -33,13 +33,13 @@ abstract final class AppRouter {
                     DashboardPage(navigationShell: navigationShell),
             branches: [
               StatefulShellBranch(
-                initialLocation: '/board/1',
+                initialLocation: '/board/0',
                 routes: [
                   GoRoute(
                     path: '${BoardPage.path}:id',
                     name: BoardPage.name,
                     builder: (context, state) {
-                      final id = state.pathParameters['id'] ?? '1';
+                      final id = state.pathParameters['id'] ?? '0';
                       return BoardPage(boardId: id);
                     },
                   ),

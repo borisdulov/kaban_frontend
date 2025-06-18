@@ -41,12 +41,12 @@ class TitleTextField extends StatelessWidget {
 
   void _handleSave(BuildContext context) {
     if (_controller.text.trim().isNotEmpty) {
-      context.read<BoardListCubit>().renameBoard(
+      context.read<BoardListBloc>().renameBoard(
         board.id,
         _controller.text.trim(),
       );
 
-      context.read<BoardListCubit>().fetchBoards();
+      context.read<BoardListBloc>().fetchBoards();
     }
   }
 }

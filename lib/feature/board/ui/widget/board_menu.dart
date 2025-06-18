@@ -24,7 +24,7 @@ class BoardMenu extends StatelessWidget {
           ],
       onSelected: (value) {
         if (value == 'rename') {
-          context.read<BoardListCubit>().startEditing(board.id);
+          context.read<BoardListBloc>().startEditing(board.id);
         }
       },
     );

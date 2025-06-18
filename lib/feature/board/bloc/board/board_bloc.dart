@@ -23,7 +23,7 @@ class BoardCubit extends Cubit<BoardState> {
     required BoardRepository boardRepository,
     required ColumnRepository columnRepository,
     required TaskRepository taskRepository,
-    required String boardId,
+    required String? boardId,
     required bool useMocks,
   }) : _boardRepository = boardRepository,
        _columnRepository = columnRepository,
@@ -55,7 +55,7 @@ class BoardCubit extends Cubit<BoardState> {
     );
   }
 
-  static BlocProvider<BoardCubit> provider({required String boardId}) {
+  static BlocProvider<BoardCubit> provider({String? boardId}) {
     return BlocProvider(
       create: (context) {
         final config = context.configCubit.state;
@@ -80,7 +80,7 @@ class BoardCubit extends Cubit<BoardState> {
     );
   }
 
-  final String _boardId;
+  final String? _boardId;
   final BoardRepository _boardRepository;
   final ColumnRepository _columnRepository;
   final TaskRepository _taskRepository;
@@ -133,13 +133,17 @@ class BoardCubit extends Cubit<BoardState> {
       AppFlowyBoardScrollController();
 
   Future<void> load() async {
+    if (_boardId == null) {
+      emit(state.copyWith(status: Status.failure));
+      return;
+    }
     emit(state.copyWith(status: Status.loading));
 
     try {
       final board = await _boardRepository.getBoardById(_boardId);
       debugPrint('Загружена доска: $board');
 
-      final columnsData = await _columnRepository.getColumnsByBoardId(_boardId);
+      final columnsData = board.columns;
 
       debugPrint('Загружено колонок: ${columnsData.length}');
 
@@ -231,7 +235,7 @@ class BoardCubit extends Cubit<BoardState> {
   }
 
   Future<void> addNewColumn() async {
-    if (!state.isLoaded) return;
+    if (!state.isLoaded || _boardId == null) return;
 
     try {
       final newColumnModel = ColumnAPIModel(

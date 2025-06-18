@@ -15,7 +15,7 @@ class TitleEditWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 24,
-      child: BlocSelector<BoardListCubit, BoardListState, String?>(
+      child: BlocSelector<BoardListBloc, BoardListState, String?>(
         selector: (state) => state.editingBoardId,
         builder: (context, editingId) {
           final isEditing = editingId == board.id;

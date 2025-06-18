@@ -9,16 +9,16 @@ import 'package:kaban_frontend/feature/board/domain/repository/board_repository.
 import 'package:kaban_frontend/feature/board/data/model/board_api_model.dart';
 
 extension BoardListExtension on BuildContext {
-  BoardListCubit get boardListCubit => read<BoardListCubit>();
+  BoardListBloc get boardListCubit => read<BoardListBloc>();
 }
 
-typedef BoardListBuilder = BlocBuilder<BoardListCubit, BoardListState>;
+typedef BoardListBuilder = BlocBuilder<BoardListBloc, BoardListState>;
 
-class BoardListCubit extends Cubit<BoardListState> {
+class BoardListBloc extends Cubit<BoardListState> {
   final BoardRepository _boardRepository;
   final bool _useMocks;
 
-  BoardListCubit({
+  BoardListBloc({
     required BoardRepository boardRepository,
     required bool useMocks,
   }) : _boardRepository = boardRepository,
@@ -78,8 +78,8 @@ class BoardListCubit extends Cubit<BoardListState> {
         id: '',
         title: title,
         ownerId: '',
-        userIds: [],
-        columnIds: [],
+        usersId: [],
+        columnsId: [],
       );
 
       final createdBoard = await _boardRepository.createBoard(newBoard);
@@ -119,8 +119,8 @@ class BoardListCubit extends Cubit<BoardListState> {
           id: board.id,
           title: newTitle,
           ownerId: board.ownerId,
-          userIds: board.userIds,
-          columnIds: board.columnIds,
+          usersId: board.usersId,
+          columnsId: board.columnsId,
         );
       } else {
         throw Exception('Unsupported board type');
@@ -137,5 +137,5 @@ class BoardListCubit extends Cubit<BoardListState> {
   }
 }
 
-typedef BoardSelector<T> = BlocSelector<BoardListCubit, BoardListState, T>;
-typedef BoardListener = BlocListener<BoardListCubit, BoardListState>;
+typedef BoardSelector<T> = BlocSelector<BoardListBloc, BoardListState, T>;
+typedef BoardListener = BlocListener<BoardListBloc, BoardListState>;

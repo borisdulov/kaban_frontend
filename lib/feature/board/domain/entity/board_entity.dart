@@ -8,9 +8,9 @@ abstract interface class Board {
   String get ownerId;
   User? get owner;
 
-  List<String> get userIds;
+  List<String> get usersId;
   List<User> get users;
 
-  List<String> get columnIds;
+  List<String> get columnsId;
   List<Column> get columns;
 }

@@ -22,11 +22,14 @@ class BoardPage extends StatelessWidget {
         builder: (context) {
           return BlocBuilder<BoardCubit, BoardState>(
             builder: (context, state) {
+              if (!state.isLoading && state.board == null) {
+                return Center(child: Text('Сначала выберите доску'));
+              }
               return Scaffold(
                 appBar:
                     state.board != null
                         ? AppBarWidget(board: state.board!)
-                        : AppBar(title: Text('Доска $boardId')),
+                        : null,
                 body: BoardWidget(),
               );
             },
