@@ -38,7 +38,9 @@ class ConfigBloc extends Cubit<ConfigState> {
   }
 
   Future<void> init() async {
-    final ApiClient apiClient = ApiClient(hostUrl: 'http://localhost:3000');
+    final ApiClient apiClient = ApiClient(
+      hostUrl: 'http://82.202.128.109:3000',
+    );
 
     final BoardRepository boardRepository = BoardRepositoryImpl(
       apiClient: apiClient,
