@@ -39,8 +39,8 @@ class ConfigBloc extends Cubit<ConfigState> {
 
   Future<void> init() async {
     final ApiClient apiClient = ApiClient(
-      // hostUrl: 'https://82.202.128.109:3000',
-      hostUrl: 'https://kalban.netlify.app/api',
+      hostUrl: 'http://82.202.128.109:3000',
+      // hostUrl: 'https://kalban.netlify.app/api',
     );
 
     final BoardRepository boardRepository = BoardRepositoryImpl(
